@@ -1,6 +1,6 @@
 ---
 name: jacobilicious-audit
-description: "Start when the user asks to audit, check, review, or tidy the workspace or setup. Start when saving, syncing, or backup looks broken or the user doubts that files reached GitHub. Start when sessions feel slow or costly, when the user mentions a long CLAUDE.md or AGENTS.md, too many or unused skills or MCP servers, or asks which tool, CLI, or MCP server to connect or remove."
+description: "Start when the user asks to audit, check, review, or tidy the workspace or setup. Start when saving, syncing, or backup looks broken or the user doubts that files reached GitHub. Start when sessions feel slow or costly, when the user mentions a long CLAUDE.md or AGENTS.md, too many or unused skills or MCP servers, or asks which tool, CLI, or MCP server to connect or remove. Start when the user wants CLAUDE.md or AGENTS.md shortened or cleaned up."
 ---
 
 # Jacobilicious audit
@@ -65,8 +65,8 @@ Flag:
 - 0 uses, when the range covers 30 days or more. Propose archiving.
   Skip `jacobilicious-*` skills and plugin skills.
 - 2 skills whose descriptions start on the same request.
-- A skill that sends, pays, publishes, or deletes and lacks
-  `disable-model-invocation: true`.
+- A skill that sends, pays, publishes, or deletes without asking for a yes
+  first and lacks `disable-model-invocation: true`.
 - The same skill name in 2 places.
 - A global skill that reads 1 repo's files, or a repo skill that reads none.
 
@@ -92,7 +92,8 @@ what changed since then. Ask which fixes to apply: all, some by number, or none.
 
 ## Fix
 
-- Apply only confirmed fixes. Show before and after for every instruction edit.
+- Apply only confirmed fixes. Write the new wording of an instruction with
+  `jacobilicious-engineer`. Show before and after for every instruction edit.
 - Archive instead of deleting. Move a skill to `~/.claude/skills-archive/`
   (global) or `.agents/skills/_archive/` (repo) and remove its symlink.
 - For a public repo, run `gh repo edit <owner>/<name> --visibility private

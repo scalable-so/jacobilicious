@@ -7,9 +7,11 @@ This file is the only instruction source. `CLAUDE.md` imports it.
 
 ## Who works here
 
-Each person has a profile in `people/<name>.md`. At session start, run
-`git config user.email`, look the address up in `people/_index.md`, and read
-that profile. If the address is missing, ask the user to run `bin/setup`.
+Each person has a short profile in `people/<firstname>.md`: name, role here,
+email, GitHub name. At session start, run `git config user.email` and look
+the address up in `people/_index.md` to know who is working. If the address
+is missing, ask the user to run `bin/setup`. How to work with the person is
+in their global `~/.claude/CLAUDE.md`.
 
 ## Structure
 

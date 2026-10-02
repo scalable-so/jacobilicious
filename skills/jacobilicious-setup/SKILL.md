@@ -145,14 +145,19 @@ Then create the others the same way. An error then shows up once, not 3 times.
 
 1. Create the folder and run `git init -b main`.
 2. Copy `assets/repo/` into it, including hidden files and folders.
-3. Fill `AGENTS.md` from its template in the user's language.
+3. Fill `AGENTS.md` from its template. Keep headings, field names, and
+   `type` and `status` values in English, because scripts read them. Leave
+   the copied files under `.agents/` and `bin/` as they are. Write folder
+   names, file names, and all other text in the user's language, including
+   the word for "save" in rule 1.
 4. Create each folder from the plan with an `_INDEX.md`.
-5. Write the user's profile to `people/<firstname>.md` (lowercase, ASCII)
+5. Write the user's short profile to `people/<firstname>.md` (lowercase, ASCII)
    from `people/_template.md`
    and add the row to `people/_index.md`.
 6. Write 1 start context file from the interview, following
-   `.agents/conventions/context-files.md`: the company file in the business
-   repo, the master-data file in the confidential and private repos.
+   `.agents/conventions/context-files.md`: the company file with the 3 goals
+   in the business repo, the master-data file in the confidential and
+   private repos.
 7. Write a short `README.md` for humans: what the repo holds, how a new
    person joins, how saving works.
 8. Run `git config core.hooksPath .githooks`, then make the first commit.
@@ -176,8 +181,8 @@ line in every session.
 Why indexes: An index is a table of contents per folder. The agent reads it
 first and opens only the files it needs. That is faster and costs less.
 
-Why profiles: Each person's preferences live in 1 file, so the same repo works
-for a whole team later.
+Why profiles: The repo knows who works in it, so it works for a whole team
+later. How each person likes to work stays in 1 place on that person's Mac.
 
 Why autosave: The Mac saves to GitHub every hour by itself. The user never
 needs a git command, and every hour is a point to go back to.

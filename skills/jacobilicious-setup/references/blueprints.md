@@ -43,7 +43,10 @@ More than 1 legal company: 1 top folder per company, each with `legal/`,
 ## Rules to adapt
 
 - At most 7 top-level folders per repo, not counting the folders every repo has.
-- Name a folder with the word the user uses for it. Lowercase, ASCII, no spaces.
+- Name folders and files in the user's language, with the word the user
+  uses. Lowercase, ASCII, no spaces. Translate the default names above.
+  Keep `people/`, `.agents/`, `bin/`, `skill-data/`, `_ctx/`, and
+  `_archive/` as they are.
 - Add a folder only for a kind of document the user named that fits no existing one.
 - Each document has 1 home. If 2 folders could fit, state in the Structure
   table which one wins.

@@ -3,10 +3,12 @@
 
 <Name>, <role>. <1 sentence on the business.> Language: <language>.
 <Only if voice input: I dictate. Read through transcription errors.>
+Daily tools: <email, calendar, bookkeeping, documents>.
 
 ## How to work with me
 
 - Answer first, reasons after. Short sections. Tables for comparisons.
+- Tone: <short and factual / warm and detailed>.
 - Decide routine matters yourself. Ask when 2 readings lead to different work.
 - Never <limits from the interview> without asking.
 
@@ -25,7 +27,8 @@ Never copy content from a repo with fewer readers into a repo with more readers.
 - Repo skill, `<repo>/.agents/skills/` with a symlink in `.claude/skills/`:
   needs that repo's files, or the team shares it.
 - A skill may start on its own by default. Set `disable-model-invocation: true`
-  when a run sends, pays, publishes, deletes, or is costly.
+  when a run sends, pays, publishes, or deletes without asking for a yes
+  first, or is costly.
 - Archive instead of deleting: `~/.claude/skills-archive/` for global skills,
   `.agents/skills/_archive/` for repo skills.
 - Use `jacobilicious-engineer` for every text an agent reads as instructions:

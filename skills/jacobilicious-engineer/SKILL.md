@@ -1,6 +1,6 @@
 ---
 name: jacobilicious-engineer
-description: "Start whenever you are about to write or change text that an agent will read as instructions: a skill or its reference and data files, a rule in CLAUDE.md or AGENTS.md, a prompt, a command, a brief for a subagent, or a test or eval for any of these. Start when the user wants a new skill or a repeated task turned into a skill. Start when a skill does not start, starts at the wrong time, or should be archived, or when the agent keeps getting something wrong and a rule should fix it."
+description: "Start whenever you are about to write or change text that an agent will read as instructions: a skill or its reference and data files, a rule in CLAUDE.md or AGENTS.md, a prompt, a command, a brief for a subagent, or a test or eval for any of these. Start when the user wants a new skill or a repeated task turned into a skill. Start when a skill does not start, starts at the wrong time, or should be archived, or when the agent keeps getting something wrong and a rule should fix it. When the user wants CLAUDE.md or AGENTS.md shortened or cleaned up, `jacobilicious-audit` starts first and uses this skill for the wording."
 ---
 
 # Jacobilicious engineer
@@ -90,9 +90,10 @@ Write the description as a start condition, not as a summary of the skill.
 Name the distinct situations and the user's own phrases that should start it.
 Put procedures and explanations in the body.
 
-Allow automatic invocation unless the human requests manual invocation or a
-run sends, pays, publishes, deletes, or is costly. In those cases set
-`disable-model-invocation: true`.
+Allow automatic invocation unless the human requests manual invocation, a
+run sends, pays, publishes, or deletes without asking for a yes first, or a
+run is costly. In those cases set `disable-model-invocation: true`.
+A skill that stops for the user's yes before such an action may start on its own.
 Check nearby skills for overlapping triggers. Give each a clear scope.
 
 Place the skill:
