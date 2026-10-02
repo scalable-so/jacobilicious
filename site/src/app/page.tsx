@@ -218,7 +218,7 @@ export default function Home() {
         <section className="glass border-t border-line">
           <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
             <h2 className="h-hero">
-              <span className="block">Bewerte den Vortrag.</span>
+              <span className="block">Gib Feedback.</span>
               <span className="block text-mute">Hol dir das Paket.</span>
             </h2>
             <Cta spark className="mt-9" />

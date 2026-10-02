@@ -103,9 +103,9 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
 
       {step === "rate" && (
         <div>
-          <h1 className="h-section mt-4">Wie fandest du den Vortrag?</h1>
-          <p className="mt-8 font-semibold tracking-[-0.02em]">Dein Score von 1 bis 10</p>
-          <div role="radiogroup" aria-label="Dein Score von 1 bis 10" className="mt-3 grid grid-cols-5 gap-2.5 sm:grid-cols-10 sm:gap-2">
+          <h1 className="h-section mt-4">Was war nochmal dein Rating für den Vortrag?</h1>
+          <p className="mt-8 font-semibold tracking-[-0.02em]">Von 1 bis 10</p>
+          <div role="radiogroup" aria-label="Dein Rating von 1 bis 10" className="mt-3 grid grid-cols-5 gap-2.5 sm:grid-cols-10 sm:gap-2">
             {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
               <button
                 key={n}
