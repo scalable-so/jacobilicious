@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Machine setup for this repo. Safe to re-run. Asks nothing: it fails with a clear message instead.
+set -u
+REPO="$(cd "$(dirname "$0")/.." && pwd)"; cd "$REPO" || exit 1
+NAME="$(basename "$REPO")"
+ok() { printf '  ok   %s\n' "$*"; }; warn() { printf '  !    %s\n' "$*"; }; step() { printf '\n%s\n' "$*"; }
+fail() { printf '  FAIL %s\n' "$*"; exit 1; }
+
+step "1/5 Tools"
+for t in git gh gitleaks; do
+  command -v "$t" >/dev/null 2>&1 && ok "$t" || fail "$t is missing. Install it with: brew install $t"
+done
+
+step "2/5 GitHub login"
+gh auth status >/dev/null 2>&1 || fail "Not logged in to GitHub. Run in Terminal: gh auth login"
+gh auth setup-git >/dev/null 2>&1 && ok "git uses gh for login"
+git config pull.rebase true; git config push.default current
+
+step "3/5 Identity"
+[ -n "$(git config user.name)" ] || fail "No name set. Run: git config --global user.name \"Your Name\""
+[ -n "$(git config user.email)" ] || fail "No email set. Run: git config --global user.email you@example.com"
+ok "$(git config user.name) <$(git config user.email)>"
+
+step "4/5 Secret check and skills"
+chmod +x bin/* .githooks/* 2>/dev/null
+git config core.hooksPath .githooks && ok "secret check runs before every commit"
+mkdir -p .claude/skills
+for s in .agents/skills/*/; do
+  [ -d "$s" ] || continue
+  n="$(basename "$s")"; [ "$n" = "_archive" ] && continue
+  ln -sfn "../../.agents/skills/$n" ".claude/skills/$n"
+done
+ok "skill links in .claude/skills"
+
+step "5/5 Hourly autosave"
+if git remote get-url origin >/dev/null 2>&1; then
+  LABEL="com.jacobilicious.$NAME-autosave"
+  PL="$HOME/Library/LaunchAgents/$LABEL.plist"
+  mkdir -p "$HOME/Library/LaunchAgents"
+  sed -e "s#__REPO__#$REPO#g" -e "s#__HOME__#$HOME#g" -e "s#__LABEL__#$LABEL#g" -e "s#__NAME__#$NAME#g" bin/launchd/autosave.plist > "$PL"
+  launchctl unload "$PL" 2>/dev/null
+  launchctl load "$PL" && ok "bin/autosave runs every hour (log: ~/Library/Logs/jacobilicious-$NAME-autosave.log)" || fail "launchd could not load $PL"
+else
+  warn "No GitHub copy yet (no origin remote). Autosave not loaded. Run bin/setup again after the first push."
+fi
+
+step "Profile"
+EMAIL="$(git config user.email)"
+if grep -qF "$EMAIL" people/_index.md 2>/dev/null; then ok "profile found for $EMAIL"
+else warn "No profile for $EMAIL in people/_index.md. Ask the agent: create my profile."; fi
+printf '\nDone. Repo: %s\n' "$REPO"

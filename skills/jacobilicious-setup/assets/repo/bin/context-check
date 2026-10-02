@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Report drift between the files and the map (indexes, Structure table in AGENTS.md).
+# Prints nothing when clean. Always exits 0, so it is safe as a session-start hook.
+REPO="$(cd "$(dirname "$0")/.." && pwd)"; cd "$REPO" || exit 0
+issues=""
+add() { issues="${issues}- $1"$'\n'; }
+skip_top() { case "$1" in bin|people|skill-data|_archive|node_modules) return 0 ;; esac; return 1; }
+
+# 1. Top-level folders against the Structure table
+structure="$(awk '/^## Structure/{f=1;next} /^## /{f=0} f' AGENTS.md 2>/dev/null)"
+for d in */; do
+  [ -d "$d" ] || continue
+  d="${d%/}"; skip_top "$d" && continue
+  printf '%s\n' "$structure" | grep -qF "\`$d/" || add "folder not in Structure table: $d/"
+done
+
+# 2. Files against the _INDEX.md of their folder
+while IFS= read -r dir; do
+  [ -n "$dir" ] || continue
+  idx="$dir/_INDEX.md"
+  files="$(find "$dir" -maxdepth 1 -type f ! -name '_INDEX.md' ! -name '.*' | sort)"
+  if [ ! -f "$idx" ]; then
+    [ -n "$files" ] && add "no _INDEX.md in $dir/"
+    continue
+  fi
+  while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    grep -qF "$(basename "$f")" "$idx" || add "file without index row: $f"
+  done <<< "$files"
+  # First table cell of each row is the file name. The first printed cell is the header.
+  while IFS= read -r cell; do
+    [ -n "$cell" ] || continue
+    [ -e "$dir/$cell" ] || add "index row without file: $dir/$cell"
+  done < <(awk -F'|' '/^\|/ {c=$2; gsub(/^[ \t`]+|[ \t`]+$/,"",c); if (c!="" && c !~ /^:?-+:?$/) print c}' "$idx" | tail -n +2)
+done < <(for t in */; do t="${t%/}"; [ -d "$t" ] || continue; skip_top "$t" || find "$t" -type d ! -path '*/.*' ! -path '*/_archive*'; done)
+
+if [ -n "$issues" ]; then
+  printf 'context-check found drift. Repair it with the jacobilicious-context skill:\n%s' "$issues"
+fi
+exit 0

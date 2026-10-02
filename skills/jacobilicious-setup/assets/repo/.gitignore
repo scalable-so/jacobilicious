@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+
+# Secrets: never commit
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+token.json
+credentials.json
+
+# Per-machine agent files
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Caches
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+*.tmp
+*.bak
+~$*
+
+# skill-data: only Markdown is versioned. Raw data stays local.
+skill-data/**
+!skill-data/**/
+!skill-data/**/*.md

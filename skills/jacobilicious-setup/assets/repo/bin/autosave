@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Hourly safety net: commit everything, pull, push to main. Never force, never rewrite history.
+# Installed as a launchd agent by bin/setup. Manual run: bin/autosave
+set -u
+export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$REPO" || exit 1
+NAME="$(basename "$REPO")"
+LOG="$HOME/Library/Logs/jacobilicious-$NAME-autosave.log"
+mkdir -p "$(dirname "$LOG")"
+log() { printf '%s %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" >> "$LOG"; }
+notify() { osascript -e "display notification \"$1\" with title \"$NAME autosave\"" 2>/dev/null || true; }
+
+# No GitHub copy yet: nothing to sync.
+git remote get-url origin >/dev/null 2>&1 || { log "skip: no origin remote"; exit 0; }
+
+# A merge or rebase in progress needs a human.
+if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || [ -f .git/MERGE_HEAD ]; then
+  log "skip: merge or rebase in progress"; notify "Merge in progress, autosave skipped"; exit 0
+fi
+
+git add -A
+if ! git diff --cached --quiet; then
+  git commit -q -m "auto: $(date '+%Y-%m-%d %H:%M') @ $(scutil --get ComputerName 2>/dev/null || hostname)" || { log "commit failed"; notify "Autosave could not commit. Open the repo and say: save"; exit 1; }
+  log "committed"
+fi
+
+if ! git pull --rebase -q origin main 2>>"$LOG"; then
+  git rebase --abort 2>/dev/null
+  log "pull --rebase failed (conflict?), local commits kept"
+  notify "Sync conflict. Open the repo and say: save"
+  exit 1
+fi
+
+if [ -n "$(git log origin/main..HEAD --oneline 2>/dev/null)" ]; then
+  git push -q origin main 2>>"$LOG" && log "pushed" || { log "push failed"; notify "Push failed. Internet? GitHub login?"; exit 1; }
+fi
+exit 0

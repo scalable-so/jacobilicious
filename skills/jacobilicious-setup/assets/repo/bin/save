@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Deliberate checkpoint: bin/save "what changed". Same flow as autosave, with your message.
+set -u
+REPO="$(cd "$(dirname "$0")/.." && pwd)"; cd "$REPO" || exit 1
+MSG="${1:-save: $(date '+%Y-%m-%d %H:%M')}"
+git add -A
+git diff --cached --quiet || git commit -q -m "$MSG" || { echo "Commit blocked. Read the message above, fix it, then run bin/save again."; exit 1; }
+git pull --rebase origin main || { echo "Conflict. Files are marked with <<<<. Fix them, then run bin/save again."; exit 1; }
+git push origin main && echo "saved: $MSG"

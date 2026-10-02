@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Block commits that contain secrets. Activated by bin/setup (core.hooksPath=.githooks).
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --redact --no-banner || {
+    echo "gitleaks found a secret in the staged changes. Commit blocked." >&2; exit 1; }
+else
+  echo "warn: gitleaks is not installed (brew install gitleaks). Secret scan skipped." >&2
+fi
