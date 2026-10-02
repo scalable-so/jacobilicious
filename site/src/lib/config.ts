@@ -10,7 +10,6 @@ export function gateSecret(): string {
   return s;
 }
 
-export const eventCode = () => (process.env.EVENT_CODE ?? "").trim();
 export const adminPin = () => (process.env.ADMIN_PIN ?? "").trim();
 
 /** "auto": a rating of 8 or more opens access at once. "manual": Jacob approves everyone. */

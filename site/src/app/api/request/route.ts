@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { LINK_DAYS, accessMode, eventCode } from "@/lib/config";
+import { LINK_DAYS, accessMode } from "@/lib/config";
 import { firstStatus, outcomeFor } from "@/lib/decision";
 import { type AccessRequest, getRequest, saveRequest } from "@/lib/store";
 import { idForEmail, signToken } from "@/lib/token";
@@ -9,7 +9,6 @@ const Body = z.object({
   email: z.string().trim().toLowerCase().pipe(z.email().max(200)),
   rating: z.number().int().min(1).max(10),
   feedback: z.string().trim().max(2000).default(""),
-  code: z.string().trim().max(64).default(""),
   updates: z.boolean().default(false),
   website: z.string().max(200).default(""), // honeypot: people leave it empty
 });
@@ -21,11 +20,6 @@ export async function POST(req: Request) {
 
   // A filled honeypot is a bot. Answer like a normal waitlist entry and store nothing.
   if (input.website) return Response.json({ outcome: "waitlist" });
-
-  const expected = eventCode();
-  if (expected && input.code.toLowerCase() !== expected.toLowerCase()) {
-    return Response.json({ error: "code" }, { status: 403 });
-  }
 
   const id = idForEmail(input.email);
   const existing = await getRequest(id);

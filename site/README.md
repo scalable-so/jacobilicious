@@ -4,7 +4,7 @@ Die Landing Page mit Zugangsschranke. Sie zeigt den Nutzen, sammelt Feedback zum
 
 ## Der Ablauf
 
-1. Jacob zeigt die QR-Folie (`/admin/qr`). Der QR-Code trägt den Code vom Vortrag.
+1. Jacob teilt die Adresse der Seite oder zeigt die QR-Folie (`/admin/qr`).
 2. Die Person bewertet den Vortrag von 1 bis 10 und schreibt 1 Satz Feedback.
 3. Sie trägt Vorname und E-Mail-Adresse ein.
 4. Ab 8 Punkten ist ihre Adresse sofort freigegeben.
@@ -17,7 +17,6 @@ Die Seite verschickt keine Mails. Der Zugang hängt an der E-Mail-Adresse. Jacob
 
 | Schutz | Wirkung |
 |---|---|
-| Code vom Vortrag | Nur wer im Raum war, kann anfragen. |
 | Zugang pro Adresse | Nur freigegebene Adressen öffnen das Paket. Jede Adresse hat 3 Downloads. |
 | Signierter Link | Gilt 7 Tage. Er lässt sich nicht fälschen. |
 | 1 Bewertung pro Adresse | Die erste Bewertung zählt. Eine zweite, höhere Bewertung ändert nichts. |
@@ -26,7 +25,7 @@ Die Seite verschickt keine Mails. Der Zugang hängt an der E-Mail-Adresse. Jacob
 | `ACCESS_MODE=manual` | Jacob gibt jeden Zugang selbst frei, auch bei 10 Punkten. |
 | Kein öffentlicher Download | Das Paket liegt nicht als Datei auf dem Server. Es entsteht erst bei der Anfrage. |
 
-Der Schutz passt zu einem kleinen Kreis. Die Seite prüft nicht, ob eine Adresse der Person gehört: Wer eine freigegebene Adresse kennt, kann deren Paket laden. Wer das Paket hat, kann den Ordner kopieren. `ACCESS.md` zeigt dann, von wem die Kopie stammt.
+Der Schutz passt zu einem kleinen Kreis. Jeder, der die Adresse der Seite kennt, kann anfragen. Die Seite prüft nicht, ob eine Adresse der Person gehört: Wer eine freigegebene Adresse kennt, kann deren Paket laden. Wer das Paket hat, kann den Ordner kopieren. `ACCESS.md` zeigt dann, von wem die Kopie stammt.
 
 ## Seiten
 
@@ -45,7 +44,6 @@ Alle Werte stehen mit Erklärung in `.env.local.example`.
 | Variable | Pflicht | Zweck |
 |---|---|---|
 | `GATE_SECRET` | ja | Signiert Links und die Admin-Sitzung. 32 Zeichen oder mehr. |
-| `EVENT_CODE` | empfohlen | Der Code vom Vortrag. Leer heißt: kein Code nötig. |
 | `ADMIN_PIN` | empfohlen | Öffnet `/admin`. Leer heißt: Admin ist aus. |
 | `ACCESS_MODE` | nein | `auto` (Standard) oder `manual`. |
 | `BLOB_READ_WRITE_TOKEN` | auf Vercel | Kommt von selbst, wenn ein Blob Store verbunden ist. |
@@ -69,7 +67,7 @@ Prüfen: `npm test` (Regeln, Links, Zip) und `npm run build`.
 - **Adresse:** https://jacobilicious.vercel.app
 - **Projekt:** `jacobilicious` im Team `scalableso`, Root Directory `site`.
 - **Daten:** privater Blob Store `jacobilicious-requests` (Region `fra1`), mit dem Projekt verbunden.
-- **Werte:** `JACOBILICIOUS_GATE_SECRET`, `JACOBILICIOUS_ADMIN_PIN` und `JACOBILICIOUS_EVENT_CODE` liegen in Doppler (`scalable/prd_personal`). In Vercel heißen sie `GATE_SECRET`, `ADMIN_PIN` und `EVENT_CODE`.
+- **Werte:** `JACOBILICIOUS_GATE_SECRET` und `JACOBILICIOUS_ADMIN_PIN` liegen in Doppler (`scalable/prd_personal`). In Vercel heißen sie `GATE_SECRET` und `ADMIN_PIN`.
 
 Fehlt `GATE_SECRET` in Vercel, bleibt die Schranke zu: Anfragen und Downloads schlagen fehl.
 
@@ -84,11 +82,11 @@ Der Build braucht `skills/`, `README.md` und `install.sh` aus der Repo-Wurzel. E
 
 ### Werte von Doppler nach Vercel bringen
 
-Das macht ein Mensch, kein Agent. Der Befehl zeigt keinen Wert an. Er liest den Wert zuerst und reicht ihn dann weiter, weil `vercel env add` nur 0,5 Sekunden auf die Eingabe wartet:
+Das macht ein Mensch, kein Agent. `vercel` muss im Terminal gefunden werden (`command -v vercel`), sonst nimm den vollen Pfad zur CLI. Der Befehl zeigt keinen Wert an. Er liest den Wert zuerst und reicht ihn dann weiter, weil `vercel env add` nur 0,5 Sekunden auf die Eingabe wartet:
 
 ```bash
 cd ~/Code/jacobilicious
-for n in GATE_SECRET ADMIN_PIN EVENT_CODE; do
+for n in GATE_SECRET ADMIN_PIN; do
   v=$(secret-get JACOBILICIOUS_$n scalable prd_personal)
   printf %s "$v" | vercel env add $n production
 done

@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { CopyLink } from "@/components/CopyLink";
 import { isAdmin } from "@/lib/admin";
-import { LINK_DAYS, MAX_DOWNLOADS, accessMode, adminPin, eventCode } from "@/lib/config";
+import { LINK_DAYS, MAX_DOWNLOADS, accessMode, adminPin } from "@/lib/config";
 import type { Status } from "@/lib/decision";
 import { originOf } from "@/lib/origin";
 import { listRequests } from "@/lib/store";
@@ -97,8 +97,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
 
       <p className="mt-5 text-[0.9rem] text-mute">
         Modus: {accessMode() === "auto" ? "Ab 8 Punkten ist der Zugang sofort offen. Darunter entscheidest du." : "Du gibst jeden Zugang selbst frei."}{" "}
-        Freigegebene öffnen das Paket auf der Seite mit ihrer E-Mail-Adresse. Den Link kannst du zusätzlich selbst schicken.{" "}
-        {eventCode() ? "Der Code vom Vortrag ist Pflicht." : "Es ist kein Code vom Vortrag gesetzt."}
+        Freigegebene öffnen das Paket auf der Seite mit ihrer E-Mail-Adresse. Den Link kannst du zusätzlich selbst schicken.
       </p>
 
       {recs.length === 0 ? (
