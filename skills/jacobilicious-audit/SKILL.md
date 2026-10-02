@@ -9,6 +9,8 @@ Find what is broken, bloated, or unused in the user's agent workspace.
 Report it. Fix only what the user confirms.
 Exception: index and Structure drift. Repair it with `jacobilicious-context`
 and report it in 1 line.
+If a repo is public, report that first. Save and push nothing in that repo
+until it is private.
 
 Before your first message, read `~/.claude/jacobilicious/brand.md` and use its
 voice in chat. If the file is missing, use a plain, friendly tone.
@@ -48,7 +50,9 @@ that repo's `AGENTS.md`, and the descriptions. Do not add repos together.
 Flag:
 
 - An instruction file over 200 lines.
-- Lines that repeat another instruction file or a skill.
+- Lines that repeat another instruction file or a skill. Do not flag a rule
+  that comes from the template
+  `~/.claude/skills/jacobilicious-setup/assets/repo/AGENTS.md`, also when translated.
 - Rules that name a file, folder, tool, or skill that no longer exists.
 - Rules that contradict each other.
 - Content that only 1 task needs. Propose moving it into a skill.
@@ -80,7 +84,7 @@ Flag:
 - A server with 0 uses, when the range covers 30 days or more. Propose removing it.
 - A used server where a maintained official CLI covers the same actions.
   Confirm the CLI exists before you propose it. If you cannot confirm it, say so.
-- A tool the user's profile lists as used daily that has no connection yet.
+- A tool on the `Daily tools` line of `~/.claude/CLAUDE.md` that has no connection yet.
   Say whether an official CLI or MCP server exists and which costs less context.
 
 ## Report

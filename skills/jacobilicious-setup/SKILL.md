@@ -109,6 +109,7 @@ Read `references/blueprints.md`.
 - Default root folder: `~/Repositories`.
 - Repo names are lowercase with hyphens: `<company>`, `<company>-confidential`,
   `<firstname>-private`.
+  With more than 1 company, use the company that runs the business.
 - Propose names and folders. Show the full tree and how it serves the user's
   3 goals. Get a confirmation.
 
@@ -135,7 +136,7 @@ organization. Default: own account.
 Why: git remembers every version of every file, so nothing is ever lost.
 GitHub keeps a private copy away from the Mac: a backup, and later the way to
 share with a team. `gh` lets the agent do the GitHub work for the user.
-`gitleaks` stops a password from being saved by mistake. The other 3 tools
+`gitleaks` stops a password from being saved by mistake. The other 4 tools
 make scans searchable.
 
 ### 6. Create the repos
@@ -150,7 +151,8 @@ Then create the others the same way. An error then shows up once, not 3 times.
    the copied files under `.agents/` and `bin/` as they are. Write folder
    names, file names, and all other text in the user's language, including
    the word for "save" in rule 1.
-4. Create each folder from the plan with an `_INDEX.md`.
+4. Create each folder from the plan with an `_INDEX.md`. A subfolder also
+   gets a row in its parent's `_INDEX.md`.
 5. Write the user's short profile to `people/<firstname>.md` (lowercase, ASCII)
    from `people/_template.md`
    and add the row to `people/_index.md`.
@@ -158,6 +160,8 @@ Then create the others the same way. An error then shows up once, not 3 times.
    `.agents/conventions/context-files.md`: the company file with the 3 goals
    in the business repo, the master-data file in the confidential and
    private repos.
+   Keep finance, legal, and HR facts and goals out of the business repo.
+   They go into the master-data file of the confidential repo.
 7. Write a short `README.md` for humans: what the repo holds, how a new
    person joins, how saving works.
 8. Run `git config core.hooksPath .githooks`, then make the first commit.
@@ -241,6 +245,8 @@ run steps 7 to 9. Ask only the interview questions the repo does not answer.
 - Every repo is private.
 - Write only facts the user gave. Leave a field out instead of guessing.
 - No secret goes into any file.
+- While setup runs, start no other jacobilicious skill. Setup writes the
+  files of steps 6 and 7 itself.
 - When a step fails, show the error text, say in 1 sentence what it means,
   and give the fix.
 

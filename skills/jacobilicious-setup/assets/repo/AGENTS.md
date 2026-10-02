@@ -36,8 +36,10 @@ Decide before you write a file:
 - Drop: scratch work, exports, drafts in progress, one-off answers, anything
   nobody needs after this session. Use `/tmp/`, never the repo.
 - Keep as a knowledge file: a decision and its reason, a rule or process to
-  repeat, master data, a duty or deadline, a finished result that later work
-  builds on, a correction the user gave twice.
+  repeat, master data, a duty, a finished result that later work builds on.
+  A deadline or amount stays in its document and its index row. A process an
+  agent should run becomes a skill. A correction the user gave twice becomes
+  a rule, see Improve.
 - Keep as a project folder: work that runs over more than 1 session or
   produces 3 or more files. Create `<topic>-<year>/` with an `_INDEX.md` and
   1 status file (goal, decisions, open points).
@@ -49,7 +51,8 @@ Use the `jacobilicious-context` skill for every keep.
 
 - A new document goes into its folder, named `Topic_Detail_YYYY-MM-DD.ext`
   with the document's own date.
-- Knowledge files follow `.agents/conventions/context-files.md`.
+- Knowledge files follow `.agents/conventions/context-files.md` and are named
+  `topic-detail.md`: lowercase, hyphens, no date.
 - Each piece of knowledge has 1 home. Keep no second copy.
 - If a document fits no folder, ask. Create a top-level folder only after a yes.
 

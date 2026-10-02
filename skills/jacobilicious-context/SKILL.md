@@ -25,7 +25,7 @@ with the user's task. Scratch work goes to `/tmp/`.
 
 | Change | How |
 |---|---|
-| Index rows, frontmatter fields, the Structure table in `AGENTS.md`, the Repos table in `~/.claude/CLAUDE.md` | Change at once. Report in 1 line. |
+| Index rows, new `_INDEX.md` files, frontmatter fields, the Structure table in `AGENTS.md`, the Repos table in `~/.claude/CLAUDE.md` | Change at once. Report in 1 line. |
 | A knowledge file, new or changed | Show the full text (new) or before and after (change). Offer 3 options: save, change, save without asking for the rest of this session. |
 | Moving or renaming documents | Show the plan as 1 table. Move after the user's go. |
 | Any other part of `AGENTS.md` or `CLAUDE.md` | Only after a yes. Use `jacobilicious-engineer` for the wording. |
@@ -77,7 +77,8 @@ means this job. If unclear, ask.
 
 1. Find the home: the folder that owns the topic. Check its `_INDEX.md` for
    an existing file on the same topic. Extend that file instead of writing
-   a second one.
+   a second one. If 2 folders fit, name both, say which you would pick and
+   why, and let the user choose.
 2. Write the file per `.agents/conventions/context-files.md`. Name it like
    its sibling files. Default: `topic-detail.md`, lowercase, hyphens, no date.
    It states the rule or decision and its reason, and links the evidence
@@ -119,6 +120,8 @@ Run `bin/context-check` again. It must report nothing.
 1. Save each changed repo with `bin/save "context: <what> in <where>"`.
 2. Report in this order: what was filed or written and where, deadlines
    with date and needed action, map changes in 1 line, open items.
+   Quote a relative deadline as written, such as "within 1 month". Give a
+   calendar date only when the document states it.
 
 ## Done when
 

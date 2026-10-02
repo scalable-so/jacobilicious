@@ -51,6 +51,6 @@ More than 1 legal company: 1 top folder per company, each with `legal/`,
 - Each document has 1 home. If 2 folders could fit, state in the Structure
   table which one wins.
 - Create subfolders when the first document arrives. Exception: the products
-  and channels the user named.
+  and channels the user named, and `legal/`, `finance/`, `hr/` of each company.
 - If the user merges repo types, keep each type's folders under 1 top folder
   named after the type.
