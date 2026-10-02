@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+/* Design values follow the Scalable deck design system:
+   white, ink, grays, one spectrum, Inter + Geist Mono, a golden-ratio scale. */
+@theme {
+  --color-ink: #000000;
+  --color-mute: #6b6b6b;
+  --color-faint: #a3a3a3;
+  --color-line: #e5e5e5;
+  --color-canvas: #f5f5f5;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+}
+
+:root {
+  --u: clamp(16px, 0.45vw + 14px, 19px);
+  --t-1: calc(var(--u) / 1.618);
+  --t0: var(--u);
+  --t1: calc(var(--u) * 1.618);
+  --t2: calc(var(--u) * 2.618);
+  --t3: calc(var(--u) * 4.236);
+  --rim: 2px;
+  --frame-pad: calc(var(--u) * 0.3);
+  --frame: 0 0 0 var(--frame-pad) rgba(0, 0, 0, 0.035), 0 0 0 calc(var(--frame-pad) + 1.5px) #fff,
+    0 0 0 calc(var(--frame-pad) + 2.5px) rgba(0, 0, 0, 0.07),
+    0 calc(var(--u) * 0.8) calc(var(--u) * 1.6) calc(var(--u) * -0.5) rgba(0, 0, 0, 0.2);
+  --spectrum: linear-gradient(
+    90deg,
+    hsl(222 62% 55%) 0%,
+    hsl(185 55% 47%) 18%,
+    hsl(135 45% 50%) 34%,
+    hsl(60 55% 82%) 50%,
+    hsl(250 55% 60%) 68%,
+    hsl(265 55% 50%) 84%,
+    hsl(358 52% 48%) 100%
+  );
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01" 1, "cv11" 1;
+  font-size: var(--t0);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* type roles */
+.label {
+  font-family: var(--font-mono);
+  font-feature-settings: normal;
+  font-size: max(11px, var(--t-1));
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--color-mute);
+}
+.h-hero {
+  font-size: clamp(2.6rem, 6.2vw, var(--t3));
+  line-height: 1;
+  letter-spacing: -0.055em;
+  font-weight: 600;
+}
+.h-section {
+  font-size: clamp(2rem, 4vw, var(--t2));
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+  font-weight: 600;
+}
+.h-card {
+  font-size: var(--t1);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+.lede {
+  font-size: calc(var(--u) * 1.2);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  color: var(--color-mute);
+}
+
+/* the frame every card wears: frosted band, white rim, hairline, lift shadow */
+.frame {
+  background: #fff;
+  border-radius: calc(var(--u) * 0.9);
+  box-shadow: var(--frame);
+}
+
+/* spark: ink face, a rim that fades into the spectrum, a soft glow below */
+.spark {
+  position: relative;
+  isolation: isolate;
+  color: #fff;
+}
+.spark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  border: var(--rim) solid transparent;
+  background: linear-gradient(#000, #000) padding-box,
+    linear-gradient(180deg, #000 0%, #000 38%, transparent 78%) border-box, var(--spectrum) border-box;
+}
+.spark::after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  left: calc(var(--rim) * 3);
+  right: calc(var(--rim) * 3);
+  top: 55%;
+  bottom: calc(var(--rim) * -5);
+  border-radius: inherit;
+  background: var(--spectrum);
+  filter: blur(calc(var(--rim) * 6));
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+}
+.spark:hover::after {
+  opacity: 0.85;
+}
+.spark:active {
+  transform: translateY(1px);
+}
+
+/* the fluted glass of the deck background, bottom right */
+.glass {
+  background: url("/fluted.jpg") right bottom / max(100%, 1100px) auto no-repeat;
+}
+
+/* numbered disc, the step and rating mark */
+.disc {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 6px 14px -8px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-mono);
+  font-feature-settings: normal;
+}
+.disc-ink {
+  background: #000;
+  color: #fff;
+  box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.6);
+}
+
+.field {
+  width: 100%;
+  border-radius: calc(var(--u) * 0.6);
+  border: 1px solid #c9c9c9;
+  background: #fff;
+  padding: 0.8em 0.95em;
+  font-size: 16px; /* keeps iOS from zooming */
+  letter-spacing: -0.01em;
+}
+.field::placeholder {
+  color: #767676;
+}
+.field:focus {
+  outline: 2px solid #000;
+  outline-offset: 1px;
+  border-color: #000;
+}
+
+/* waitlist animation: the wire draws, the middle disc breathes */
+@keyframes wire-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes disc-in {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.28); }
+  50% { box-shadow: 0 0 0 14px rgba(0, 0, 0, 0); }
+}
+.wl-disc { animation: disc-in 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+.wl-wire { transform-origin: left center; animation: wire-draw 0.7s ease-out both; }
+.wl-now { animation: disc-in 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2) both, breathe 2.4s ease-in-out 1.6s infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .wl-disc, .wl-wire, .wl-now { animation: none; }
+  .spark::after { transition: none; }
+}
+
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-plus { transform: rotate(45deg); }

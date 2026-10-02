@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Site: dependencies, builds, local data, secrets
+node_modules/
+.next/
+.vercel/
+.env
+.env.local
+.env.*.local
+site/.data/
+site/src/generated/
+
+# Banner build files
+assets/build/

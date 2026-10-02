@@ -249,7 +249,8 @@ Use it when the argument is `join <github-repo>`, or the user says the repos
 already exist, for example on a new Mac.
 
 1. Run steps 1, 2, and 5. In step 1, name the join steps below instead of
-   the 8 setup steps. Leave git name and email for substep 4.
+   the 8 setup steps. Leave git name and email for substep 4. In step 5,
+   skip the question about the account owner.
 2. Find the repos. Use the argument, or run `gh repo list`, show the list,
    and ask which repos to bring back. Root folder: `~/Repositories` unless
    the user names another.

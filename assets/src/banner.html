@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Jacobilicious banner</title>
+<!-- Render: see render.sh. 1600x560 CSS px, exported at 1.5x. Design values follow the deck design system. -->
+<style>
+  @font-face{ font-family:'Inter Variable'; font-weight:100 900; font-display:block;
+    src:url('../../site/node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); }
+  @font-face{ font-family:'Geist Mono Variable'; font-weight:100 900; font-display:block;
+    src:url('../../site/node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2') format('woff2'); }
+  :root{
+    --bg:#fff; --ink:#000; --gray:#6b6b6b; --gray-2:#a3a3a3; --line:#e5e5e5;
+    --u:25.6px;
+    --t-1:calc(var(--u) / 1.618); --t0:var(--u); --t1:calc(var(--u) * 1.618);
+    --t2:calc(var(--u) * 2.618); --t3:calc(var(--u) * 4.236);
+    --rim:max(2px, calc(var(--u) * 0.14));
+    --spectrum:linear-gradient(90deg, hsl(222 62% 55%) 0%, hsl(185 55% 47%) 18%, hsl(135 45% 50%) 34%, hsl(60 55% 82%) 50%, hsl(250 55% 60%) 68%, hsl(265 55% 50%) 84%, hsl(358 52% 48%) 100%);
+    --sans:'Inter Variable', sans-serif; --mono:'Geist Mono Variable', monospace;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ width:1600px; height:560px; overflow:hidden; background:var(--bg); }
+  body{ font-family:var(--sans); font-feature-settings:'ss01' 1, 'cv11' 1; color:var(--ink); -webkit-font-smoothing:antialiased; }
+  .frame{ position:relative; width:1600px; height:560px; overflow:hidden; background:var(--bg); }
+  /* the glass of the deck background, bottom right, gray only */
+  .glass{ position:absolute; inset:0; background:url('fluted-16x9.jpg') right bottom / 1600px auto no-repeat; }
+  .photo{ position:absolute; left:0; top:0; height:560px; width:auto; }
+  .mono{ font-family:var(--mono); font-feature-settings:normal; font-size:var(--t-1); letter-spacing:.08em; text-transform:uppercase; line-height:1.2; }
+  .chrome{ position:absolute; left:782px; right:var(--t0); color:var(--gray-2); display:flex; justify-content:space-between; }
+  .chrome.top{ top:var(--t0); }
+  .chrome.bottom{ bottom:var(--t0); }
+  .copy{ position:absolute; left:782px; top:50%; transform:translateY(-52%); }
+  .eyebrow{ color:var(--gray); margin-bottom:var(--t0); }
+  h1{ font-weight:600; font-size:124px; line-height:1; letter-spacing:-0.06em; margin-left:-0.045em; }
+  .lede{ margin-top:var(--t0); font-size:var(--t1); line-height:1.25; letter-spacing:-0.035em; color:var(--gray); }
+  .lede b{ font-weight:500; color:var(--ink); }
+  .cta{ position:relative; isolation:isolate; display:inline-flex; align-items:center; margin-top:var(--t1);
+    padding:calc(var(--t-1) * .86) var(--t0); border-radius:999px; color:#fff;
+    font-family:var(--mono); font-size:calc(var(--t-1) * 1.12); letter-spacing:.01em; }
+  .cta::before{ content:''; position:absolute; inset:0; z-index:-1; border-radius:inherit; border:var(--rim) solid transparent;
+    background:linear-gradient(var(--ink),var(--ink)) padding-box, linear-gradient(180deg,var(--ink) 0%,var(--ink) 38%,transparent 78%) border-box, var(--spectrum) border-box; }
+  .cta::after{ content:''; position:absolute; z-index:-2; left:calc(var(--rim) * 2); right:calc(var(--rim) * 2); top:55%; bottom:calc(var(--rim) * -5);
+    border-radius:inherit; background:var(--spectrum); filter:blur(calc(var(--rim) * 6)); opacity:.6; }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="glass"></div>
+    <img class="photo" src="../build/jacob-fluted-banner.png" alt="">
+    <div class="chrome top mono"><span>Jacobilicious</span><span>Claude Code auf dem Mac</span></div>
+    <div class="copy">
+      <div class="eyebrow mono">4 Skills, 1 Befehl</div>
+      <h1>Jacobilicious</h1>
+      <p class="lede"><b>Ein Agent, der dein Business kennt.</b><br>Und jedes Dokument findet.</p>
+      <div class="cta">/jacobilicious-setup</div>
+    </div>
+    <div class="chrome bottom mono"><span>Jacob, Founder at scalable.so</span><span>Privat. Automatisch gesichert.</span></div>
+  </div>
+</body>
+</html>

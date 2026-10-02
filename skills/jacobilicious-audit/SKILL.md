@@ -96,7 +96,8 @@ Flag:
 ## Report
 
 Show 1 table, worst first: Finding, Where, Effect (risk or tokens saved),
-Proposed fix. Below it, give the always-loaded tokens now and after all fixes.
+Proposed fix. Below it, give the always-loaded tokens now and if all fixes
+are applied. In the last message, give them again for the fixes that were applied.
 If an earlier report exists in `~/.claude/jacobilicious/audits/`, start with
 what changed since then. Ask which fixes to apply: all, some by number, or none.
 
@@ -121,7 +122,8 @@ what changed since then. Ask which fixes to apply: all, some by number, or none.
   is the user's step: say what will open.
 - For a failed health check, run the repo's `bin/setup`, then check again.
 - Save each changed repo with `bin/save "audit: <what>"`.
-- Write the report to `~/.claude/jacobilicious/audits/YYYY-MM-DD.md`.
+- Write the report to `~/.claude/jacobilicious/audits/YYYY-MM-DD.md`: the
+  findings table with the status of each finding, and the token numbers.
 
 ## Done when
 
