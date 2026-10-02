@@ -84,13 +84,15 @@ Der Build braucht `skills/`, `README.md` und `install.sh` aus der Repo-Wurzel. E
 
 ### Werte von Doppler nach Vercel bringen
 
-Das macht ein Mensch, kein Agent. Der Befehl zeigt keinen Wert an:
+Das macht ein Mensch, kein Agent. Der Befehl zeigt keinen Wert an. Er liest den Wert zuerst und reicht ihn dann weiter, weil `vercel env add` nur 0,5 Sekunden auf die Eingabe wartet:
 
 ```bash
 cd ~/Code/jacobilicious
 for n in GATE_SECRET ADMIN_PIN EVENT_CODE; do
-  secret-get JACOBILICIOUS_$n scalable prd_personal | tr -d '\n' | vercel env add $n production
+  v=$(secret-get JACOBILICIOUS_$n scalable prd_personal)
+  printf %s "$v" | vercel env add $n production
 done
+unset v
 vercel deploy --prod
 ```
 
