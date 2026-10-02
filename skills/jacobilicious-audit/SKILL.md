@@ -9,8 +9,8 @@ Find what is broken, bloated, or unused in the user's agent workspace.
 Report it. Fix only what the user confirms.
 Exception: index and Structure drift. Repair it with `jacobilicious-context`
 and report it in 1 line.
-If a repo is public, report that first. Save and push nothing in that repo
-until it is private.
+If a repo is public, report that first and ask at once to make it private.
+Change, save, and push nothing in that repo until it is private.
 
 Before your first message, read `~/.claude/jacobilicious/brand.md` and use its
 voice in chat. If the file is missing, use a plain, friendly tone.
@@ -103,7 +103,9 @@ what changed since then. Ask which fixes to apply: all, some by number, or none.
 ## Fix
 
 - Apply only confirmed fixes. Write the new wording of an instruction with
-  `jacobilicious-engineer`. Show before and after for every instruction edit.
+  `jacobilicious-engineer`. Show before and after for every instruction edit
+  and wait for a yes, also when the user said "all".
+- Install software only after a yes that names the tool and the command.
 - Archive instead of deleting. Move a skill to the `_archive/` folder next
   to it (`.agents/skills/_archive/` or `.agents/global-skills/_archive/`)
   and remove its symlink. A skill that is a real folder in

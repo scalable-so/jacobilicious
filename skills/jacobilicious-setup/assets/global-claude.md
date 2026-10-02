@@ -23,7 +23,7 @@ Never copy content from a repo with fewer readers into a repo with more readers.
 
 ## Skills
 
-- Global skill: works in every repo and holds no repo data. It lives in
+- Global skill you build: works in every repo and holds no repo data. It lives in
   `<backup-repo-path>/.agents/global-skills/<name>/`, and
   `~/.claude/skills/<name>` is a symlink to it.
 - Repo skill, `<repo>/.agents/skills/` with a symlink in `.claude/skills/`:

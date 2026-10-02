@@ -19,6 +19,7 @@ voice in chat. If the file is missing, use a plain, friendly tone.
 - Assume no technical knowledge. Explain a new term in half a sentence.
   Example: a repo is a folder with full history, saved on GitHub.
 - Send 1 step per message.
+  A step that asks nothing continues without waiting for a reply.
 - Number your questions. For a decision, give 2 or 3 options and recommend 1.
   Ask a question of fact plainly, without options.
 - Never ask for a password or token in chat.
@@ -43,7 +44,8 @@ State only benefits named in this file. Do not add numbers or promises.
    the user to run Claude Code as the desktop app or in the terminal, not in the web.
 3. Read `~/.claude/jacobilicious/setup-state.md` if it exists and continue at
    the first open step. Update this file after every answer and every finished
-   substep. It holds the answers so far, the finished steps, and the next step.
+   substep. It holds the answers so far, what step 2 found, the confirmed
+   plan with the full tree, the finished substeps, and the next step.
 
 If the user wants to stop, save the state and say that typing
 `/jacobilicious-setup` again continues at the same point.
@@ -55,7 +57,8 @@ Follow this order. Each step needs the result of the one before.
 ### 1. Welcome
 
 First ask which language the user wants for chat and for generated files.
-Use the language the user wrote in until you have the answer.
+Use the language the user wrote in until you have the answer. If the user
+typed only the command, ask in English.
 
 Then tell the user what they will have at the end, name the 8 steps that
 follow, and say that the setup can pause and resume at any point.
@@ -91,7 +94,7 @@ what you found and ask only for the rest.
 4. Team: solo or team. Who needs access to what.
 5. The 3 goals for the next 90 days that this workspace should support.
 6. Tools used daily: email, calendar, bookkeeping, documents.
-7. Tone: short and factual, or warm and detailed.
+7. Tone: short and factual, or warm and detailed. Give no recommendation.
 8. Limits: what the agent must never do without asking.
    Default: send, pay, sign, delete.
 
@@ -204,9 +207,9 @@ and come back on a new Mac.
 ### 7. Write the global block
 
 Fill `assets/global-claude.md` and place it in `~/.claude/CLAUDE.md` between
-its 2 marker lines. If the file exists, show before and after first and leave
-all text outside the markers unchanged. If the markers exist, replace only
-what is between them.
+its 2 marker lines. If the file exists, show before and after, wait for a
+yes, and leave all text outside the markers unchanged. If the markers exist,
+replace only what is between them.
 Then run `bin/save` in the backup repo. It stores a copy of this file.
 
 Why: This file applies in every folder on this Mac. It tells the agent who
@@ -242,10 +245,22 @@ Why: The user sees proof that it works and knows what to do next.
 
 ## Join mode
 
-Use it when the argument is `join <github-repo>` or the user says the repo
-already exists. Run steps 1, 2, and 5. Then clone the repo into the root
-folder with `gh repo clone`, run `bin/setup`, create the user's profile, and
-run steps 7 to 9. Ask only the interview questions the repo does not answer.
+Use it when the argument is `join <github-repo>`, or the user says the repos
+already exist, for example on a new Mac.
+
+1. Run steps 1, 2, and 5. In step 1, name the join steps below instead of
+   the 8 setup steps. Leave git name and email for substep 4.
+2. Find the repos. Use the argument, or run `gh repo list`, show the list,
+   and ask which repos to bring back. Root folder: `~/Repositories` unless
+   the user names another.
+3. Clone each repo with `gh repo clone`.
+4. If git name or email is unset, take them from the user's profile in
+   `people/` when its GitHub name matches the `gh` login. If not, ask.
+5. Run `bin/setup` in each repo, then the 5 checks of step 6.
+6. If `people/_index.md` lacks the user's email, write the short profile.
+   Ask only for what is missing.
+7. Run steps 7 to 9. If `bin/setup` restored `~/.claude/CLAUDE.md`, show the
+   block and change only repo paths that do not exist.
 
 ## Rules
 
