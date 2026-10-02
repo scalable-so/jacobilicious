@@ -23,14 +23,17 @@ Never copy content from a repo with fewer readers into a repo with more readers.
 
 ## Skills
 
-- Global skill, `~/.claude/skills/`: works in every repo and holds no repo data.
+- Global skill: works in every repo and holds no repo data. It lives in
+  `<backup-repo-path>/.agents/global-skills/<name>/`, and
+  `~/.claude/skills/<name>` is a symlink to it.
 - Repo skill, `<repo>/.agents/skills/` with a symlink in `.claude/skills/`:
   needs that repo's files, or the team shares it.
 - A skill may start on its own by default. Set `disable-model-invocation: true`
   when a run sends, pays, publishes, or deletes without asking for a yes
   first, or is costly.
-- Archive instead of deleting: `~/.claude/skills-archive/` for global skills,
-  `.agents/skills/_archive/` for repo skills.
+- Archive instead of deleting: move a skill to the `_archive/` folder next
+  to it and remove its symlink. A real folder in `~/.claude/skills/` goes to
+  `~/.claude/skills-archive/`.
 - Use `jacobilicious-engineer` for every text an agent reads as instructions:
   skills and their files, rules, prompts, commands, subagent briefs, tests.
 <!-- jacobilicious:end -->

@@ -19,6 +19,8 @@ if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || [ -f .git/MERGE_HEAD 
   log "skip: merge or rebase in progress"; notify "Merge in progress, autosave skipped"; exit 0
 fi
 
+# Backup repo: keep a copy of the global CLAUDE.md.
+if [ -d .agents/global-skills ] && [ -f "$HOME/.claude/CLAUDE.md" ]; then cp "$HOME/.claude/CLAUDE.md" .agents/global-claude.md; fi
 git add -A
 if ! git diff --cached --quiet; then
   git commit -q -m "auto: $(date '+%Y-%m-%d %H:%M') @ $(scutil --get ComputerName 2>/dev/null || hostname)" || { log "commit failed"; notify "Autosave could not commit. Open the repo and say: save"; exit 1; }

@@ -164,12 +164,16 @@ Then create the others the same way. An error then shows up once, not 3 times.
    They go into the master-data file of the confidential repo.
 7. Write a short `README.md` for humans: what the repo holds, how a new
    person joins, how saving works.
-8. Run `git config core.hooksPath .githooks`, then make the first commit.
+8. In the private repo only, or in the repo with the fewest readers if
+   there is no private repo: create `.agents/global-skills/README.md` with
+   the line "Global skills of this Mac. `~/.claude/skills/` holds symlinks
+   to them." This repo is now the backup repo.
+9. Run `git config core.hooksPath .githooks`, then make the first commit.
    The secret check must be active before anything is committed.
-9. Run `gh repo create <owner>/<name> --private --source . --push`.
-10. Run `bin/setup`. It links skills and loads the hourly autosave.
-    The autosave needs the GitHub copy, so this comes after substep 9.
-11. Check:
+10. Run `gh repo create <owner>/<name> --private --source . --push`.
+11. Run `bin/setup`. It links skills and loads the hourly autosave.
+    The autosave needs the GitHub copy, so this comes after substep 10.
+12. Check:
     - `gh repo view --json visibility -q .visibility` returns `PRIVATE`.
     - `bin/save "setup check"` ends without error and `git status` is clean.
     - `launchctl list` shows the repo's autosave job.
@@ -193,12 +197,17 @@ needs a git command, and every hour is a point to go back to.
 
 Why the checks: They prove that saving works today, not on the day a file is lost.
 
+Why the backup repo: Skills that work in every repo and the global file
+live outside all repos. Kept in the private repo, they are saved every hour
+and come back on a new Mac.
+
 ### 7. Write the global block
 
 Fill `assets/global-claude.md` and place it in `~/.claude/CLAUDE.md` between
 its 2 marker lines. If the file exists, show before and after first and leave
 all text outside the markers unchanged. If the markers exist, replace only
 what is between them.
+Then run `bin/save` in the backup repo. It stores a copy of this file.
 
 Why: This file applies in every folder on this Mac. It tells the agent who
 the user is and which repo holds what, so the agent picks the right repo by itself.

@@ -98,15 +98,21 @@ Check nearby skills for overlapping triggers. Give each a clear scope.
 
 Place the skill:
 
-- Global, `~/.claude/skills/<name>/`: it works in every repo and holds no repo data.
+- Global: it works in every repo and holds no repo data. Create it in the
+  backup repo at `.agents/global-skills/<name>/` and link it with
+  `ln -s <backup-repo>/.agents/global-skills/<name> ~/.claude/skills/<name>`.
+  The backup repo is the repo in the Repos table that has
+  `.agents/global-skills/`. If there is none, create the skill in
+  `~/.claude/skills/<name>/` and tell the user it has no backup.
 - Repo, `<repo>/.agents/skills/<name>/`, linked with
   `ln -s ../../.agents/skills/<name> .claude/skills/<name>`: it needs that
   repo's files, or the team shares it.
 - A skill name lives in 1 place.
 
-Archive instead of deleting. Move a replaced or unused skill to
-`~/.claude/skills-archive/` (global) or `.agents/skills/_archive/` (repo)
-and remove its symlink.
+Archive instead of deleting. Move a replaced or unused skill to the
+`_archive/` folder next to it (`.agents/skills/_archive/` or
+`.agents/global-skills/_archive/`) and remove its symlink. A skill that is
+a real folder in `~/.claude/skills/` goes to `~/.claude/skills-archive/`.
 
 Tell the user that a new skill appears only in a new session.
 
@@ -156,8 +162,9 @@ Wait for human confirmation before creating or editing files or changing
 skill activation. Apply only the confirmed proposal.
 Bring further material changes back to chat.
 After a change inside a repo that has `bin/save`, run it.
-If the skill needs a tool that is not connected, say so and leave the choice
-of CLI or MCP server to `jacobilicious-audit`.
+If the skill needs a tool that is not connected, say so. Where possible,
+write the skill so that it also works without the tool. Then offer to start
+`jacobilicious-audit` for that 1 tool.
 
 When testing is in scope, use realistic tasks with the actual available
 context and tools. For skills, check both intended invocation and nearby

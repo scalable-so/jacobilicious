@@ -22,6 +22,9 @@ every listed repo that exists on this Mac. If the table is missing, say that
 `/jacobilicious-setup` has not run and audit only the global files and the
 current folder.
 
+If the request is only about choosing or connecting 1 tool, run check 4 for
+that tool only. Skip the other checks and the report file.
+
 ## Checks
 
 ### 1. Setup health, per repo
@@ -34,7 +37,7 @@ current folder.
 - `gh repo view --json visibility -q .visibility` returns `PRIVATE`.
 - `git config core.hooksPath` returns `.githooks`, and `gitleaks` is installed.
 - `CLAUDE.md` imports `AGENTS.md`.
-- Every link in `.claude/skills/` resolves.
+- Every link in `.claude/skills/` and in `~/.claude/skills/` resolves.
 - `people/_index.md` contains the current `git config user.email`, and the
   profile it names exists and holds no `<...>` placeholder.
 - `bin/context-check` reports nothing: every file has an index row, every
@@ -73,6 +76,9 @@ Flag:
   first and lacks `disable-model-invocation: true`.
 - The same skill name in 2 places.
 - A global skill that reads 1 repo's files, or a repo skill that reads none.
+- A self-built global skill that is a real folder in `~/.claude/skills/`
+  while a backup repo exists. Propose moving it to `.agents/global-skills/`
+  and linking it. Skip `jacobilicious-*` skills.
 
 ### 4. MCP servers and CLIs
 
@@ -98,12 +104,19 @@ what changed since then. Ask which fixes to apply: all, some by number, or none.
 
 - Apply only confirmed fixes. Write the new wording of an instruction with
   `jacobilicious-engineer`. Show before and after for every instruction edit.
-- Archive instead of deleting. Move a skill to `~/.claude/skills-archive/`
-  (global) or `.agents/skills/_archive/` (repo) and remove its symlink.
+- Archive instead of deleting. Move a skill to the `_archive/` folder next
+  to it (`.agents/skills/_archive/` or `.agents/global-skills/_archive/`)
+  and remove its symlink. A skill that is a real folder in
+  `~/.claude/skills/` goes to `~/.claude/skills-archive/`.
 - For a public repo, run `gh repo edit <owner>/<name> --visibility private
   --accept-visibility-change-consequences`, then check again.
 - Remove an MCP server with `claude mcp remove <name>` only after the user
   confirmed that exact server.
+- Connect a tool only after the user's yes, and only when you found its
+  official MCP server address or CLI on the vendor's own website in this
+  session. Give the link. If you cannot confirm it, say so and connect
+  nothing. After connecting, check with `claude mcp list`. A browser login
+  is the user's step: say what will open.
 - For a failed health check, run the repo's `bin/setup`, then check again.
 - Save each changed repo with `bin/save "audit: <what>"`.
 - Write the report to `~/.claude/jacobilicious/audits/YYYY-MM-DD.md`.

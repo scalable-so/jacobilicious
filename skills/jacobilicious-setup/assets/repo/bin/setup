@@ -31,6 +31,21 @@ for s in .agents/skills/*/; do
   ln -sfn "../../.agents/skills/$n" ".claude/skills/$n"
 done
 ok "skill links in .claude/skills"
+# Backup repo: global skills live here, ~/.claude/skills holds symlinks to them.
+if [ -d .agents/global-skills ]; then
+  mkdir -p "$HOME/.claude/skills"
+  for s in .agents/global-skills/*/; do
+    [ -d "$s" ] || continue
+    n="$(basename "$s")"; [ "$n" = "_archive" ] && continue
+    t="$HOME/.claude/skills/$n"
+    if [ -L "$t" ] || [ ! -e "$t" ]; then ln -sfn "$REPO/.agents/global-skills/$n" "$t"
+    else warn "$t is a real folder. Not replaced."; fi
+  done
+  ok "global skill links in ~/.claude/skills"
+  if [ ! -e "$HOME/.claude/CLAUDE.md" ] && [ -f .agents/global-claude.md ]; then
+    cp .agents/global-claude.md "$HOME/.claude/CLAUDE.md" && ok "restored ~/.claude/CLAUDE.md from the backup copy"
+  fi
+fi
 
 step "5/5 Hourly autosave"
 if git remote get-url origin >/dev/null 2>&1; then
