@@ -131,7 +131,8 @@ export default function Home() {
               </Reveal>
               <Reveal delay={0.06} className="md:col-span-2">
                 <article className="frame glass flex h-full flex-col justify-end p-6">
-                  <h3 className="h-card">Context</h3>
+                  <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
+                  <h3 className="h-card mt-1">Context</h3>
                   <p className="mt-2 text-mute">
                     Legt Dokumente und Wissen an den richtigen Ort und hält die Verzeichnisse aktuell.
                   </p>
@@ -139,7 +140,8 @@ export default function Home() {
               </Reveal>
               <Reveal delay={0.12} className="md:col-span-2">
                 <article className="frame flex h-full flex-col justify-end p-6">
-                  <h3 className="h-card">Audit</h3>
+                  <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
+                  <h3 className="h-card mt-1">Audit</h3>
                   <p className="mt-2 text-mute">
                     Prüft, ob alles gesichert ist, und findet, was deine Sitzungen langsam macht.
                   </p>
@@ -147,7 +149,10 @@ export default function Home() {
               </Reveal>
               <Reveal delay={0.06} className="md:col-span-6">
                 <article className="frame grid h-full gap-2 p-6 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-10">
-                  <h3 className="h-card">Engineer</h3>
+                  <div>
+                    <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
+                    <h3 className="h-card mt-1">Engineer</h3>
+                  </div>
                   <p className="text-mute">
                     Macht aus einer Aufgabe, die du zum zweiten Mal erklärst, einen Skill oder eine Regel für deinen Agenten.
                   </p>
