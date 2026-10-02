@@ -21,8 +21,8 @@ const gains = [
 ];
 
 const steps = [
-  { n: "01", title: "Zugang holen", text: "Bewerte den Vortrag und trag deine Mail ein." },
-  { n: "02", title: "Installieren", text: "Öffne den Link auf deinem Mac und starte die Installation." },
+  { n: "01", title: "Zugang holen", text: "Bewerte den Vortrag und trag deine E-Mail-Adresse ein." },
+  { n: "02", title: "Installieren", text: "Lade das Paket auf deinem Mac und starte die Installation." },
   { n: "03", title: "Setup tippen", text: "Ein Befehl in Claude Code führt dich durch den Rest." },
 ];
 
@@ -67,7 +67,10 @@ export default function Home() {
           <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 pb-14 pt-8 sm:px-8 md:grid-cols-[1.25fr_1fr] md:pb-20 md:pt-14">
             <div>
               <p className="label">Für Unternehmer am Mac</p>
-              <h1 className="h-hero mt-5 max-w-[11ch]">Ein Agent, der dein Business kennt.</h1>
+              <h1 lang="en" className="h-hero mt-5">
+                <span className="block max-w-[11ch]">An agent setup built to scale.</span>
+                <span className="block text-mute">Finally.</span>
+              </h1>
               <p className="lede mt-6 max-w-[34ch]">
                 Jacobilicious richtet Claude Code auf deinem Mac ein. Danach weiß der Agent, wer du bist und wo jedes
                 Dokument liegt.

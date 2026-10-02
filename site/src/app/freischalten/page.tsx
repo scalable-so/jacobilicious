@@ -2,8 +2,8 @@ import { DownloadSimple } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Cta } from "@/components/Cta";
-import { LINK_DAYS, MAX_DOWNLOADS } from "@/lib/config";
-import { getRequest, saveRequest } from "@/lib/store";
+import { MAX_DOWNLOADS } from "@/lib/config";
+import { getRequest } from "@/lib/store";
 import { readToken } from "@/lib/token";
 
 export const metadata: Metadata = { title: "Dein Zugang | Jacobilicious" };
@@ -24,21 +24,7 @@ export default async function Freischalten({ searchParams }: PageProps<"/freisch
   const token = typeof params.t === "string" ? params.t : "";
   const id = readToken(token, "dl");
   const rec = id ? await getRequest(id) : null;
-  const open = rec && (rec.status === "verify" || rec.status === "approved");
-
-  if (rec && open) {
-    // Opening the link proves the mail address. The first visit turns "verify" into "approved".
-    const now = new Date().toISOString();
-    if (rec.status === "verify" || !rec.verifiedAt) {
-      if (rec.status === "verify") {
-        rec.status = "approved";
-        rec.decidedBy = "auto";
-        rec.decidedAt = now;
-      }
-      rec.verifiedAt ??= now;
-      await saveRequest(rec);
-    }
-  }
+  const open = rec?.status === "approved";
 
   return (
     <div className="glass min-h-[100dvh]">
@@ -51,7 +37,7 @@ export default async function Freischalten({ searchParams }: PageProps<"/freisch
         {!rec || !open ? (
           <div className="frame p-6 sm:p-9">
             <h1 className="h-section">Dieser Link gilt nicht mehr.</h1>
-            <p className="lede mt-4">Er ist abgelaufen oder wurde gesperrt. Frag einen neuen an.</p>
+            <p className="lede mt-4">Er ist abgelaufen oder wurde gesperrt. Öffne deinen Zugang neu mit deiner E-Mail-Adresse.</p>
             <Cta className="mt-8" />
           </div>
         ) : (
@@ -60,18 +46,18 @@ export default async function Freischalten({ searchParams }: PageProps<"/freisch
             <h1 className="h-section mt-4">Willkommen, {rec.name}.</h1>
             {rec.downloads >= MAX_DOWNLOADS ? (
               <p className="lede mt-4">
-                Du hast das Paket schon {MAX_DOWNLOADS} Mal geladen. Mehr geht mit diesem Link nicht. Schreib Jacob, wenn
-                du es noch einmal brauchst.
+                Du hast das Paket schon {MAX_DOWNLOADS} Mal geladen. Mehr geht nicht. Schreib Jacob, wenn du es noch einmal
+                brauchst.
               </p>
             ) : (
               <>
                 <p className="lede mt-4">
-                  Lade das Paket auf deinem Mac. Der Link gilt {LINK_DAYS} Tage und noch für{" "}
-                  {MAX_DOWNLOADS - rec.downloads} {MAX_DOWNLOADS - rec.downloads === 1 ? "Download" : "Downloads"}.
+                  Lade das Paket auf deinem Mac. Du hast noch {MAX_DOWNLOADS - rec.downloads}{" "}
+                  {MAX_DOWNLOADS - rec.downloads === 1 ? "Download" : "Downloads"}.
                 </p>
                 {params.e === "limit" && (
                   <p role="alert" className="mt-4 rounded-lg bg-canvas px-4 py-3 font-medium">
-                    Das Limit für diesen Link ist erreicht.
+                    Das Limit ist erreicht.
                   </p>
                 )}
                 <form method="post" action="/api/download" className="mt-8">

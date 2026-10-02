@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { CopyLink } from "@/components/CopyLink";
 import { isAdmin } from "@/lib/admin";
-import { LINK_DAYS, MAX_DOWNLOADS, accessMode, adminPin, eventCode, mailReady } from "@/lib/config";
+import { LINK_DAYS, MAX_DOWNLOADS, accessMode, adminPin, eventCode } from "@/lib/config";
 import type { Status } from "@/lib/decision";
 import { originOf } from "@/lib/origin";
 import { listRequests } from "@/lib/store";
@@ -14,7 +14,6 @@ export const metadata: Metadata = { title: "Admin | Jacobilicious" };
 export const dynamic = "force-dynamic";
 
 const statusLabel: Record<Status, string> = {
-  verify: "Mail offen",
   waitlist: "Wartet",
   approved: "Freigegeben",
   rejected: "Gesperrt",
@@ -97,8 +96,8 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
       </dl>
 
       <p className="mt-5 text-[0.9rem] text-mute">
-        Modus: {accessMode() === "auto" ? "Ab 8 Punkten geht der Link sofort per Mail raus." : "Du gibst jeden Zugang selbst frei."}{" "}
-        {mailReady() ? "Mail-Versand ist aktiv." : "Kein Mail-Versand eingerichtet: kopiere den Link und schick ihn selbst."}{" "}
+        Modus: {accessMode() === "auto" ? "Ab 8 Punkten ist der Zugang sofort offen. Darunter entscheidest du." : "Du gibst jeden Zugang selbst frei."}{" "}
+        Freigegebene öffnen das Paket auf der Seite mit ihrer E-Mail-Adresse. Den Link kannst du zusätzlich selbst schicken.{" "}
         {eventCode() ? "Der Code vom Vortrag ist Pflicht." : "Es ist kein Code vom Vortrag gesetzt."}
       </p>
 
@@ -123,7 +122,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {(r.status === "approved" || r.status === "verify") && <CopyLink link={link} />}
+                  {r.status === "approved" && <CopyLink link={link} />}
                   {r.status !== "approved" && (
                     <form action={approve}>
                       <input type="hidden" name="id" value={r.id} />

@@ -10,7 +10,7 @@ const cell = (v: unknown) => {
 
 export async function GET() {
   if (!(await isAdmin())) return new Response("Not found", { status: 404 });
-  const cols = ["createdAt", "name", "email", "rating", "feedback", "updates", "status", "decidedBy", "verifiedAt", "downloads", "lastDownloadAt"] as const;
+  const cols = ["createdAt", "name", "email", "rating", "feedback", "updates", "status", "decidedBy", "decidedAt", "downloads", "lastDownloadAt"] as const;
   const rows = (await listRequests()).map((r) => cols.map((c) => cell(r[c])).join(","));
   return new Response([cols.join(","), ...rows].join("\n"), {
     headers: {

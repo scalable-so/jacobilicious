@@ -1,8 +1,6 @@
 import { z } from "zod";
-import { LINK_DAYS, MAX_MAILS, accessMode, eventCode, mailReady, previewMail } from "@/lib/config";
+import { LINK_DAYS, accessMode, eventCode } from "@/lib/config";
 import { firstStatus, outcomeFor } from "@/lib/decision";
-import { accessMail, ownerMail, sendMail } from "@/lib/mail";
-import { originOf } from "@/lib/origin";
 import { type AccessRequest, getRequest, saveRequest } from "@/lib/store";
 import { idForEmail, signToken } from "@/lib/token";
 
@@ -31,7 +29,6 @@ export async function POST(req: Request) {
 
   const id = idForEmail(input.email);
   const existing = await getRequest(id);
-  const canMail = mailReady() || previewMail();
 
   // The first request counts. Asking again with a better rating changes nothing.
   const rec: AccessRequest = existing ?? {
@@ -42,33 +39,18 @@ export async function POST(req: Request) {
     rating: input.rating,
     feedback: input.feedback,
     updates: input.updates,
-    status: firstStatus(input.rating, accessMode(), canMail),
-    mailsSent: 0,
+    status: firstStatus(input.rating, accessMode()),
     downloads: 0,
   };
-
-  const origin = originOf(req);
-  let preview: { subject: string; text: string; link: string } | undefined;
-
-  if ((rec.status === "verify" || rec.status === "approved") && rec.mailsSent < MAX_MAILS) {
-    const link = `${origin}/freischalten?t=${signToken("dl", rec.id, LINK_DAYS * 86400)}`;
-    const mail = accessMail(rec, link);
-    if (previewMail()) {
-      preview = { subject: mail.subject, text: mail.text, link };
-      rec.mailsSent += 1;
-    } else if (await sendMail(mail)) {
-      rec.mailsSent += 1;
-    } else if (!existing) {
-      rec.status = "waitlist"; // the mail did not go out, so Jacob decides by hand
-    }
-  }
-
-  await saveRequest(rec);
-
   if (!existing) {
-    const note = ownerMail(rec, `${origin}/admin`);
-    if (note) await sendMail(note);
+    if (rec.status === "approved") {
+      rec.decidedBy = "auto";
+      rec.decidedAt = rec.createdAt;
+    }
+    await saveRequest(rec);
   }
 
-  return Response.json({ outcome: outcomeFor(rec.status, rec.rating), preview });
+  const outcome = outcomeFor(rec.status, rec.rating);
+  const link = outcome === "open" ? `/freischalten?t=${signToken("dl", rec.id, LINK_DAYS * 86400)}` : undefined;
+  return Response.json({ outcome, link });
 }

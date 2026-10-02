@@ -18,8 +18,6 @@ export type AccessRequest = {
   status: Status;
   decidedBy?: "auto" | "owner";
   decidedAt?: string;
-  verifiedAt?: string; // first time the personal link was opened
-  mailsSent: number;
   downloads: number;
   lastDownloadAt?: string;
 };

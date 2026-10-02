@@ -1,12 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ADMIN_COOKIE, ADMIN_DAYS, isAdmin } from "@/lib/admin";
-import { LINK_DAYS, MAX_MAILS, adminPin } from "@/lib/config";
-import { accessMail, sendMail } from "@/lib/mail";
-import { originOf } from "@/lib/origin";
+import { adminPin } from "@/lib/config";
 import { getRequest, saveRequest } from "@/lib/store";
 import { samePin, signToken } from "@/lib/token";
 
@@ -30,7 +28,7 @@ export async function logout() {
   redirect("/admin");
 }
 
-/** Approve: the person gets the personal link by mail, when a mail provider is set up. */
+/** Approve: the address may now open the package on the site. */
 export async function approve(form: FormData) {
   if (!(await isAdmin())) redirect("/admin");
   const rec = await getRequest(String(form.get("id") ?? ""));
@@ -38,15 +36,11 @@ export async function approve(form: FormData) {
   rec.status = "approved";
   rec.decidedBy = "owner";
   rec.decidedAt = new Date().toISOString();
-  if (rec.mailsSent < MAX_MAILS) {
-    const link = `${originOf(await headers())}/freischalten?t=${signToken("dl", rec.id, LINK_DAYS * 86400)}`;
-    if (await sendMail(accessMail(rec, link))) rec.mailsSent += 1;
-  }
   await saveRequest(rec);
   revalidatePath("/admin");
 }
 
-/** Reject or revoke: every link of this person stops working. No mail goes out. */
+/** Reject or revoke: the address and every link of this person stop working. */
 export async function reject(form: FormData) {
   if (!(await isAdmin())) redirect("/admin");
   const rec = await getRequest(String(form.get("id") ?? ""));

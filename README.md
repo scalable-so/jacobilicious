@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.png" alt="Jacobilicious: Ein Agent, der dein Business kennt." width="100%">
+  <img src="assets/banner.png" alt="Jacobilicious: An agent setup built to scale. Finally." width="100%">
 </p>
 
 # Jacobilicious

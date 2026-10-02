@@ -9,17 +9,17 @@ beforeAll(() => {
 });
 
 describe("firstStatus", () => {
-  it("sends the link at once from 8 points when mail works", () => {
-    expect(firstStatus(8, "auto", true)).toBe("verify");
-    expect(firstStatus(10, "auto", true)).toBe("verify");
+  it("opens access at once from 8 points", () => {
+    expect(firstStatus(8, "auto")).toBe("approved");
+    expect(firstStatus(10, "auto")).toBe("approved");
   });
   it("puts 7 and below on the waitlist", () => {
-    expect(firstStatus(7, "auto", true)).toBe("waitlist");
-    expect(firstStatus(1, "auto", true)).toBe("waitlist");
+    expect(firstStatus(7, "auto")).toBe("waitlist");
+    expect(firstStatus(1, "auto")).toBe("waitlist");
   });
-  it("waits for Jacob in manual mode or without mail", () => {
-    expect(firstStatus(10, "manual", true)).toBe("waitlist");
-    expect(firstStatus(10, "auto", false)).toBe("waitlist");
+  it("waits for Jacob in manual mode", () => {
+    expect(firstStatus(10, "manual")).toBe("waitlist");
+    expect(firstStatus(5, "manual")).toBe("waitlist");
   });
 });
 
@@ -27,8 +27,8 @@ describe("outcomeFor", () => {
   it("tells a high rating that waits the plain reason", () => {
     expect(outcomeFor("waitlist", 9)).toBe("review");
     expect(outcomeFor("waitlist", 5)).toBe("waitlist");
-    expect(outcomeFor("verify", 9)).toBe("mail");
-    expect(outcomeFor("approved", 5)).toBe("mail");
+    expect(outcomeFor("approved", 9)).toBe("open");
+    expect(outcomeFor("approved", 5)).toBe("open");
     expect(outcomeFor("rejected", 9)).toBe("closed");
   });
 });
@@ -71,7 +71,6 @@ describe("zip", () => {
       feedback: "",
       updates: false,
       status: "approved",
-      mailsSent: 1,
       downloads: 0,
     };
     const out = unzipSync(buildZip(rec, new Date("2026-10-02T10:00:00Z")));

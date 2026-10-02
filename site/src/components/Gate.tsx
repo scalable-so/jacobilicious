@@ -1,20 +1,20 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Check, EnvelopeSimple, Eye } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, Check, LockKeyOpen } from "@phosphor-icons/react";
 import { type FormEvent, useEffect, useState } from "react";
 import { storedCode } from "./Cta";
 
-type Outcome = "mail" | "waitlist" | "review" | "closed";
-type Preview = { subject: string; text: string; link: string };
+type Outcome = "open" | "waitlist" | "review" | "closed";
 
 const errors: Record<string, string> = {
   code: "Der Code stimmt nicht. Er steht auf Jacobs Folie.",
   input: "Bitte prüfe Name und E-Mail-Adresse.",
   net: "Das hat nicht geklappt. Bitte versuch es noch einmal.",
+  none: "Für diese Adresse ist noch kein Zugang offen.",
 };
 
 export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode: boolean }) {
-  const [step, setStep] = useState<"rate" | "details" | "done">("rate");
+  const [step, setStep] = useState<"rate" | "details" | "enter" | "done">("rate");
   const [rating, setRating] = useState<number | null>(null);
   const [feedback, setFeedback] = useState("");
   const [name, setName] = useState("");
@@ -26,7 +26,7 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
-  const [preview, setPreview] = useState<Preview | null>(null);
+  const [link, setLink] = useState<string | null>(null);
 
   useEffect(() => {
     const k = storedCode();
@@ -53,7 +53,7 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
         if (data.error === "code") setHasCode(false);
       } else {
         setOutcome(data.outcome);
-        setPreview(data.preview ?? null);
+        setLink(data.link ?? null);
         setStep("done");
       }
     } catch {
@@ -63,13 +63,43 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
     }
   }
 
-  if (step === "done" && outcome) return <Done outcome={outcome} email={email} preview={preview} />;
+  // Coming back: an approved address opens its package without a new request.
+  async function enter(e: FormEvent) {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/enter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) setError(errors.input);
+      else if (data.outcome === "open" && data.link) window.location.assign(data.link);
+      else setError(errors.none);
+    } catch {
+      setError(errors.net);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const go = (to: "rate" | "details" | "enter") => {
+    setError(null);
+    setStep(to);
+  };
+
+  if (step === "done" && outcome) return <Done outcome={outcome} email={email} link={link} />;
 
   return (
     <div className="frame p-6 sm:p-9">
-      <p className="label" aria-live="polite">
-        {step === "rate" ? "Frage 1 von 2" : "Frage 2 von 2"}
-      </p>
+      {step !== "enter" && (
+        <p className="label" aria-live="polite">
+          {step === "rate" ? "Frage 1 von 2" : "Frage 2 von 2"}
+        </p>
+      )}
 
       {step === "rate" && (
         <div>
@@ -109,7 +139,7 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
               />
               <button
                 type="button"
-                onClick={() => setStep("details")}
+                onClick={() => go("details")}
                 className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-semibold tracking-[-0.02em] text-white hover:bg-neutral-800"
               >
                 Weiter
@@ -117,7 +147,51 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
               </button>
             </div>
           )}
+          <button type="button" onClick={() => go("enter")} className="mt-8 block text-[0.95rem] text-mute underline underline-offset-4 hover:text-ink">
+            Schon angefragt? Zugang öffnen
+          </button>
         </div>
+      )}
+
+      {step === "enter" && (
+        <form onSubmit={enter}>
+          <h1 className="h-section">Zugang öffnen.</h1>
+          <p className="lede mt-4">Gib die E-Mail-Adresse ein, mit der du angefragt hast.</p>
+          <label htmlFor="enter-email" className="mt-8 block font-semibold tracking-[-0.02em]">
+            E-Mail-Adresse
+          </label>
+          <input
+            id="enter-email"
+            type="email"
+            required
+            maxLength={200}
+            autoComplete="email"
+            inputMode="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="du@firma.de"
+            className="field mt-2"
+          />
+          {error && (
+            <p role="alert" className="mt-5 rounded-lg bg-canvas px-4 py-3 font-medium">
+              {error}
+            </p>
+          )}
+          <div className="mt-7 flex flex-wrap items-center gap-4">
+            <button
+              type="submit"
+              disabled={busy}
+              className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-semibold tracking-[-0.02em] text-white hover:bg-neutral-800 disabled:opacity-60"
+            >
+              {busy ? "Einen Moment" : "Öffnen"}
+              {!busy && <ArrowRight size={18} weight="bold" aria-hidden />}
+            </button>
+            <button type="button" onClick={() => go("rate")} className="inline-flex items-center gap-1.5 text-[0.95rem] text-mute hover:text-ink">
+              <ArrowLeft size={16} aria-hidden />
+              Zurück
+            </button>
+          </div>
+        </form>
       )}
 
       {step === "details" && (
@@ -182,13 +256,13 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
               {busy ? "Einen Moment" : "Zugang anfragen"}
               {!busy && <ArrowRight size={18} weight="bold" aria-hidden />}
             </button>
-            <button type="button" onClick={() => setStep("rate")} className="inline-flex items-center gap-1.5 text-[0.95rem] text-mute hover:text-ink">
+            <button type="button" onClick={() => go("rate")} className="inline-flex items-center gap-1.5 text-[0.95rem] text-mute hover:text-ink">
               <ArrowLeft size={16} aria-hidden />
               Zurück
             </button>
           </div>
           <p className="mt-6 text-[0.85rem] leading-relaxed text-mute">
-            Deine Angaben gehen an Jacob. Er nutzt sie, um dir den Zugang zu schicken und dein Feedback zu lesen.{" "}
+            Deine Angaben gehen an Jacob. Er nutzt sie, um dir den Zugang zu geben und dein Feedback zu lesen.{" "}
             <a href={privacyUrl} className="underline underline-offset-2 hover:text-ink">
               Datenschutz
             </a>
@@ -199,30 +273,26 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
   );
 }
 
-function Done({ outcome, email, preview }: { outcome: Outcome; email: string; preview: Preview | null }) {
-  if (outcome === "mail") {
+function Done({ outcome, email, link }: { outcome: Outcome; email: string; link: string | null }) {
+  const [host, setHost] = useState("");
+  useEffect(() => setHost(window.location.host), []);
+
+  if (outcome === "open") {
     return (
       <div className="frame p-6 sm:p-9" aria-live="polite">
         <span className="disc disc-ink h-12 w-12">
-          <EnvelopeSimple size={22} aria-hidden />
+          <LockKeyOpen size={22} aria-hidden />
         </span>
-        <h1 className="h-section mt-6">Schau in dein Postfach.</h1>
+        <h1 className="h-section mt-6">Du bist drin.</h1>
         <p className="lede mt-4">
-          Dein persönlicher Link ist unterwegs an <span className="text-ink">{email}</span>. Öffne ihn auf deinem Mac.
+          Das Paket lädst du auf deinem Mac. Öffne dort <span className="text-ink">{host}</span> und gib{" "}
+          <span className="inline-block max-w-full text-ink [overflow-wrap:anywhere]">{email}</span> ein.
         </p>
-        {preview && (
-          <div className="mt-8 rounded-xl border border-dashed border-faint p-5">
-            <p className="label flex items-center gap-2">
-              <Eye size={14} aria-hidden />
-              Mail-Vorschau, nur in der Testumgebung
-            </p>
-            <p className="mt-3 font-semibold tracking-[-0.02em]">{preview.subject}</p>
-            <pre className="mt-2 whitespace-pre-wrap break-words font-sans text-[0.95rem] text-mute">{preview.text}</pre>
-            <a href={preview.link} className="mt-4 inline-flex items-center gap-2 font-semibold underline underline-offset-4">
-              Link öffnen
-              <ArrowRight size={16} weight="bold" aria-hidden />
-            </a>
-          </div>
+        {link && (
+          <a href={link} className="spark mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold tracking-[-0.02em]">
+            Ich bin am Mac
+            <ArrowRight size={18} weight="bold" aria-hidden />
+          </a>
         )}
       </div>
     );
@@ -272,7 +342,8 @@ function Done({ outcome, email, preview }: { outcome: Outcome; email: string; pr
         {waitlist
           ? "Du stehst auf der Warteliste. Jacob liest dein Feedback und entscheidet dann, ob er das Paket für dich freigibt."
           : "Jacob gibt jeden Zugang selbst frei."}{" "}
-        Bei einer Freigabe kommt dein Link an <span className="inline-block max-w-full text-ink [overflow-wrap:anywhere]">{email}</span>
+        Nach der Freigabe öffnest du es hier mit{" "}
+        <span className="inline-block max-w-full text-ink [overflow-wrap:anywhere]">{email}</span>
       </p>
     </div>
   );
