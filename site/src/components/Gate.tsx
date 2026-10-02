@@ -2,39 +2,27 @@
 
 import { ArrowLeft, ArrowRight, Check, LockKeyOpen } from "@phosphor-icons/react";
 import { type FormEvent, useEffect, useState } from "react";
-import { storedCode } from "./Cta";
 
 type Outcome = "open" | "waitlist" | "review" | "closed";
 
 const errors: Record<string, string> = {
-  code: "Der Code stimmt nicht. Er steht auf Jacobs Folie.",
   input: "Bitte prüfe Name und E-Mail-Adresse.",
   net: "Das hat nicht geklappt. Bitte versuch es noch einmal.",
   none: "Für diese Adresse ist noch kein Zugang offen.",
 };
 
-export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode: boolean }) {
+export function Gate({ privacyUrl }: { privacyUrl: string }) {
   const [step, setStep] = useState<"rate" | "details" | "enter" | "done">("rate");
   const [rating, setRating] = useState<number | null>(null);
   const [feedback, setFeedback] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
-  const [hasCode, setHasCode] = useState(false);
   const [updates, setUpdates] = useState(false);
   const [website, setWebsite] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [link, setLink] = useState<string | null>(null);
-
-  useEffect(() => {
-    const k = storedCode();
-    if (k) {
-      setCode(k);
-      setHasCode(true);
-    }
-  }, []);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -45,12 +33,11 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
       const res = await fetch("/api/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, rating, feedback, code, updates, website }),
+        body: JSON.stringify({ name, email, rating, feedback, updates, website }),
       });
       const data = await res.json();
       if (!res.ok) {
         setError(errors[data.error] ?? errors.net);
-        if (data.error === "code") setHasCode(false);
       } else {
         setOutcome(data.outcome);
         setLink(data.link ?? null);
@@ -222,15 +209,6 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
                 className="field mt-2"
               />
             </div>
-            {needsCode && !hasCode && (
-              <div>
-                <label htmlFor="code" className="block font-semibold tracking-[-0.02em]">
-                  Code vom Vortrag
-                </label>
-                <input id="code" required maxLength={64} autoCapitalize="characters" value={code} onChange={(e) => setCode(e.target.value)} className="field mt-2 font-mono uppercase" />
-                <p className="mt-1.5 text-[0.9rem] text-mute">Er steht auf Jacobs Folie.</p>
-              </div>
-            )}
             {/* honeypot: hidden from people, bots fill it */}
             <div className="hidden" aria-hidden>
               <label htmlFor="website">Website</label>

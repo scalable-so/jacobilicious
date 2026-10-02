@@ -1,7 +1,7 @@
 import { Plus } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
-import { Cta, KeepCode } from "@/components/Cta";
+import { Cta } from "@/components/Cta";
 import { Reveal } from "@/components/Reveal";
 import { legal } from "@/lib/config";
 
@@ -22,7 +22,7 @@ const gains = [
 
 const steps = [
   { n: "01", title: "Zugang holen", text: "Bewerte den Vortrag und trag deine E-Mail-Adresse ein." },
-  { n: "02", title: "Installieren", text: "Lade das Paket auf deinem Mac und starte die Installation." },
+  { n: "02", title: "Installieren", text: "Lade das Paket auf deinem Mac. Claude Code installiert es mit 1 Prompt." },
   { n: "03", title: "Setup tippen", text: "Ein Befehl in Claude Code führt dich durch den Rest." },
 ];
 
@@ -48,7 +48,6 @@ const faqs = [
 export default function Home() {
   return (
     <>
-      <KeepCode />
       <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link href="/" className="text-[1.15rem] font-semibold tracking-[-0.05em]">
           Jacobilicious

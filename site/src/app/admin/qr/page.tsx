@@ -3,20 +3,16 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import QRCode from "qrcode";
 import { isAdmin } from "@/lib/admin";
-import { eventCode } from "@/lib/config";
 import { originOf } from "@/lib/origin";
 
 export const metadata: Metadata = { title: "QR-Folie | Jacobilicious" };
 export const dynamic = "force-dynamic";
 
 // One 16:9 frame for the talk. Open it full screen or take a screenshot for the deck.
-// The QR link carries the event code, so people who scan never type it.
 export default async function QrSlide() {
   if (!(await isAdmin())) redirect("/admin");
   const origin = originOf(await headers());
-  const code = eventCode();
-  const url = code ? `${origin}/?k=${encodeURIComponent(code)}` : origin;
-  const svg = await QRCode.toString(url, { type: "svg", margin: 0, errorCorrectionLevel: "M" });
+  const svg = await QRCode.toString(origin, { type: "svg", margin: 0, errorCorrectionLevel: "M" });
   const host = origin.replace(/^https?:\/\//, "");
 
   return (
@@ -28,12 +24,6 @@ export default async function QrSlide() {
             <h1 className="mt-[1.6cqw] text-[6.8cqw] font-semibold leading-none tracking-[-0.055em]">Scannen. Bewerten. Loslegen.</h1>
             <p className="mt-[2.6cqw] text-[2.2cqw] leading-tight tracking-[-0.03em] text-mute">
               {host}
-              {code && (
-                <>
-                  <br />
-                  Code: <span className="font-mono text-ink">{code}</span>
-                </>
-              )}
             </p>
           </div>
           <div className="frame justify-self-end p-[2.2cqw] [--u:1.6cqw]">
