@@ -1,6 +1,6 @@
 ---
 name: jacobilicious-engineer
-description: "Start when the user wants a new skill, wants a repeated task turned into a skill, or wants a skill, CLAUDE.md, AGENTS.md, or a prompt written, reviewed, or changed. Start when a skill does not start, starts at the wrong time, or should be archived. Start when the user says the agent keeps getting something wrong and a rule should fix it."
+description: "Start whenever you are about to write or change text that an agent will read as instructions: a skill or its reference and data files, a rule in CLAUDE.md or AGENTS.md, a prompt, a command, a brief for a subagent, or a test or eval for any of these. Start when the user wants a new skill or a repeated task turned into a skill. Start when a skill does not start, starts at the wrong time, or should be archived, or when the agent keeps getting something wrong and a rule should fix it."
 ---
 
 # Jacobilicious engineer
@@ -41,8 +41,9 @@ it does not depend on an unresolved decision.
 Before designing the approach, explain your understanding in chat and
 surface unclear decisions and meaningful optimization options.
 
-Ask short multiple-choice questions. Give 2 or 3 options, recommend
-1 with a brief reason, and allow a different answer. Use the available
+For a decision, ask a short multiple-choice question. Give 2 or 3 options,
+recommend 1 with a brief reason, and allow a different answer. Ask a
+question of fact plainly, without options. Use the available
 question tool; if it is unavailable, present the choices in chat.
 
 Reuse decisions already confirmed in the conversation. Wait for answers
@@ -70,6 +71,8 @@ Choose instructions using these rules:
   a specified result, according to the execution setting.
 - Use code and schemas for checks they can enforce reliably.
 - Keep decisions open when several approaches satisfy the task.
+- Put a number, limit, or time range into an instruction only when the human
+  gave or confirmed it.
 
 Use an example only when it:
 
@@ -151,6 +154,9 @@ changes to behavior or authority. Name unresolved assumptions.
 Wait for human confirmation before creating or editing files or changing
 skill activation. Apply only the confirmed proposal.
 Bring further material changes back to chat.
+After a change inside a repo that has `bin/save`, run it.
+If the skill needs a tool that is not connected, say so and leave the choice
+of CLI or MCP server to `jacobilicious-audit`.
 
 When testing is in scope, use realistic tasks with the actual available
 context and tools. For skills, check both intended invocation and nearby

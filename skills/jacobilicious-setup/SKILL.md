@@ -19,7 +19,8 @@ voice in chat. If the file is missing, use a plain, friendly tone.
 - Assume no technical knowledge. Explain a new term in half a sentence.
   Example: a repo is a folder with full history, saved on GitHub.
 - Send 1 step per message.
-- Number your questions. Give 2 or 3 options and recommend 1.
+- Number your questions. For a decision, give 2 or 3 options and recommend 1.
+  Ask a question of fact plainly, without options.
 - Never ask for a password or token in chat.
 
 ## Explain every step
@@ -41,8 +42,11 @@ State only benefits named in this file. Do not add numbers or promises.
 2. Check that you can write to the home folder. If you cannot, stop and tell
    the user to run Claude Code as the desktop app or in the terminal, not in the web.
 3. Read `~/.claude/jacobilicious/setup-state.md` if it exists and continue at
-   the first open step. Update this file after every finished step with the
-   user's answers and the step status.
+   the first open step. Update this file after every answer and every finished
+   substep. It holds the answers so far, the finished steps, and the next step.
+
+If the user wants to stop, save the state and say that typing
+`/jacobilicious-setup` again continues at the same point.
 
 ## Steps
 
@@ -50,15 +54,25 @@ Follow this order. Each step needs the result of the one before.
 
 ### 1. Welcome
 
-Tell the user what they will have at the end, name the 8 steps that follow,
-and say that the setup can pause and resume at any point.
+First ask which language the user wants for chat and for generated files.
+Use the language the user wrote in until you have the answer.
+
+Then tell the user what they will have at the end, name the 8 steps that
+follow, and say that the setup can pause and resume at any point.
 
 Why: A person who knows the route follows it with less doubt.
 
 ### 2. Inspect the Mac
 
-Check: `~/.claude/CLAUDE.md`, an existing repositories folder, `brew`, `git`, `gh`,
-`gitleaks`, `gh auth status`, and whether a PDF skill is available in this session.
+Check:
+
+- `~/.claude/CLAUDE.md` and folders such as `~/Repositories`, `~/Code`, or
+  `~/Projects` that already hold repos.
+- `brew`, `git`, `gh`, `gitleaks` with `command -v`. `poppler`, `tesseract`,
+  `tesseract-lang`, `ocrmypdf` with `brew list <name>`.
+- `gh auth status`.
+- Whether the skill list of this session holds a skill named `pdf`.
+
 Report what exists and what is missing in 1 short list.
 
 Why: Nothing that exists gets overwritten, and the user is not asked what the
@@ -66,15 +80,19 @@ Mac can answer.
 
 ### 3. Interview
 
-Ask only what step 2 did not answer. Ask 1 topic per message.
+Ask only what step 2 did not answer. Ask 1 topic per message. Ask a question
+of fact plainly, without options. If step 2 answered part of a question, say
+what you found and ask only for the rest.
 
-1. Language for chat and for generated files.
-2. Name, role, and how the user works (typing or voice input).
-3. The business: what it sells and to whom. How many legal companies, and their names.
+1. Name, role, email address, and how the user works (typing or voice input).
+2. The business: what it sells and to whom. The names of its products or
+   offers. How many legal companies, and their names.
+3. Marketing channels in use.
 4. Team: solo or team. Who needs access to what.
 5. The 3 goals for the next 90 days that this workspace should support.
 6. Tools used daily: email, calendar, bookkeeping, documents.
-7. Limits: what the agent must never do without asking.
+7. Tone: short and factual, or warm and detailed.
+8. Limits: what the agent must never do without asking.
    Default: send, pay, sign, delete.
 
 Then repeat the answers in 5 to 8 lines and get a confirmation.
@@ -89,7 +107,10 @@ Read `references/blueprints.md`.
 
 - Recommend 3 repos: business, confidential, private. The user may choose 2 or 1.
 - Default root folder: `~/Repositories`.
-- Propose names and folders. Show the full tree and get a confirmation.
+- Repo names are lowercase with hyphens: `<company>`, `<company>-confidential`,
+  `<firstname>-private`.
+- Propose names and folders. Show the full tree and how it serves the user's
+  3 goals. Get a confirmation.
 
 Why 3 repos: GitHub gives access per repo, not per folder. Separate repos are
 the only way to let a team read marketing while tax and private files stay hidden.
@@ -126,7 +147,8 @@ Then create the others the same way. An error then shows up once, not 3 times.
 2. Copy `assets/repo/` into it, including hidden files and folders.
 3. Fill `AGENTS.md` from its template in the user's language.
 4. Create each folder from the plan with an `_INDEX.md`.
-5. Write the user's profile to `people/<name>.md` from `people/_template.md`
+5. Write the user's profile to `people/<firstname>.md` (lowercase, ASCII)
+   from `people/_template.md`
    and add the row to `people/_index.md`.
 6. Write 1 start context file from the interview, following
    `.agents/conventions/context-files.md`: the company file in the business
@@ -139,7 +161,7 @@ Then create the others the same way. An error then shows up once, not 3 times.
 10. Run `bin/setup`. It links skills and loads the hourly autosave.
     The autosave needs the GitHub copy, so this comes after substep 9.
 11. Check:
-    - `gh repo view --json visibility` returns `PRIVATE`.
+    - `gh repo view --json visibility -q .visibility` returns `PRIVATE`.
     - `bin/save "setup check"` ends without error and `git status` is clean.
     - `launchctl list` shows the repo's autosave job.
     - `git config core.hooksPath` returns `.githooks`.
@@ -178,6 +200,7 @@ If no PDF skill is available in this session, run
 `claude plugin marketplace add anthropics/skills` and
 `claude plugin install document-skills@anthropic-agent-skills`.
 If a command fails, show the error and continue. PDF work is optional for setup.
+The skill shows up only in a new session. List it as an open item to check.
 
 Why: Most business documents arrive as PDF. With this skill the agent reads,
 fills, and merges them.
@@ -193,8 +216,11 @@ Tell the user:
   indexes current, `jacobilicious-engineer` builds skills,
   `jacobilicious-audit` checks the setup.
 - The acceptance test: open the business repo in a new session and ask
-  "Who am I, and where does a new contract go?"
+  "Who am I, and where does a new contract go?" The right answer names the
+  user and the contract folder in the repo that holds contracts.
 - Open items, if any.
+
+Why: The user sees proof that it works and knows what to do next.
 
 ## Join mode
 

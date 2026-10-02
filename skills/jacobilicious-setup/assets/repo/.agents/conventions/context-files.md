@@ -18,6 +18,7 @@ Raw documents (PDF, CSV, contracts, exports) carry none.
 - `summary` is the most important field. 1 sentence that answers "why open this?".
 - `type` and `status` use only the values below.
 - Bump `updated` when the content changes.
+- Put a value that contains a colon in double quotes.
 - `last_verified` is optional. Use it for facts that expire (deadlines,
   amounts, terms). Older than 60 days means: check against the source.
 

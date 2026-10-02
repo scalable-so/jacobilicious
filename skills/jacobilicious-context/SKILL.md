@@ -18,7 +18,8 @@ voice in chat. If the file is missing, use a plain, friendly tone.
 Apply the "Keep or drop" section of the repo's `AGENTS.md`. If the repo has
 none, keep only what someone will need after this session.
 
-If the item is a drop, say so in 1 line and stop. Scratch work goes to `/tmp/`.
+If the item is a drop, say so in 1 line and do not save it. Then continue
+with the user's task. Scratch work goes to `/tmp/`.
 
 ## What you may change
 
@@ -51,24 +52,38 @@ Pick the job that fits. A request can need more than 1.
    in `~/.claude/CLAUDE.md`. The Structure table in that repo's `AGENTS.md`
    decides the folder.
    - If no folder fits, say so and leave the file where it is.
+   - If the target repo is not the current one, run its `bin/context-check`
+     first and repair what it lists.
+   - When 3 or more files in a folder share a topic, propose a subfolder in
+     the plan table. A new subfolder gets an `_INDEX.md` and a row in its
+     parent's `_INDEX.md`.
    - If 2 folders fit, ask with those 2 plus "elsewhere". Say which you
      would pick and why.
 4. Name it. Read the sibling files and follow their pattern. Default:
    `Topic_Detail_YYYY-MM-DD.ext`, the document's own date, ASCII, no spaces.
 5. Show the plan table: File, Target, New name. Move after the go.
-6. Add the index row. If the document holds a lasting fact (a deadline, a
-   rate, a decision, a duty), also do "Save knowledge".
+6. Add the index row. A deadline or amount stays in the document: put it in
+   the row's summary and in your report. If the document holds a lasting
+   rule, decision, or duty, also do "Save knowledge".
 
 Give no legal or tax judgment. Say what the document states and its deadline.
 
 ### Save knowledge
 
+A knowledge file is a Markdown file that states a lasting rule, decision,
+master data, or status. A filed document (PDF, scan, export) is not one.
+"Save" alone means `bin/save`. "Save this as knowledge" or "remember this"
+means this job. If unclear, ask.
+
 1. Find the home: the folder that owns the topic. Check its `_INDEX.md` for
    an existing file on the same topic. Extend that file instead of writing
    a second one.
-2. Write the file per `.agents/conventions/context-files.md`. It states the
-   rule or decision and its reason, and links the evidence instead of copying it.
-3. Show it with the 3 options. Write after the user's choice.
+2. Write the file per `.agents/conventions/context-files.md`. Name it like
+   its sibling files. Default: `topic-detail.md`, lowercase, hyphens, no date.
+   It states the rule or decision and its reason, and links the evidence
+   instead of copying it.
+3. Show it with the 3 options. After a change request, show the full new
+   text with the 3 options again. Write after the user's choice.
 4. Add or update the index row.
 
 ### Start a project folder
@@ -87,7 +102,10 @@ Use it when `bin/context-check` reports drift, or after files or folders
 were added, moved, or renamed by hand.
 
 - A file without an index row: read it and add the row with a 1-sentence summary.
-- A knowledge file without frontmatter: add it.
+- A knowledge file without frontmatter: add it. Take `type` from the content.
+  Set `status: draft` when you cannot tell whether the content is current,
+  and report it.
+- A folder with files and no `_INDEX.md`: create the index.
 - An index row whose file is gone: look for the file under its new path and
   fix the row. If the file no longer exists, remove the row and report it.
 - A top-level folder missing from the Structure table: add its row.

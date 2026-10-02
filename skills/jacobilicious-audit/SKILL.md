@@ -7,6 +7,8 @@ description: "Start when the user asks to audit, check, review, or tidy the work
 
 Find what is broken, bloated, or unused in the user's agent workspace.
 Report it. Fix only what the user confirms.
+Exception: index and Structure drift. Repair it with `jacobilicious-context`
+and report it in 1 line.
 
 Before your first message, read `~/.claude/jacobilicious/brand.md` and use its
 voice in chat. If the file is missing, use a plain, friendly tone.
@@ -24,20 +26,24 @@ current folder.
 
 - The branch is `main` and no merge or rebase is in progress.
 - No unsaved change is older than 2 hours: `git status`, `git log origin/main..HEAD`.
-- `launchctl list` shows the repo's autosave job, and the log
-  `~/Library/Logs/jacobilicious-<repo>-autosave.log` ends without an error.
-- `gh repo view --json visibility` returns `PRIVATE`.
+- `launchctl list` shows the repo's autosave job. If the log
+  `~/Library/Logs/jacobilicious-<repo>-autosave.log` exists, its last line
+  does not contain `failed`. A missing log passes.
+- `gh repo view --json visibility -q .visibility` returns `PRIVATE`.
 - `git config core.hooksPath` returns `.githooks`, and `gitleaks` is installed.
 - `CLAUDE.md` imports `AGENTS.md`.
 - Every link in `.claude/skills/` resolves.
-- `people/_index.md` contains the current `git config user.email`.
+- `people/_index.md` contains the current `git config user.email`, and the
+  profile it names exists and holds no `<...>` placeholder.
 - `bin/context-check` reports nothing: every file has an index row, every
   row has a file, and the top-level folders match the Structure table.
 
 ### 2. Always-loaded text
 
-Count characters in `~/.claude/CLAUDE.md`, each repo's `AGENTS.md`, and all
-skill descriptions. Estimate tokens as characters divided by 4.
+Count characters in `~/.claude/CLAUDE.md`, each repo's `AGENTS.md`, and the
+descriptions of skills without `disable-model-invocation: true`. Estimate
+tokens as characters divided by 4. Report 1 number per repo: global file,
+that repo's `AGENTS.md`, and the descriptions. Do not add repos together.
 
 Flag:
 
@@ -57,6 +63,7 @@ State the date range the transcripts cover.
 Flag:
 
 - 0 uses, when the range covers 30 days or more. Propose archiving.
+  Skip `jacobilicious-*` skills and plugin skills.
 - 2 skills whose descriptions start on the same request.
 - A skill that sends, pays, publishes, or deletes and lacks
   `disable-model-invocation: true`.
@@ -86,15 +93,18 @@ what changed since then. Ask which fixes to apply: all, some by number, or none.
 ## Fix
 
 - Apply only confirmed fixes. Show before and after for every instruction edit.
-- Archive instead of deleting. Move a skill to its archive folder and remove its symlink.
+- Archive instead of deleting. Move a skill to `~/.claude/skills-archive/`
+  (global) or `.agents/skills/_archive/` (repo) and remove its symlink.
+- For a public repo, run `gh repo edit <owner>/<name> --visibility private
+  --accept-visibility-change-consequences`, then check again.
 - Remove an MCP server with `claude mcp remove <name>` only after the user
   confirmed that exact server.
 - For a failed health check, run the repo's `bin/setup`, then check again.
-- For index or Structure drift, use `jacobilicious-context`.
 - Save each changed repo with `bin/save "audit: <what>"`.
 - Write the report to `~/.claude/jacobilicious/audits/YYYY-MM-DD.md`.
 
 ## Done when
 
-Every finding is fixed, declined, or left open with a reason, each applied fix
-passed its check again, and the report file is written.
+Every finding is fixed, declined, or left open with a reason. Each applied
+fix passed its check again or is listed as open with the error text. The
+report file is written.

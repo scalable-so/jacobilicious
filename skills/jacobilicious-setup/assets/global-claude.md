@@ -28,5 +28,6 @@ Never copy content from a repo with fewer readers into a repo with more readers.
   when a run sends, pays, publishes, deletes, or is costly.
 - Archive instead of deleting: `~/.claude/skills-archive/` for global skills,
   `.agents/skills/_archive/` for repo skills.
-- Build or change skills with `jacobilicious-engineer`.
+- Use `jacobilicious-engineer` for every text an agent reads as instructions:
+  skills and their files, rules, prompts, commands, subagent briefs, tests.
 <!-- jacobilicious:end -->
