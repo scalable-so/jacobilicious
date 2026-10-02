@@ -1,8 +1,10 @@
-import { DownloadSimple } from "@phosphor-icons/react/dist/ssr";
+import { DownloadSimple, Plus } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CopyPrompt } from "@/components/CopyPrompt";
 import { Cta } from "@/components/Cta";
 import { MAX_DOWNLOADS } from "@/lib/config";
+import { INSTALL_PROMPT } from "@/lib/install-prompt";
 import { getRequest } from "@/lib/store";
 import { readToken } from "@/lib/token";
 
@@ -10,13 +12,18 @@ export const metadata: Metadata = { title: "Dein Zugang | Jacobilicious" };
 export const dynamic = "force-dynamic";
 
 const install = [
-  { n: "01", title: "Entpacken", text: "Doppelklick auf die geladene Datei. Es entsteht der Ordner jacobilicious." },
+  { n: "01", title: "Claude Code öffnen", text: "Starte auf deinem Mac eine neue Sitzung in Claude Code." },
   {
     n: "02",
-    title: "Installieren",
-    text: "Öffne die App Terminal, tippe bash und ein Leerzeichen, zieh die Datei install.sh ins Fenster und drück Enter.",
+    title: "Prompt einfügen",
+    text: "Kopiere den Prompt und schick ihn ab. Claude holt das Paket aus deinem Ordner Downloads und installiert es. Fragt Claude oder dein Mac nach Erlaubnis, stimme zu.",
+    prompt: true,
   },
-  { n: "03", title: "Setup tippen", text: "Öffne Claude Code und tippe /jacobilicious-setup." },
+  {
+    n: "03",
+    title: "Setup tippen",
+    text: "Tippe /jacobilicious-setup. Kennt Claude den Befehl noch nicht, starte eine neue Sitzung.",
+  },
 ];
 
 export default async function Freischalten({ searchParams }: PageProps<"/freischalten">) {
@@ -74,13 +81,24 @@ export default async function Freischalten({ searchParams }: PageProps<"/freisch
               {install.map((s) => (
                 <li key={s.n} className="flex gap-5">
                   <span className="disc h-11 w-11 shrink-0 text-[0.75rem]">{s.n}</span>
-                  <div>
+                  <div className="min-w-0">
                     <h2 className="font-semibold tracking-[-0.02em]">{s.title}</h2>
                     <p className="mt-1 text-mute">{s.text}</p>
+                    {s.prompt && <CopyPrompt text={INSTALL_PROMPT} />}
                   </div>
                 </li>
               ))}
             </ol>
+            <details className="mt-8 border-t border-line pt-5 text-[0.9rem] text-mute">
+              <summary className="flex items-center justify-between gap-6 font-medium text-ink">
+                Ohne Prompt installieren
+                <Plus size={16} weight="bold" className="faq-plus shrink-0 transition-transform" aria-hidden />
+              </summary>
+              <p className="mt-3">
+                Entpacke die geladene Datei per Doppelklick. Öffne die App Terminal, tippe bash und ein Leerzeichen, zieh
+                die Datei install.sh ins Fenster und drück Enter.
+              </p>
+            </details>
             <p className="mt-8 text-[0.85rem] leading-relaxed text-mute">
               Das Paket trägt deinen Namen. Bitte gib es nicht weiter. Wer es auch haben will, holt sich einen eigenen
               Zugang.

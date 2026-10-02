@@ -22,7 +22,7 @@ const gains = [
 
 const steps = [
   { n: "01", title: "Zugang holen", text: "Bewerte den Vortrag und trag deine E-Mail-Adresse ein." },
-  { n: "02", title: "Installieren", text: "Lade das Paket auf deinem Mac und starte die Installation." },
+  { n: "02", title: "Installieren", text: "Lade das Paket auf deinem Mac. Claude Code installiert es mit 1 Prompt." },
   { n: "03", title: "Setup tippen", text: "Ein Befehl in Claude Code führt dich durch den Rest." },
 ];
 

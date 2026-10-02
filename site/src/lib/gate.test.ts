@@ -1,6 +1,8 @@
+import { readFileSync } from "node:fs";
 import { unzipSync, strFromU8 } from "fflate";
 import { beforeAll, describe, expect, it } from "vitest";
 import { firstStatus, outcomeFor } from "./decision";
+import { INSTALL_PROMPT } from "./install-prompt";
 import type { AccessRequest } from "./store";
 import { idForEmail, readToken, samePin, signToken } from "./token";
 
@@ -82,5 +84,16 @@ describe("zip", () => {
     const access = strFromU8(out["jacobilicious/ACCESS.md"]);
     expect(access).toContain("Mara <mara@example.com>");
     expect(access).toContain("2026-10-02");
+  });
+});
+
+describe("install prompt", () => {
+  it("is the same on the unlock page and in the package README", () => {
+    const readme = readFileSync(new URL("../../../README.md", import.meta.url), "utf8");
+    const unindented = readme
+      .split("\n")
+      .map((line) => line.replace(/^ {3}/, ""))
+      .join("\n");
+    expect(unindented).toContain(INSTALL_PROMPT);
   });
 });
