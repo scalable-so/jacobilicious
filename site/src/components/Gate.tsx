@@ -103,8 +103,9 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
 
       {step === "rate" && (
         <div>
-          <h1 className="h-section mt-4">Wie fandest du Jacobs Vortrag?</h1>
-          <div role="radiogroup" aria-label="Bewertung von 1 bis 10" className="mt-8 grid grid-cols-5 gap-2.5 sm:grid-cols-10 sm:gap-2">
+          <h1 className="h-section mt-4">Wie fandest du den Vortrag?</h1>
+          <p className="mt-8 font-semibold tracking-[-0.02em]">Dein Score von 1 bis 10</p>
+          <div role="radiogroup" aria-label="Dein Score von 1 bis 10" className="mt-3 grid grid-cols-5 gap-2.5 sm:grid-cols-10 sm:gap-2">
             {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
               <button
                 key={n}
@@ -123,30 +124,30 @@ export function Gate({ privacyUrl, needsCode }: { privacyUrl: string; needsCode:
             <span>10 = stark</span>
           </div>
 
-          {rating !== null && (
-            <div className="mt-8">
-              <label htmlFor="feedback" className="block font-semibold tracking-[-0.02em]">
-                {rating >= 8 ? "Was nimmst du mit?" : "Was hat dir gefehlt?"}
-              </label>
-              <textarea
-                id="feedback"
-                rows={3}
-                maxLength={2000}
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Ein Satz reicht."
-                className="field mt-2 resize-none"
-              />
-              <button
-                type="button"
-                onClick={() => go("details")}
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-semibold tracking-[-0.02em] text-white hover:bg-neutral-800"
-              >
-                Weiter
-                <ArrowRight size={18} weight="bold" aria-hidden />
-              </button>
-            </div>
-          )}
+          {/* The same question for everyone, whatever the score. */}
+          <div className="mt-8">
+            <label htmlFor="feedback" className="block font-semibold tracking-[-0.02em]">
+              Was kann Jacob beim nächsten Mal besser machen?
+            </label>
+            <textarea
+              id="feedback"
+              rows={3}
+              maxLength={2000}
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Ein Satz reicht."
+              className="field mt-2 resize-none"
+            />
+            <button
+              type="button"
+              disabled={rating === null}
+              onClick={() => go("details")}
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-semibold tracking-[-0.02em] text-white hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Weiter
+              <ArrowRight size={18} weight="bold" aria-hidden />
+            </button>
+          </div>
           <button type="button" onClick={() => go("enter")} className="mt-8 block text-[0.95rem] text-mute underline underline-offset-4 hover:text-ink">
             Schon angefragt? Zugang öffnen
           </button>
