@@ -64,13 +64,35 @@ npm run dev                        # http://localhost:9200
 
 Prüfen: `npm test` (Regeln, Links, Zip) und `npm run build`.
 
-## Auf Vercel bringen
+## Live auf Vercel
 
-1. Lege ein Vercel-Projekt für dieses Repo an. Root Directory: `site`.
-2. Aktiviere "Include files outside the root directory", damit der Build `skills/`, `README.md` und `install.sh` findet.
-3. Verbinde einen privaten Blob Store mit dem Projekt.
-4. Trage die Werte aus der Tabelle oben ein. Die Quelle ist Doppler.
-5. Öffne `/admin`, prüfe den Modus und zeige `/admin/qr` im Vortrag.
+- **Adresse:** https://jacobilicious.vercel.app
+- **Projekt:** `jacobilicious` im Team `scalableso`, Root Directory `site`.
+- **Daten:** privater Blob Store `jacobilicious-requests` (Region `fra1`), mit dem Projekt verbunden.
+- **Werte:** `JACOBILICIOUS_GATE_SECRET`, `JACOBILICIOUS_ADMIN_PIN` und `JACOBILICIOUS_EVENT_CODE` liegen in Doppler (`scalable/prd_personal`). In Vercel heißen sie `GATE_SECRET`, `ADMIN_PIN` und `EVENT_CODE`.
+
+Fehlt `GATE_SECRET` in Vercel, bleibt die Schranke zu: Anfragen und Downloads schlagen fehl.
+
+### Neu deployen
+
+```bash
+cd ~/Code/jacobilicious     # Repo-Wurzel, nicht site/
+vercel deploy --prod
+```
+
+Der Build braucht `skills/`, `README.md` und `install.sh` aus der Repo-Wurzel. Ein Deploy aus `site/` findet sie nicht.
+
+### Werte von Doppler nach Vercel bringen
+
+Das macht ein Mensch, kein Agent. Der Befehl zeigt keinen Wert an:
+
+```bash
+cd ~/Code/jacobilicious
+for n in GATE_SECRET ADMIN_PIN EVENT_CODE; do
+  secret-get JACOBILICIOUS_$n scalable prd_personal | tr -d '\n' | vercel env add $n production
+done
+vercel deploy --prod
+```
 
 ## Paket ändern
 
