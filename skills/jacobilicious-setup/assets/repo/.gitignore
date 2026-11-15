@@ -1,6 +1,8 @@
-# macOS
+# Operating system files
 .DS_Store
 .AppleDouble
+Thumbs.db
+desktop.ini
 
 # Secrets: never commit
 .env

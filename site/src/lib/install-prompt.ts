@@ -1,10 +1,10 @@
 /** The prompt a person pastes into Claude Code. The package README carries the same text; a test keeps them equal. */
-export const INSTALL_PROMPT = `Installiere Jacobilicious auf diesem Mac.
+export const INSTALL_PROMPT = `Install Jacobilicious on this computer.
 
-1. In meinem Ordner Downloads liegt die Datei jacobilicious.zip oder jacobilicious-main.zip, oder schon der entpackte Ordner jacobilicious oder jacobilicious-main. Gibt es mehrere Kopien, nimm die zuletzt geladene.
-2. Ist es eine zip-Datei, entpacke sie in Downloads. Überschreibe dabei keinen vorhandenen Ordner.
-3. Führe im entpackten Ordner aus: bash install.sh
-4. Zeig mir kurz, was installiert wurde.
-5. Sag mir zum Schluss, dass ich /jacobilicious-setup tippen soll. Fehlt der Befehl, starte ich eine neue Sitzung.
+1. My Downloads folder holds the file jacobilicious.zip or jacobilicious-main.zip, or the unpacked folder jacobilicious or jacobilicious-main. If there are several copies, take the newest one.
+2. If it is a zip file, unpack it in Downloads. Do not overwrite any existing folder.
+3. In the unpacked folder, run: bash install.sh
+4. Show me briefly what was installed.
+5. At the end, tell me to type /jacobilicious-setup. If the command is missing, I start a new session.
 
-Ändere sonst nichts auf meinem Mac.`;
+Change nothing else on my computer.`;

@@ -18,7 +18,7 @@ voice in chat. If the file is missing, use a plain, friendly tone.
 ## Scope
 
 Read the Repos table in `~/.claude/CLAUDE.md`. Audit the global setup and
-every listed repo that exists on this Mac. If the table is missing, say that
+every listed repo that exists on this computer. If the table is missing, say that
 `/jacobilicious-setup` has not run and audit only the global files and the
 current folder.
 
@@ -31,8 +31,8 @@ that tool only. Skip the other checks and the report file.
 
 - The branch is `main` and no merge or rebase is in progress.
 - No unsaved change is older than 2 hours: `git status`, `git log origin/main..HEAD`.
-- `launchctl list` shows the repo's autosave job. If the log
-  `~/Library/Logs/jacobilicious-<repo>-autosave.log` exists, its last line
+- The system's scheduler lists `jacobilicious-<repo>-autosave`. If the log
+  `~/.claude/jacobilicious/logs/<repo>-autosave.log` exists, its last line
   does not contain `failed`. A missing log passes.
 - `gh repo view --json visibility -q .visibility` returns `PRIVATE`.
 - `git config core.hooksPath` returns `.githooks`, and `gitleaks` is installed.

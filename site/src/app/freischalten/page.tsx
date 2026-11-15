@@ -8,25 +8,25 @@ import { INSTALL_PROMPT } from "@/lib/install-prompt";
 import { getRequest } from "@/lib/store";
 import { readToken } from "@/lib/token";
 
-export const metadata: Metadata = { title: "Dein Zugang | Jacobilicious" };
+export const metadata: Metadata = { title: "Your access | Jacobilicious" };
 export const dynamic = "force-dynamic";
 
 const install = [
-  { n: "01", title: "Claude Code öffnen", text: "Starte auf deinem Mac eine neue Sitzung in Claude Code." },
+  { n: "01", title: "Open Claude Code", text: "Start a new session in Claude Code on your computer." },
   {
     n: "02",
-    title: "Prompt einfügen",
-    text: "Kopiere den Prompt und schick ihn ab. Claude holt das Paket aus deinem Ordner Downloads und installiert es. Fragt Claude oder dein Mac nach Erlaubnis, stimme zu.",
+    title: "Paste the prompt",
+    text: "Copy the prompt and send it. Claude takes the package from your Downloads folder and installs it. If Claude or your computer asks for permission, agree.",
     prompt: true,
   },
   {
     n: "03",
-    title: "Setup tippen",
-    text: "Tippe /jacobilicious-setup. Kennt Claude den Befehl noch nicht, starte eine neue Sitzung.",
+    title: "Type setup",
+    text: "Type /jacobilicious-setup. If Claude does not know the command yet, start a new session.",
   },
 ];
 
-export default async function Freischalten({ searchParams }: PageProps<"/freischalten">) {
+export default async function Unlock({ searchParams }: PageProps<"/freischalten">) {
   const params = await searchParams;
   const token = typeof params.t === "string" ? params.t : "";
   const id = readToken(token, "dl");
@@ -43,35 +43,35 @@ export default async function Freischalten({ searchParams }: PageProps<"/freisch
       <main className="mx-auto max-w-2xl px-5 pb-20 pt-6 sm:px-8 sm:pt-12">
         {!rec || !open ? (
           <div className="frame p-6 sm:p-9">
-            <h1 className="h-section">Dieser Link gilt nicht mehr.</h1>
-            <p className="lede mt-4">Er ist abgelaufen oder wurde gesperrt. Öffne deinen Zugang neu mit deiner E-Mail-Adresse.</p>
+            <h1 className="h-section">This link is no longer valid.</h1>
+            <p className="lede mt-4">It has expired or was blocked. Open your access again with your email address.</p>
             <Cta className="mt-8" />
           </div>
         ) : (
           <div className="frame p-6 sm:p-9">
-            <p className="label">Persönlicher Zugang für {rec.email}</p>
-            <h1 className="h-section mt-4">Willkommen, {rec.name}.</h1>
+            <p className="label">Personal access for {rec.email}</p>
+            <h1 className="h-section mt-4">Welcome, {rec.name}.</h1>
             {rec.downloads >= MAX_DOWNLOADS ? (
               <p className="lede mt-4">
-                Du hast das Paket schon {MAX_DOWNLOADS} Mal geladen. Mehr geht nicht. Schreib Jacob, wenn du es noch einmal
-                brauchst.
+                You have already downloaded the package {MAX_DOWNLOADS} times. That is the limit. Write to Jacob if you
+                need it again.
               </p>
             ) : (
               <>
                 <p className="lede mt-4">
-                  Lade das Paket auf deinem Mac. Du hast noch {MAX_DOWNLOADS - rec.downloads}{" "}
-                  {MAX_DOWNLOADS - rec.downloads === 1 ? "Download" : "Downloads"}.
+                  Download the package on your computer. You have {MAX_DOWNLOADS - rec.downloads}{" "}
+                  {MAX_DOWNLOADS - rec.downloads === 1 ? "download" : "downloads"} left.
                 </p>
                 {params.e === "limit" && (
                   <p role="alert" className="mt-4 rounded-lg bg-canvas px-4 py-3 font-medium">
-                    Das Limit ist erreicht.
+                    The limit is reached.
                   </p>
                 )}
                 <form method="post" action="/api/download" className="mt-8">
                   <input type="hidden" name="t" value={token} />
                   <button type="submit" className="spark inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold tracking-[-0.02em]">
                     <DownloadSimple size={18} weight="bold" aria-hidden />
-                    Paket laden
+                    Download the package
                   </button>
                 </form>
               </>
@@ -91,17 +91,17 @@ export default async function Freischalten({ searchParams }: PageProps<"/freisch
             </ol>
             <details className="mt-8 border-t border-line pt-5 text-[0.9rem] text-mute">
               <summary className="flex items-center justify-between gap-6 font-medium text-ink">
-                Ohne Prompt installieren
+                Install without the prompt
                 <Plus size={16} weight="bold" className="faq-plus shrink-0 transition-transform" aria-hidden />
               </summary>
               <p className="mt-3">
-                Entpacke die geladene Datei per Doppelklick. Öffne die App Terminal, tippe bash und ein Leerzeichen, zieh
-                die Datei install.sh ins Fenster und drück Enter.
+                Unpack the downloaded file. Open a terminal (on Windows: Git Bash), type bash and a space, drag the file
+                install.sh into the window and press Enter.
               </p>
             </details>
             <p className="mt-8 text-[0.85rem] leading-relaxed text-mute">
-              Das Paket trägt deinen Namen. Bitte gib es nicht weiter. Wer es auch haben will, holt sich einen eigenen
-              Zugang.
+              The package carries your name. Please do not share it. Anyone else who wants it gets their own
+              access.
             </p>
           </div>
         )}

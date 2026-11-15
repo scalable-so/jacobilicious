@@ -4,129 +4,129 @@
 
 # Jacobilicious
 
-Jacobilicious richtet Claude Code auf deinem Mac ein.
-Du tippst 1 Befehl, beantwortest ein paar Fragen, und dein Arbeitsplatz steht.
+Jacobilicious sets up Claude Code on your computer.
+You type 1 command, answer a few questions, and your workspace is ready.
 
-Du brauchst kein technisches Wissen. Jeder Schritt wird dir erklärt.
+You need no technical knowledge. Every step is explained to you.
 
-## Was du danach hast
+## What you get
 
-- **Claude kennt dich.** Wer du bist, was dein Business macht und was deine Ziele sind, steht einmal in einer Datei. Du erklärst es nie wieder.
-- **Jedes Dokument hat 1 Zuhause.** Feste Ordner, jeder mit Inhaltsverzeichnis. Du und der Agent finden alles ohne Suchen.
-- **Nichts geht verloren.** Dein Mac sichert jede Stunde privat auf GitHub. Du brauchst nie einen Git-Befehl.
+- **Claude knows you.** Who you are, what your business does and what your goals are sits in 1 file. You never explain it again.
+- **Every document has 1 home.** Fixed folders, each with a table of contents. You and the agent find everything without searching.
+- **Nothing gets lost.** Your computer saves privately to GitHub every hour. You never need a Git command.
 
-## So startest du
+## How to start
 
-1. Lade das Paket: oben auf dieser Seite **Code**, dann **Download ZIP**. Es liegt danach in deinem Ordner Downloads.
-2. Öffne Claude Code und schick diesen Prompt ab:
+1. Download the package: at the top of this page, click **Code**, then **Download ZIP**. It then sits in your Downloads folder.
+2. Open Claude Code and send this prompt:
 
    ```text
-   Installiere Jacobilicious auf diesem Mac.
+   Install Jacobilicious on this computer.
 
-   1. In meinem Ordner Downloads liegt die Datei jacobilicious.zip oder jacobilicious-main.zip, oder schon der entpackte Ordner jacobilicious oder jacobilicious-main. Gibt es mehrere Kopien, nimm die zuletzt geladene.
-   2. Ist es eine zip-Datei, entpacke sie in Downloads. Überschreibe dabei keinen vorhandenen Ordner.
-   3. Führe im entpackten Ordner aus: bash install.sh
-   4. Zeig mir kurz, was installiert wurde.
-   5. Sag mir zum Schluss, dass ich /jacobilicious-setup tippen soll. Fehlt der Befehl, starte ich eine neue Sitzung.
+   1. My Downloads folder holds the file jacobilicious.zip or jacobilicious-main.zip, or the unpacked folder jacobilicious or jacobilicious-main. If there are several copies, take the newest one.
+   2. If it is a zip file, unpack it in Downloads. Do not overwrite any existing folder.
+   3. In the unpacked folder, run: bash install.sh
+   4. Show me briefly what was installed.
+   5. At the end, tell me to type /jacobilicious-setup. If the command is missing, I start a new session.
 
-   Ändere sonst nichts auf meinem Mac.
+   Change nothing else on my computer.
    ```
 
-3. Tippe `/jacobilicious-setup`. Kennt Claude den Befehl noch nicht, starte eine neue Sitzung.
+3. Type `/jacobilicious-setup`. If Claude does not know the command yet, start a new session.
 
-Ohne Prompt geht es auch: Entpacke die Datei per Doppelklick. Öffne die App "Terminal" und tippe `bash ` (mit Leerzeichen). Ziehe die Datei `install.sh` ins Fenster und drücke Enter.
+It also works without the prompt: unpack the file. Open a terminal (on Windows: Git Bash) and type `bash ` (with a space). Drag the file `install.sh` into the window and press Enter.
 
-Mehr musst du nicht wissen. Das Setup führt dich durch den Rest.
-Du kannst jederzeit pausieren. Derselbe Befehl macht an der gleichen Stelle weiter.
+That is all you need to know. The setup guides you through the rest.
+You can pause at any time. The same command picks up where you left off.
 
-## Was du brauchst
+## What you need
 
-| Was | Wozu |
+| What | What for |
 |---|---|
-| Einen Mac | Diese Version läuft nur auf macOS. |
-| Claude Code | Als Desktop-App oder im Terminal. Nicht im Browser. |
-| Ein GitHub-Konto | Dort liegt deine private Sicherung. Das Setup hilft dir beim Anlegen. |
+| A computer | macOS, Windows or Linux. |
+| Claude Code | As the desktop app or in the terminal. Not in the browser. |
+| A GitHub account | It holds your private backup. The setup helps you create one. |
 
-## Die 4 Skills
+## The 4 skills
 
-Ein Skill ist eine Anleitung, die Claude Code für eine Aufgabe lädt.
-Nur das Setup startest du selbst. Die anderen 3 starten von allein, wenn sie gebraucht werden.
+A skill is a guide that Claude Code loads for a task.
+You only start the setup yourself. The other 3 start on their own when they are needed.
 
-| Skill | Startet, wenn | Was er tut |
+| Skill | Starts when | What it does |
 |---|---|---|
-| `jacobilicious-setup` | du `/jacobilicious-setup` tippst | Führt dich in 9 Schritten vom leeren Mac zum fertigen Arbeitsplatz. |
-| `jacobilicious-context` | ein Dokument oder Wissen einen Platz braucht | Legt es an den richtigen Ort und hält die Inhaltsverzeichnisse aktuell. |
-| `jacobilicious-audit` | du wissen willst, ob alles läuft | Prüft die Sicherung und findet, was deine Sitzungen langsam macht. |
-| `jacobilicious-engineer` | du eine Aufgabe zum Skill machen willst | Schreibt neue Skills und Regeln für deinen Agenten. |
+| `jacobilicious-setup` | you type `/jacobilicious-setup` | Takes you in 9 steps from a bare computer to a ready workspace. |
+| `jacobilicious-context` | a document or knowledge needs a place | Puts it in the right place and keeps the tables of contents current. |
+| `jacobilicious-audit` | you want to know if everything works | Checks the backup and finds what makes your sessions slow. |
+| `jacobilicious-engineer` | you want to turn a task into a skill | Writes new skills and rules for your agent. |
 
-## Was das Setup anlegt
+## What the setup creates
 
-Das Setup schlägt 3 private Ordner mit Verlauf vor. So ein Ordner heißt Repo.
-3 Repos, weil GitHub Zugriff pro Repo vergibt: Dein Team kann Marketing lesen, Steuern und Privates bleiben verborgen.
+The setup suggests 3 private folders with history. Such a folder is called a repo.
+3 repos, because GitHub gives access per repo: your team can read marketing, while taxes and private files stay hidden.
 
 ```
 ~/Repositories/
-├── <firma>/                  Business: für das ganze Team
-│   ├── company/              Mission, Zielgruppe, Ziele
-│   ├── product/              1 Ordner pro Angebot
-│   └── marketing/            1 Ordner pro Kanal
-├── <firma>-confidential/     Vertraulich: nur für dich und die Geschäftsführung
-│   ├── legal/                Verträge, Versicherungen
-│   ├── finance/              Steuern, Buchhaltung, Bank
-│   └── hr/                   Rollen, Arbeitsverträge
-└── <vorname>-private/        Privat: nur für dich
-    ├── finance/              Steuern, Versicherungen, Bank
-    ├── home/                 Wohnen, Fahrzeuge, Verträge
-    ├── health/               Befunde, Laborwerte
-    └── growth/               Ziele, Lernen, Kurse
+├── <company>/                Business: for the whole team
+│   ├── company/              Mission, audience, goals
+│   ├── product/              1 folder per offer
+│   └── marketing/            1 folder per channel
+├── <company>-confidential/   Confidential: only for you and the executives
+│   ├── legal/                Contracts, insurance
+│   ├── finance/              Taxes, bookkeeping, bank
+│   └── hr/                   Roles, employment contracts
+└── <firstname>-private/      Private: only for you
+    ├── finance/              Taxes, insurance, bank
+    ├── home/                 Housing, vehicles, contracts
+    ├── health/               Medical reports, lab results
+    └── growth/               Goals, learning, courses
 ```
 
-Das ist der Vorschlag. Du entscheidest im Setup über Namen, Ordner und Sprache.
+This is the suggestion. You decide on names, folders and language during the setup.
 
-Jedes Repo bekommt außerdem:
+Each repo also gets:
 
-- `AGENTS.md`: die Hausregeln, die der Agent zu Beginn jeder Sitzung liest.
-- `_INDEX.md` in jedem Ordner: das Inhaltsverzeichnis.
-- `people/`: ein kurzes Profil pro Person, damit das Repo später für ein Team funktioniert.
-- `bin/`: die Skripte für die Sicherung. Du rufst sie nie selbst auf.
+- `AGENTS.md`: the house rules the agent reads at the start of every session.
+- `_INDEX.md` in every folder: the table of contents.
+- `people/`: a short profile per person, so the repo works for a team later.
+- `bin/`: the scripts for the backup. You never run them yourself.
 
-## So bleibt es sicher
+## How it stays safe
 
-- Jedes Repo ist privat. Das Setup prüft das.
-- Eine Prüfung vor jeder Sicherung blockiert Passwörter und Schlüssel.
-- Das Setup fragt nie nach einem Passwort im Chat.
-- Nichts Bestehendes wird überschrieben oder gelöscht.
-- Senden, bezahlen, unterschreiben und löschen macht der Agent nur nach deinem Ja.
+- Every repo is private. The setup checks this.
+- A check before every save blocks passwords and keys.
+- The setup never asks for a password in the chat.
+- Nothing that exists gets overwritten or deleted.
+- The agent sends, pays, signs and deletes only after your yes.
 
-## Was in diesem Paket liegt
+## What is in this package
 
 ```
 jacobilicious/
-├── README.md        diese Datei
-├── install.sh       kopiert die Skills nach ~/.claude
-├── brand.md         die Stimme von Jacobilicious im Chat
-└── skills/          die 4 Skills
+├── README.md        this file
+├── install.sh       copies the skills to ~/.claude
+├── brand.md         the voice of Jacobilicious in the chat
+└── skills/          the 4 skills
 ```
 
-`install.sh` löscht nichts. Eine ältere Kopie der Skills wandert ins Archiv unter `~/.claude/skills-archive/`.
+`install.sh` deletes nothing. An older copy of the skills moves to the archive in `~/.claude/skills-archive/`.
 
-## Häufige Fragen
+## Common questions
 
-**Ich habe einen neuen Mac. Was jetzt?**
-Installiere das Paket und tippe `/jacobilicious-setup join`. Das Setup holt deine Repos von GitHub zurück.
+**I have a new computer. What now?**
+Install the package and type `/jacobilicious-setup join`. The setup brings your repos back from GitHub.
 
-**Kann ich PDFs bearbeiten?**
-Ja. Das Setup installiert dafür den offiziellen PDF-Skill von Anthropic.
+**Can I work with PDFs?**
+Yes. The setup installs the official PDF skill from Anthropic for this.
 
-**Ich habe schon Ordner und eine `CLAUDE.md`. Gehen die verloren?**
-Nein. Das Setup zeigt dir vorher und nachher und wartet auf dein Ja.
+**I already have folders and a `CLAUDE.md`. Will I lose them?**
+No. The setup shows you before and after and waits for your yes.
 
-**Wie werde ich es wieder los?**
-Lösche die 4 Ordner `jacobilicious-*` in `~/.claude/skills/`. Deine Repos und Dateien bleiben.
+**How do I remove it?**
+Delete the 4 folders `jacobilicious-*` in `~/.claude/skills/`. Your repos and files stay.
 
-## Bitte nicht weitergeben
+## Please do not share
 
-Dieses Paket ist deine persönliche Kopie. Die Datei `ACCESS.md` nennt dich als Empfänger.
-Wer es auch haben will, holt sich den Zugang auf der Seite, von der du es hast.
+This package is your personal copy. The file `ACCESS.md` names you as the recipient.
+Anyone else who wants it gets access on the page where you got it.
 
 Set up with Jacobilicious, Founder at [scalable.so](https://scalable.so)
