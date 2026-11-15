@@ -47,10 +47,10 @@ You can pause at any time. The same command picks up where you left off.
 | Claude Code | As the desktop app or in the terminal. Not in the browser. |
 | A GitHub account | It holds your private backup. The setup helps you create one. |
 
-## The 4 skills
+## The 5 skills
 
 A skill is a guide that Claude Code loads for a task.
-You only start the setup yourself. The other 3 start on their own when they are needed.
+You only start the setup yourself. The other 4 start on their own when they are needed.
 
 | Skill | Starts when | What it does |
 |---|---|---|
@@ -58,6 +58,7 @@ You only start the setup yourself. The other 3 start on their own when they are 
 | `jacobilicious-context` | a document or knowledge needs a place | Puts it in the right place and keeps the tables of contents current. |
 | `jacobilicious-audit` | you want to know if everything works | Checks the backup and finds what makes your sessions slow. |
 | `jacobilicious-engineer` | you want to turn a task into a skill | Writes new skills and rules for your agent. |
+| `jacobilicious-ai-native` | you want to know how AI-native your setup is | Scores your repos and setup out of 100 and lists the next steps, best first. |
 
 ## What the setup creates
 
@@ -105,7 +106,7 @@ jacobilicious/
 ├── README.md        this file
 ├── install.sh       copies the skills to ~/.claude
 ├── brand.md         the voice of Jacobilicious in the chat
-└── skills/          the 4 skills
+└── skills/          the 5 skills
 ```
 
 `install.sh` deletes nothing. An older copy of the skills moves to the archive in `~/.claude/skills-archive/`.
