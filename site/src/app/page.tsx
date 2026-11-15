@@ -103,12 +103,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* the 4 skills: one you type, three that start on their own */}
+        {/* the 5 skills: one you type, four that start on their own */}
         <section className="bg-canvas">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
             <Reveal>
-              <h2 className="h-section max-w-[18ch]">4 skills. You start only 1 yourself.</h2>
-              <p className="lede mt-4 max-w-[40ch]">The other 3 start on their own when you need them.</p>
+              <h2 className="h-section max-w-[18ch]">5 skills. You start only 1 yourself.</h2>
+              <p className="lede mt-4 max-w-[40ch]">The other 4 start on their own when you need them.</p>
             </Reveal>
             <div className="mt-12 grid gap-7 md:grid-cols-6">
               <Reveal className="md:col-span-4 md:row-span-2">
@@ -143,14 +143,21 @@ export default function Home() {
                   </p>
                 </article>
               </Reveal>
-              <Reveal delay={0.06} className="md:col-span-6">
-                <article className="frame grid h-full gap-2 p-6 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-10">
-                  <div>
-                    <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
-                    <h3 className="h-card mt-1">Engineer</h3>
-                  </div>
-                  <p className="text-mute">
+              <Reveal delay={0.06} className="md:col-span-3">
+                <article className="frame flex h-full flex-col justify-end p-6">
+                  <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
+                  <h3 className="h-card mt-1">Engineer</h3>
+                  <p className="mt-2 text-mute">
                     Turns a task you explain for the 2nd time into a skill or a rule for your agent.
+                  </p>
+                </article>
+              </Reveal>
+              <Reveal delay={0.12} className="md:col-span-3">
+                <article className="frame glass flex h-full flex-col justify-end p-6">
+                  <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
+                  <h3 className="h-card mt-1">AI-native</h3>
+                  <p className="mt-2 text-mute">
+                    Scores your setup out of 100 and shows the next steps, best first.
                   </p>
                 </article>
               </Reveal>

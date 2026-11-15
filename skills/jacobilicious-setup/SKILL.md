@@ -244,7 +244,8 @@ Tell the user:
 - What the other skills do and that they start on their own:
   `jacobilicious-context` puts documents and knowledge away and keeps the
   indexes current, `jacobilicious-engineer` builds skills,
-  `jacobilicious-audit` checks the setup.
+  `jacobilicious-audit` checks the setup, `jacobilicious-ai-native` scores
+  how AI-native it is and lists the next steps.
 - The acceptance test: open the business repo in a new session and ask
   "Who am I, and where does a new contract go?" The right answer names the
   user and the contract folder in the repo that holds contracts.

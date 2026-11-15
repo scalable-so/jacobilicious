@@ -1,6 +1,6 @@
 ---
 name: jacobilicious-audit
-description: "Start when the user asks to audit, check, review, or tidy the workspace or setup. Start when saving, syncing, or backup looks broken or the user doubts that files reached GitHub. Start when sessions feel slow or costly, when the user mentions a long CLAUDE.md or AGENTS.md, too many or unused skills or MCP servers, or asks which tool, CLI, or MCP server to connect or remove. Start when the user wants CLAUDE.md or AGENTS.md shortened or cleaned up."
+description: "Start when the user asks to audit, check, review, or tidy the workspace or setup. Start when saving, syncing, or backup looks broken or the user doubts that files reached GitHub. Start when sessions feel slow or costly, when the user mentions a long CLAUDE.md or AGENTS.md, too many or unused skills or MCP servers, or asks which tool, CLI, or MCP server to connect or remove. Start when the user wants CLAUDE.md or AGENTS.md shortened or cleaned up. Not for a score of how AI-native the setup is: `jacobilicious-ai-native` does that."
 ---
 
 # Jacobilicious audit
