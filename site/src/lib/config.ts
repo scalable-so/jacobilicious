@@ -16,6 +16,9 @@ export const adminPin = () => (process.env.ADMIN_PIN ?? "").trim();
 export const accessMode = (): "auto" | "manual" =>
   process.env.ACCESS_MODE === "manual" ? "manual" : "auto";
 
+/** The public repo. Every call to action on the landing page opens it. */
+export const REPO_URL = "https://github.com/scalable-so/jacobilicious";
+
 export const legal = {
   imprint: process.env.NEXT_PUBLIC_IMPRINT_URL ?? "https://scalable.so/legal/imprint",
   privacy: process.env.NEXT_PUBLIC_PRIVACY_URL ?? "https://scalable.so/legal/privacy",
