@@ -52,7 +52,7 @@ brackets are examples, not requirements. "Most" means more than half.
 | # | Item | Weight | 1 | 2 | 3 |
 |---|---|---|---|---|---|
 | A1 | Repo instruction file | 6 | `AGENTS.md` or `CLAUDE.md` exists | 1 source; other agent files point to it | Under 200 lines, every repo path it names exists (skip placeholders and patterns), changed in the last 90 days |
-| A2 | Runnable commands | 6 | Build and test commands are named | They run without errors here (if they need an install first, stay at 1 and say so) | 1 command runs the full check |
+| A2 | Runnable commands | 6 | Build and test commands are named | A recent CI run or log shows them passing. Do not run them yourself: they can write files or reach live services | 1 command runs the full check |
 | B | Skills in the repo | 8 | 1 or more skills or commands in the repo | They cover the repo's repeated work (ship, test, release) | Skill changes in git in the last 90 days |
 | C | Skills across repos | 7 | Own skills exist outside any 1 repo | 1 source under version control, linked into every agent tool | No copies: every installed own skill links to the source (skills installed from a vendor do not count) |
 | D1 | Skill descriptions | 5 | Every skill has 1 | Most say when to start and when not to | No 2 skills start on the same request |
@@ -122,7 +122,8 @@ yourself.
 ## Done when
 
 Every item has a level and evidence, or is `unknown`. The report file is
-written. You read the file back, added up its scorecard, and the rounded sum
-matches the total. This search finds nothing in the file:
+written. You read the file back and recomputed the total from each item's
+weight and level; it matches. The shown points can add up to a slightly
+different number because of rounding; that is fine. This search finds nothing in the file:
 `grep -nE "(sk-|ghp_|github_pat_|xox[bp]-|AKIA)[A-Za-z0-9_-]{10,}|(api[_-]?key|token|secret|password)[\"']?[[:space:]]*[:=][[:space:]]*[^[:space:]<]{8,}"`.
 Say in 1 line that you did both checks.
