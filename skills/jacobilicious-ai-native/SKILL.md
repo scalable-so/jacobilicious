@@ -124,6 +124,10 @@ yourself.
 Every item has a level and evidence, or is `unknown`. The report file is
 written. You read the file back and recomputed the total from each item's
 weight and level; it matches. The shown points can add up to a slightly
-different number because of rounding; that is fine. This search, run on the report file, finds nothing:
-`grep -nE "(sk-|ghp_|github_pat_|xox[bp]-|AKIA)[A-Za-z0-9_-]{10,}|(api[_-]?key|token|secret|password)[\"']?[[:space:]]*[:=][[:space:]]*[^[:space:]<]{8,}" ~/.claude/jacobilicious/ai-native/YYYY-MM-DD.md`.
+different number because of rounding; that is fine. This check prints only a count, never the matching text. Run it on the
+report you wrote (today's date in the name):
+`grep -cE "(sk-|ghp_|github_pat_|xox[bp]-|AKIA)[A-Za-z0-9_-]{10,}|(api[_-]?key|token|secret|password)[\"']?[[:space:]]*[:=][[:space:]]*[^[:space:]<]{8,}" ~/.claude/jacobilicious/ai-native/$(date +%F).md`.
+`0` means clean. A higher number means the report holds a credential:
+remove it without showing it, then run the check again. An error means the
+path is wrong: fix the path and run it again.
 Say in 1 line that you did both checks.
