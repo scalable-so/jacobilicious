@@ -5,7 +5,7 @@ import QRCode from "qrcode";
 import { isAdmin } from "@/lib/admin";
 import { originOf } from "@/lib/origin";
 
-export const metadata: Metadata = { title: "QR-Folie | Jacobilicious" };
+export const metadata: Metadata = { title: "QR slide | Jacobilicious" };
 export const dynamic = "force-dynamic";
 
 // One 16:9 frame for the talk. Open it full screen or take a screenshot for the deck.
@@ -20,8 +20,8 @@ export default async function QrSlide() {
       <div className="glass relative aspect-video w-full max-w-[1600px] overflow-hidden bg-white [container-type:inline-size]">
         <div className="absolute inset-0 grid grid-cols-[1.2fr_1fr] items-center gap-[4cqw] p-[6.8cqw]">
           <div>
-            <p className="label !text-[1cqw]">Das Setup zum Vortrag</p>
-            <h1 className="mt-[1.6cqw] text-[6.8cqw] font-semibold leading-none tracking-[-0.055em]">Scannen. Bewerten. Loslegen.</h1>
+            <p className="label !text-[1cqw]">The setup from the talk</p>
+            <h1 className="mt-[1.6cqw] text-[6.8cqw] font-semibold leading-none tracking-[-0.055em]">Scan. Rate. Start.</h1>
             <p className="mt-[2.6cqw] text-[2.2cqw] leading-tight tracking-[-0.03em] text-mute">
               {host}
             </p>

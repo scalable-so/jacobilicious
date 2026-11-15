@@ -1,13 +1,14 @@
 ---
 name: jacobilicious-setup
-description: "Start only when the user types /jacobilicious-setup: to set up this Mac for the first time, to resume an unfinished setup, or to join a repo that already exists."
+description: "Start only when the user types /jacobilicious-setup: to set up this computer for the first time, to resume an unfinished setup, or to join a repo that already exists."
 disable-model-invocation: true
 argument-hint: "[empty = start or resume | join <github-repo>]"
 ---
 
 # Jacobilicious setup
 
-Take a business owner from a bare Mac to a working agent workspace.
+Take a business owner from a bare computer to a working agent workspace.
+It works on macOS, Windows, and Linux.
 The result: Claude Code knows who the user is, every document has 1 home,
 and everything saves to GitHub without the user touching git.
 
@@ -39,7 +40,8 @@ State only benefits named in this file. Do not add numbers or promises.
 
 ## Before you start
 
-1. Run `uname`. If it is not `Darwin`, stop: this version supports macOS only.
+1. Find out the operating system: macOS, Windows, or Linux. In every step,
+   use that system's own tools for installing software and scheduling jobs.
 2. Check that you can write to the home folder. If you cannot, stop and tell
    the user to run Claude Code as the desktop app or in the terminal, not in the web.
 3. Read `~/.claude/jacobilicious/setup-state.md` if it exists and continue at
@@ -65,21 +67,22 @@ follow, and say that the setup can pause and resume at any point.
 
 Why: A person who knows the route follows it with less doubt.
 
-### 2. Inspect the Mac
+### 2. Inspect the computer
 
 Check:
 
 - `~/.claude/CLAUDE.md` and folders such as `~/Repositories`, `~/Code`, or
   `~/Projects` that already hold repos.
-- `brew`, `git`, `gh`, `gitleaks` with `command -v`. `poppler`, `tesseract`,
-  `tesseract-lang`, `ocrmypdf` with `brew list <name>`.
+- The package manager of the system, and `git`, `gh`, `gitleaks`,
+  `pdftotext` (from poppler), `tesseract`, `ocrmypdf` with `command -v`.
+  `tesseract --list-langs` shows whether the user's language is installed.
 - `gh auth status`.
 - Whether the skill list of this session holds a skill named `pdf`.
 
 Report what exists and what is missing in 1 short list.
 
 Why: Nothing that exists gets overwritten, and the user is not asked what the
-Mac can answer.
+computer can answer.
 
 ### 3. Interview
 
@@ -124,11 +127,12 @@ without searching, and the agent reads 1 short list instead of opening every fil
 
 ### 5. Install tools and log in to GitHub
 
-Install what is missing with `brew install`: `git`, `gh`, `gitleaks`, `poppler`,
-`tesseract`, `tesseract-lang`, `ocrmypdf`.
+Install what is missing with the system's package manager: `git`, `gh`,
+`gitleaks`, `poppler`, `tesseract` with the data for the user's language,
+`ocrmypdf`. If the system has no package manager yet, install one first.
 
-Some steps need a password or a browser login: installing Homebrew, creating a
-GitHub account, `gh auth login`. The user runs these in the Terminal app.
+Some steps need a password or a browser login: installing a package manager,
+creating a GitHub account, `gh auth login`. The user runs these in a terminal.
 Give the exact command, say what will appear, wait, then verify the result
 yourself, for example with `gh auth status`.
 
@@ -137,9 +141,9 @@ Then ask whether the repos belong to the user's own GitHub account or to an
 organization. Default: own account.
 
 Why: git remembers every version of every file, so nothing is ever lost.
-GitHub keeps a private copy away from the Mac: a backup, and later the way to
+GitHub keeps a private copy away from the computer: a backup, and later the way to
 share with a team. `gh` lets the agent do the GitHub work for the user.
-`gitleaks` stops a password from being saved by mistake. The other 4 tools
+`gitleaks` stops a password from being saved by mistake. The other 3 tools
 make scans searchable.
 
 ### 6. Create the repos
@@ -169,17 +173,22 @@ Then create the others the same way. An error then shows up once, not 3 times.
    person joins, how saving works.
 8. In the private repo only, or in the repo with the fewest readers if
    there is no private repo: create `.agents/global-skills/README.md` with
-   the line "Global skills of this Mac. `~/.claude/skills/` holds symlinks
+   the line "Global skills of this computer. `~/.claude/skills/` holds symlinks
    to them." This repo is now the backup repo.
 9. Run `git config core.hooksPath .githooks`, then make the first commit.
    The secret check must be active before anything is committed.
 10. Run `gh repo create <owner>/<name> --private --source . --push`.
-11. Run `bin/setup`. It links skills and loads the hourly autosave.
+11. Run `bin/setup`. It links skills. Then schedule `bin/autosave` to run
+    every hour with the system's own scheduler: launchd on macOS, Task
+    Scheduler on Windows, cron or a systemd user timer on Linux. Name the
+    job `jacobilicious-<repo>-autosave` and replace a job of that name
+    instead of adding a second one. Give it a PATH that finds `git`, `gh`,
+    and `gitleaks`. On Windows, run the script with Git Bash.
     The autosave needs the GitHub copy, so this comes after substep 10.
 12. Check:
     - `gh repo view --json visibility -q .visibility` returns `PRIVATE`.
     - `bin/save "setup check"` ends without error and `git status` is clean.
-    - `launchctl list` shows the repo's autosave job.
+    - The system's scheduler lists `jacobilicious-<repo>-autosave`.
     - `git config core.hooksPath` returns `.githooks`.
     - `bin/context-check` reports nothing.
 
@@ -193,16 +202,16 @@ Why indexes: An index is a table of contents per folder. The agent reads it
 first and opens only the files it needs. That is faster and costs less.
 
 Why profiles: The repo knows who works in it, so it works for a whole team
-later. How each person likes to work stays in 1 place on that person's Mac.
+later. How each person likes to work stays in 1 place on that person's computer.
 
-Why autosave: The Mac saves to GitHub every hour by itself. The user never
+Why autosave: The computer saves to GitHub every hour by itself. The user never
 needs a git command, and every hour is a point to go back to.
 
 Why the checks: They prove that saving works today, not on the day a file is lost.
 
 Why the backup repo: Skills that work in every repo and the global file
 live outside all repos. Kept in the private repo, they are saved every hour
-and come back on a new Mac.
+and come back on a new computer.
 
 ### 7. Write the global block
 
@@ -212,7 +221,7 @@ yes, and leave all text outside the markers unchanged. If the markers exist,
 replace only what is between them.
 Then run `bin/save` in the backup repo. It stores a copy of this file.
 
-Why: This file applies in every folder on this Mac. It tells the agent who
+Why: This file applies in every folder on this computer. It tells the agent who
 the user is and which repo holds what, so the agent picks the right repo by itself.
 
 ### 8. PDF skill
@@ -246,7 +255,7 @@ Why: The user sees proof that it works and knows what to do next.
 ## Join mode
 
 Use it when the argument is `join <github-repo>`, or the user says the repos
-already exist, for example on a new Mac.
+already exist, for example on a new computer.
 
 1. Run steps 1, 2, and 5. In step 1, name the join steps below instead of
    the 8 setup steps. Leave git name and email for substep 4. In step 5,
@@ -257,7 +266,8 @@ already exist, for example on a new Mac.
 3. Clone each repo with `gh repo clone`.
 4. If git name or email is unset, take them from the user's profile in
    `people/` when its GitHub name matches the `gh` login. If not, ask.
-5. Run `bin/setup` in each repo, then the 5 checks of step 6.
+5. In each repo, run `bin/setup`, schedule the autosave as in substep 11
+   of step 6, then run the 5 checks of step 6.
 6. If `people/_index.md` lacks the user's email, write the short profile.
    Ask only for what is missing.
 7. Run steps 7 to 9. If `bin/setup` restored `~/.claude/CLAUDE.md`, show the

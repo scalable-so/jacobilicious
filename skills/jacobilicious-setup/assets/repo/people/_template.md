@@ -5,4 +5,4 @@
 - GitHub: `<github-handle>`
 
 How to work with this person is in the global `~/.claude/CLAUDE.md` on
-that person's Mac.
+that person's computer.
