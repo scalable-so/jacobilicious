@@ -1,17 +1,16 @@
 # Jacobilicious Site
 
-Die Landing Page mit Zugangsschranke. Sie zeigt den Nutzen, sammelt Feedback zum Vortrag und gibt das Paket nur an Personen aus, die freigeschaltet sind.
+Die Landing Page. Sie zeigt den Nutzen, und jeder Button öffnet das öffentliche Repo auf GitHub (`REPO_URL` in `src/lib/config.ts`). Dort lädt man das Paket über Code, dann Download ZIP.
 
-## Der Ablauf
+## Die alte Zugangsschranke
 
-1. Jacob teilt die Adresse der Seite oder zeigt die QR-Folie (`/admin/qr`).
-2. Die Person bewertet den Vortrag von 1 bis 10 und schreibt 1 Satz Feedback.
-3. Sie trägt Vorname und E-Mail-Adresse ein.
-4. Ab 8 Punkten ist ihre Adresse sofort freigegeben.
-5. Bis 7 Punkte kommt sie auf die Warteliste. Jacob liest das Feedback und entscheidet in `/admin`.
-6. Am Mac öffnet sie `/zugang`, wählt "Schon angefragt?" und gibt ihre Adresse ein. Dort lädt sie das Paket und sieht die 3 Schritte zum Start.
+Bis November 2026 gab es das Paket nur nach einer Bewertung des Vortrags. Diese Schranke ist abgeschaltet:
 
-Die Seite verschickt keine Mails. Der Zugang hängt an der E-Mail-Adresse. Jacob kann den persönlichen Link in `/admin` kopieren und selbst schicken.
+- Das Formular unter `/zugang` ist entfernt. `/zugang` leitet auf das GitHub-Repo weiter (`next.config.ts`).
+- `/admin` bleibt, damit die gesammelten Anfragen und der CSV-Export erreichbar sind.
+- Persönliche Links unter `/freischalten` funktionieren weiter, bis sie ablaufen.
+
+Der Rest dieses Dokuments beschreibt die Schranke, wie sie lief.
 
 ## Der Schutz
 
@@ -32,7 +31,7 @@ Der Schutz passt zu einem kleinen Kreis. Jeder, der die Adresse der Seite kennt,
 | Adresse | Zweck |
 |---|---|
 | `/` | Landing Page |
-| `/zugang` | Bewertung und Anfrage, oder mit freigegebener Adresse zurückkommen |
+| `/zugang` | Leitet auf das GitHub-Repo weiter (früher Bewertung und Anfrage) |
 | `/freischalten?t=…` | Download und Start, nur mit gültigem Link |
 | `/admin` | Anfragen lesen, freigeben, sperren, Link kopieren, CSV laden |
 | `/admin/qr` | Folie mit QR-Code für den Vortrag |

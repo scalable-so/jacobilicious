@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Cta } from "@/components/Cta";
 import { Reveal } from "@/components/Reveal";
-import { legal } from "@/lib/config";
+import { legal, REPO_URL } from "@/lib/config";
 
 const gains = [
   {
@@ -21,8 +21,8 @@ const gains = [
 ];
 
 const steps = [
-  { n: "01", title: "Zugang holen", text: "Bewerte den Vortrag und trag deine E-Mail-Adresse ein." },
-  { n: "02", title: "Installieren", text: "Lade das Paket auf deinem Mac. Claude Code installiert es mit 1 Prompt." },
+  { n: "01", title: "Paket laden", text: "Öffne das GitHub-Repo und lade es über Code, dann Download ZIP." },
+  { n: "02", title: "Installieren", text: "Claude Code installiert das Paket mit 1 Prompt aus der README." },
   { n: "03", title: "Setup tippen", text: "Ein Befehl in Claude Code führt dich durch den Rest." },
 ];
 
@@ -34,10 +34,6 @@ const faqs = [
   {
     q: "Brauche ich Technikwissen?",
     a: "Nein. Jeder Schritt wird erklärt: was passiert, warum es so gebaut ist und was du davon hast.",
-  },
-  {
-    q: "Warum soll ich den Vortrag bewerten?",
-    a: "Jacob will wissen, wie der Vortrag ankam. Dein Feedback entscheidet mit, wer das Paket bekommt.",
   },
   {
     q: "Was passiert mit meinen Dateien?",
@@ -52,12 +48,12 @@ export default function Home() {
         <Link href="/" className="text-[1.15rem] font-semibold tracking-[-0.05em]">
           Jacobilicious
         </Link>
-        <Link
-          href="/zugang"
+        <a
+          href={REPO_URL}
           className="rounded-full border border-ink px-4 py-1.5 text-[0.9rem] font-semibold tracking-[-0.02em] hover:bg-ink hover:text-white"
         >
-          Zugang holen
-        </Link>
+          GitHub
+        </a>
       </header>
 
       <main>
@@ -222,7 +218,7 @@ export default function Home() {
         <section className="glass border-t border-line">
           <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
             <h2 className="h-hero">
-              <span className="block">Gib Feedback.</span>
+              <span className="block">Kostenlos auf GitHub.</span>
               <span className="block text-mute">Hol dir das Paket.</span>
             </h2>
             <Cta spark className="mt-9" />

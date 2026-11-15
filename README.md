@@ -17,13 +17,13 @@ Du brauchst kein technisches Wissen. Jeder Schritt wird dir erklärt.
 
 ## So startest du
 
-1. Lade das Paket. Es liegt danach in deinem Ordner Downloads.
+1. Lade das Paket: oben auf dieser Seite **Code**, dann **Download ZIP**. Es liegt danach in deinem Ordner Downloads.
 2. Öffne Claude Code und schick diesen Prompt ab:
 
    ```text
    Installiere Jacobilicious auf diesem Mac.
 
-   1. In meinem Ordner Downloads liegt die Datei jacobilicious.zip oder schon der entpackte Ordner jacobilicious. Gibt es mehrere Kopien, nimm die zuletzt geladene.
+   1. In meinem Ordner Downloads liegt die Datei jacobilicious.zip oder jacobilicious-main.zip, oder schon der entpackte Ordner jacobilicious oder jacobilicious-main. Gibt es mehrere Kopien, nimm die zuletzt geladene.
    2. Ist es eine zip-Datei, entpacke sie in Downloads. Überschreibe dabei keinen vorhandenen Ordner.
    3. Führe im entpackten Ordner aus: bash install.sh
    4. Zeig mir kurz, was installiert wurde.
