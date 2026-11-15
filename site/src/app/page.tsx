@@ -1,6 +1,7 @@
 import { Plus } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
 import Link from "next/link";
+import { CopyLink } from "@/components/CopyLink";
 import { Cta } from "@/components/Cta";
 import { Reveal } from "@/components/Reveal";
 import { legal, REPO_URL } from "@/lib/config";
@@ -21,9 +22,9 @@ const gains = [
 ];
 
 const steps = [
-  { n: "01", title: "Download the package", text: "Open the GitHub repo and download it with Code, then Download ZIP." },
-  { n: "02", title: "Install", text: "Claude Code installs the package with 1 prompt from the README." },
-  { n: "03", title: "Type setup", text: "1 command in Claude Code guides you through the rest." },
+  { n: "01", title: "Copy the link", text: "The link to the Jacobilicious repo on GitHub." },
+  { n: "02", title: "Paste it into your agent", text: "Claude Code, Codex or any other coding agent." },
+  { n: "03", title: "Talk with your agent", text: "Ask what it does, then let your agent set it up with you." },
 ];
 
 const faqs = [
@@ -179,6 +180,11 @@ export default function Home() {
                   <div className="md:mt-6">
                     <h3 className="h-card">{s.title}</h3>
                     <p className="mt-2 max-w-[30ch] text-mute">{s.text}</p>
+                    {i === 0 && (
+                      <div className="mt-4">
+                        <CopyLink link={REPO_URL} />
+                      </div>
+                    )}
                   </div>
                 </li>
               </Reveal>
