@@ -15,14 +15,14 @@ export function buildZip(rec: AccessRequest, issuedAt: Date): Uint8Array {
     ];
   }
   const access = [
-    "# Persönliche Kopie",
+    "# Personal copy",
     "",
-    `Empfänger: ${rec.name} <${rec.email}>`,
-    `Ausgestellt: ${issuedAt.toISOString().slice(0, 10)}`,
-    `Kennung: ${rec.id}`,
+    `Recipient: ${rec.name} <${rec.email}>`,
+    `Issued: ${issuedAt.toISOString().slice(0, 10)}`,
+    `ID: ${rec.id}`,
     "",
-    "Diese Kopie von Jacobilicious ist für dich. Bitte gib sie nicht weiter.",
-    "Wer sie auch haben will, holt sich den Zugang auf der Seite, von der du sie hast.",
+    "This copy of Jacobilicious is for you. Please do not share it.",
+    "Anyone else who wants it gets access on the page where you got it.",
     "",
   ].join("\n");
   tree["jacobilicious/ACCESS.md"] = [strToU8(access), { os: 3, attrs: 0o100644 << 16 }];

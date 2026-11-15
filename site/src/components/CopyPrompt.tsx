@@ -22,11 +22,11 @@ export function CopyPrompt({ text }: { text: string }) {
         className="mt-4 inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-[0.9rem] font-semibold tracking-[-0.02em] text-white"
       >
         {state === "done" ? <Check size={16} weight="bold" aria-hidden /> : <Copy size={16} aria-hidden />}
-        <span aria-live="polite">{state === "done" ? "Kopiert" : "Prompt kopieren"}</span>
+        <span aria-live="polite">{state === "done" ? "Copied" : "Copy prompt"}</span>
       </button>
       {state === "failed" && (
         <p role="alert" className="mt-3 text-[0.85rem] text-mute">
-          Das Kopieren hat nicht geklappt. Klick auf den Text, dann ist er markiert, und kopiere ihn von Hand.
+          Copying did not work. Click the text to select it, then copy it by hand.
         </p>
       )}
     </div>

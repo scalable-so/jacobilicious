@@ -7,11 +7,10 @@ ARCHIVE="$HOME/.claude/skills-archive"
 HOMEBASE="$HOME/.claude/jacobilicious"
 STAMP="$(date '+%Y%m%d-%H%M%S')"
 
-[ "$(uname)" = "Darwin" ] || { echo "This version supports macOS only."; exit 1; }
 mkdir -p "$SKILLS" "$HOMEBASE" || { echo "Cannot write to ~/.claude."; exit 1; }
 
 for s in "$SRC"/skills/*/; do
-  n="$(basename "$s")"
+  s="${s%/}"; n="$(basename "$s")"
   if [ -e "$SKILLS/$n" ] || [ -L "$SKILLS/$n" ]; then
     mkdir -p "$ARCHIVE"
     mv "$SKILLS/$n" "$ARCHIVE/$n-$STAMP" && echo "  moved older $n to skills-archive/$n-$STAMP"

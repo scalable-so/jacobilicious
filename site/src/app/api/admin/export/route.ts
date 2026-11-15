@@ -15,7 +15,7 @@ export async function GET() {
   return new Response([cols.join(","), ...rows].join("\n"), {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": 'attachment; filename="jacobilicious-anfragen.csv"',
+      "Content-Disposition": 'attachment; filename="jacobilicious-requests.csv"',
       "Cache-Control": "no-store",
     },
   });

@@ -16,7 +16,7 @@ export function CopyLink({ link }: { link: string }) {
       className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[0.85rem] font-medium hover:border-ink"
     >
       {done ? <Check size={14} weight="bold" aria-hidden /> : <Copy size={14} aria-hidden />}
-      {done ? "Kopiert" : "Link kopieren"}
+      {done ? "Copied" : "Copy link"}
     </button>
   );
 }

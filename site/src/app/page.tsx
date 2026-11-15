@@ -7,37 +7,37 @@ import { legal, REPO_URL } from "@/lib/config";
 
 const gains = [
   {
-    title: "Claude kennt dich.",
-    text: "Rolle, Business, Ziele und Ton stehen einmal in einer Datei. Jede Sitzung liest sie. Du erklärst dich nie wieder.",
+    title: "Claude knows you.",
+    text: "Role, business, goals and tone sit in 1 file. Every session reads it. You never explain yourself again.",
   },
   {
-    title: "Jedes Dokument hat 1 Zuhause.",
-    text: "Feste Ordner, jeder mit Inhaltsverzeichnis. Du und der Agent finden alles, ohne zu suchen.",
+    title: "Every document has 1 home.",
+    text: "Fixed folders, each with a table of contents. You and the agent find everything without searching.",
   },
   {
-    title: "Nichts geht verloren.",
-    text: "Dein Mac sichert jede Stunde privat auf GitHub. Du brauchst nie einen Git-Befehl.",
+    title: "Nothing gets lost.",
+    text: "Your computer saves privately to GitHub every hour. You never need a Git command.",
   },
 ];
 
 const steps = [
-  { n: "01", title: "Paket laden", text: "Öffne das GitHub-Repo und lade es über Code, dann Download ZIP." },
-  { n: "02", title: "Installieren", text: "Claude Code installiert das Paket mit 1 Prompt aus der README." },
-  { n: "03", title: "Setup tippen", text: "Ein Befehl in Claude Code führt dich durch den Rest." },
+  { n: "01", title: "Download the package", text: "Open the GitHub repo and download it with Code, then Download ZIP." },
+  { n: "02", title: "Install", text: "Claude Code installs the package with 1 prompt from the README." },
+  { n: "03", title: "Type setup", text: "1 command in Claude Code guides you through the rest." },
 ];
 
 const faqs = [
   {
-    q: "Was brauche ich?",
-    a: "Einen Mac, Claude Code als Desktop-App oder im Terminal und ein GitHub-Konto. Beim GitHub-Konto hilft dir das Setup.",
+    q: "What do I need?",
+    a: "A computer with macOS, Windows or Linux, Claude Code as the desktop app or in the terminal, and a GitHub account. The setup helps you with the GitHub account.",
   },
   {
-    q: "Brauche ich Technikwissen?",
-    a: "Nein. Jeder Schritt wird erklärt: was passiert, warum es so gebaut ist und was du davon hast.",
+    q: "Do I need technical knowledge?",
+    a: "No. Every step is explained: what happens, why it is built this way and what you gain from it.",
   },
   {
-    q: "Was passiert mit meinen Dateien?",
-    a: "Sie bleiben auf deinem Mac und in deinen privaten GitHub-Repos. Das Setup überschreibt und löscht nichts.",
+    q: "What happens to my files?",
+    a: "They stay on your computer and in your private GitHub repos. The setup overwrites and deletes nothing.",
   },
 ];
 
@@ -61,21 +61,21 @@ export default function Home() {
         <section className="glass">
           <div className="mx-auto grid max-w-6xl items-center gap-8 px-5 pb-14 pt-8 sm:px-8 md:grid-cols-[1.25fr_1fr] md:pb-20 md:pt-14">
             <div>
-              <p className="label">Für Unternehmer am Mac</p>
-              <h1 lang="en" className="h-hero mt-5">
+              <p className="label">For business owners</p>
+              <h1 className="h-hero mt-5">
                 <span className="block max-w-[11ch]">An agent setup built to scale.</span>
                 <span className="block text-mute">Finally.</span>
               </h1>
               <p className="lede mt-6 max-w-[34ch]">
-                Jacobilicious richtet Claude Code auf deinem Mac ein. Danach weiß der Agent, wer du bist und wo jedes
-                Dokument liegt.
+                Jacobilicious sets up Claude Code on your computer. After that, the agent knows who you are and where
+                every document lives.
               </p>
               <Cta spark className="mt-9" />
             </div>
             <div className="relative mx-auto w-full max-w-[420px] md:max-w-none">
               <Image
                 src="/jacob-fluted.webp"
-                alt="Jacob, Founder at scalable.so, hinter Riffelglas"
+                alt="Jacob, Founder at scalable.so, behind fluted glass"
                 width={1080}
                 height={1285}
                 priority
@@ -89,7 +89,7 @@ export default function Home() {
         {/* what changes: three plain rows */}
         <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
           <Reveal>
-            <h2 className="h-section max-w-[16ch]">Drei Dinge, die danach anders sind.</h2>
+            <h2 className="h-section max-w-[16ch]">3 things that change after setup.</h2>
           </Reveal>
           <div className="mt-10 md:mt-14">
             {gains.map((g, i) => (
@@ -107,20 +107,20 @@ export default function Home() {
         <section className="bg-canvas">
           <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
             <Reveal>
-              <h2 className="h-section max-w-[18ch]">4 Skills. Nur einen startest du selbst.</h2>
-              <p className="lede mt-4 max-w-[40ch]">Die anderen 3 starten von selbst, sobald du sie brauchst.</p>
+              <h2 className="h-section max-w-[18ch]">4 skills. You start only 1 yourself.</h2>
+              <p className="lede mt-4 max-w-[40ch]">The other 3 start on their own when you need them.</p>
             </Reveal>
             <div className="mt-12 grid gap-7 md:grid-cols-6">
               <Reveal className="md:col-span-4 md:row-span-2">
                 <article className="flex h-full min-h-[300px] flex-col justify-between rounded-[calc(var(--u)*0.9)] bg-ink p-7 text-white shadow-[0_24px_48px_-24px_rgba(0,0,0,0.6)] md:p-10">
-                  <p className="label !text-faint">Du tippst</p>
+                  <p className="label !text-faint">You type</p>
                   <div>
                     <p className="font-mono text-[clamp(1.25rem,3.1vw,2.3rem)] tracking-[-0.02em]">
                       /jacobilicious-setup
                     </p>
                     <p className="mt-4 max-w-[46ch] text-neutral-300">
-                      9 Schritte vom leeren Mac zum fertigen Arbeitsplatz. Jeder Schritt wird erklärt. Du kannst
-                      jederzeit pausieren.
+                      9 steps from a bare computer to a ready workspace. Every step is explained. You can pause
+                      at any time.
                     </p>
                   </div>
                 </article>
@@ -130,7 +130,7 @@ export default function Home() {
                   <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
                   <h3 className="h-card mt-1">Context</h3>
                   <p className="mt-2 text-mute">
-                    Legt Dokumente und Wissen an den richtigen Ort und hält die Verzeichnisse aktuell.
+                    Puts documents and knowledge in the right place and keeps the tables of contents current.
                   </p>
                 </article>
               </Reveal>
@@ -139,7 +139,7 @@ export default function Home() {
                   <p className="font-mono text-[0.8rem] text-mute">/jacobilicious</p>
                   <h3 className="h-card mt-1">Audit</h3>
                   <p className="mt-2 text-mute">
-                    Prüft, ob alles gesichert ist, und findet, was deine Sitzungen langsam macht.
+                    Checks that everything is saved and finds what makes your sessions slow.
                   </p>
                 </article>
               </Reveal>
@@ -150,7 +150,7 @@ export default function Home() {
                     <h3 className="h-card mt-1">Engineer</h3>
                   </div>
                   <p className="text-mute">
-                    Macht aus einer Aufgabe, die du zum zweiten Mal erklärst, einen Skill oder eine Regel für deinen Agenten.
+                    Turns a task you explain for the 2nd time into a skill or a rule for your agent.
                   </p>
                 </article>
               </Reveal>
@@ -161,7 +161,7 @@ export default function Home() {
         {/* the way in: one rail, three discs */}
         <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-24">
           <Reveal>
-            <h2 className="h-section">In 3 Schritten startklar.</h2>
+            <h2 className="h-section">Ready in 3 steps.</h2>
           </Reveal>
           <ol className="relative mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
             <div aria-hidden className="absolute left-6 top-6 hidden h-px w-[calc(66.6%+1.5rem)] bg-faint md:block" />
@@ -191,7 +191,7 @@ export default function Home() {
             />
             <div>
               <p className="max-w-[40ch] text-[calc(var(--u)*1.35)] font-medium leading-[1.3] tracking-[-0.03em]">
-                Jacobilicious ist das Alter Ego von Jacob. Der Aufbau stammt aus seinen eigenen Repos.
+                Jacobilicious is the alter ego of Jacob. The setup comes from his own repos.
               </p>
               <p className="label mt-4">Jacob, Founder at scalable.so</p>
             </div>
@@ -200,7 +200,7 @@ export default function Home() {
 
         {/* questions */}
         <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8 md:py-24">
-          <h2 className="h-section">Kurz gefragt.</h2>
+          <h2 className="h-section">Quick questions.</h2>
           <div className="mt-8 border-b border-line">
             {faqs.map((f) => (
               <details key={f.q} className="group border-t border-line">
@@ -218,8 +218,8 @@ export default function Home() {
         <section className="glass border-t border-line">
           <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
             <h2 className="h-hero">
-              <span className="block">Kostenlos auf GitHub.</span>
-              <span className="block text-mute">Hol dir das Paket.</span>
+              <span className="block">Free on GitHub.</span>
+              <span className="block text-mute">Get the package.</span>
             </h2>
             <Cta spark className="mt-9" />
           </div>
@@ -236,10 +236,10 @@ export default function Home() {
           </p>
           <nav className="flex gap-6">
             <a href={legal.imprint} className="hover:text-ink">
-              Impressum
+              Imprint
             </a>
             <a href={legal.privacy} className="hover:text-ink">
-              Datenschutz
+              Privacy
             </a>
           </nav>
         </div>

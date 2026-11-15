@@ -8,7 +8,7 @@ export function Cta({ spark = false, className = "" }: { spark?: boolean; classN
   return (
     <a href={REPO_URL} className={`${base} ${look} ${className}`}>
       <GithubLogo size={18} weight="bold" aria-hidden />
-      Zum GitHub-Repo
+      Go to the GitHub repo
     </a>
   );
 }

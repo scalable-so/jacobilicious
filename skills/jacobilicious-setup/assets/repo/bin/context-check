@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# Report drift between the files and the map (indexes, Structure table in AGENTS.md).
+# Report a failed autosave, and drift between the files and the map (indexes, Structure table in AGENTS.md).
 # Prints nothing when clean. Always exits 0, so it is safe as a session-start hook.
 REPO="$(cd "$(dirname "$0")/.." && pwd)"; cd "$REPO" || exit 0
+
+# 0. Autosave: bin/autosave leaves this file after a failure; a good save removes it.
+failed="$HOME/.claude/jacobilicious/logs/$(basename "$REPO")-autosave.failed"
+if [ -f "$failed" ]; then
+  printf 'Autosave failed, so the GitHub backup is not current. Tell the user first, then run bin/save and show its output:\n- %s\n' "$(cat "$failed")"
+fi
 issues=""
 add() { issues="${issues}- $1"$'\n'; }
 skip_top() { case "$1" in bin|people|skill-data|_archive|node_modules) return 0 ;; esac; return 1; }

@@ -1,87 +1,89 @@
 # Jacobilicious Site
 
-Die Landing Page. Sie zeigt den Nutzen, und jeder Button öffnet das öffentliche Repo auf GitHub (`REPO_URL` in `src/lib/config.ts`). Dort lädt man das Paket über Code, dann Download ZIP.
+The landing page. It shows the benefits, and every button opens the public repo on GitHub (`REPO_URL` in `src/lib/config.ts`). There you download the package with Code, then Download ZIP.
 
-## Die alte Zugangsschranke
+## The old access gate
 
-Bis November 2026 gab es das Paket nur nach einer Bewertung des Vortrags. Diese Schranke ist abgeschaltet:
+Until November 2026, the package was only available after rating the talk. This gate is switched off:
 
-- Das Formular unter `/zugang` ist entfernt. `/zugang` leitet auf das GitHub-Repo weiter (`next.config.ts`).
-- `/admin` bleibt, damit die gesammelten Anfragen und der CSV-Export erreichbar sind.
-- Persönliche Links unter `/freischalten` funktionieren weiter, bis sie ablaufen.
+- The form at `/zugang` is removed. `/zugang` redirects to the GitHub repo (`next.config.ts`).
+- `/admin` stays, so the collected requests and the CSV export remain reachable.
+- Personal links at `/freischalten` keep working until they expire.
 
-Der Rest dieses Dokuments beschreibt die Schranke, wie sie lief.
+The route names `/zugang` (access) and `/freischalten` (unlock) stay German, because links already sent out point to them.
 
-## Der Schutz
+The rest of this document describes the gate as it ran.
 
-| Schutz | Wirkung |
+## The protection
+
+| Protection | Effect |
 |---|---|
-| Zugang pro Adresse | Nur freigegebene Adressen öffnen das Paket. Jede Adresse hat 3 Downloads. |
-| Signierter Link | Gilt 7 Tage. Er lässt sich nicht fälschen. |
-| 1 Bewertung pro Adresse | Die erste Bewertung zählt. Eine zweite, höhere Bewertung ändert nichts. |
-| `ACCESS.md` im Paket | Jede Kopie trägt Name, Adresse, Datum und Kennung des Empfängers. |
-| Sperren in `/admin` | Alle Links einer Person gelten sofort nicht mehr. |
-| `ACCESS_MODE=manual` | Jacob gibt jeden Zugang selbst frei, auch bei 10 Punkten. |
-| Kein öffentlicher Download | Das Paket liegt nicht als Datei auf dem Server. Es entsteht erst bei der Anfrage. |
+| Access per address | Only approved addresses open the package. Each address has 3 downloads. |
+| Signed link | Valid for 7 days. It cannot be forged. |
+| 1 rating per address | The first rating counts. A 2nd, higher rating changes nothing. |
+| `ACCESS.md` in the package | Every copy carries the recipient's name, address, date and ID. |
+| Block in `/admin` | All links of a person stop working at once. |
+| `ACCESS_MODE=manual` | Jacob approves every access himself, even at 10 points. |
+| No public download | The package is not stored as a file on the server. It is built on request. |
 
-Der Schutz passt zu einem kleinen Kreis. Jeder, der die Adresse der Seite kennt, kann anfragen. Die Seite prüft nicht, ob eine Adresse der Person gehört: Wer eine freigegebene Adresse kennt, kann deren Paket laden. Wer das Paket hat, kann den Ordner kopieren. `ACCESS.md` zeigt dann, von wem die Kopie stammt.
+The protection fits a small circle. Anyone who knows the address of the site can request access. The site does not check whether an address belongs to the person: anyone who knows an approved address can download its package. Anyone who has the package can copy the folder. `ACCESS.md` then shows whose copy it was.
 
-## Seiten
+## Pages
 
-| Adresse | Zweck |
+| Address | Purpose |
 |---|---|
-| `/` | Landing Page |
-| `/zugang` | Leitet auf das GitHub-Repo weiter (früher Bewertung und Anfrage) |
-| `/freischalten?t=…` | Download und Start, nur mit gültigem Link |
-| `/admin` | Anfragen lesen, freigeben, sperren, Link kopieren, CSV laden |
-| `/admin/qr` | Folie mit QR-Code für den Vortrag |
+| `/` | Landing page |
+| `/zugang` | Redirects to the GitHub repo (formerly rating and request) |
+| `/freischalten?t=…` | Download and start, only with a valid link |
+| `/admin` | Read requests, approve, block, copy link, download CSV |
+| `/admin/qr` | Slide with a QR code for the talk |
 
-## Einstellungen
+## Settings
 
-Alle Werte stehen mit Erklärung in `.env.local.example`.
+All values are explained in `.env.local.example`.
 
-| Variable | Pflicht | Zweck |
+| Variable | Required | Purpose |
 |---|---|---|
-| `GATE_SECRET` | ja | Signiert Links und die Admin-Sitzung. 32 Zeichen oder mehr. |
-| `ADMIN_PIN` | empfohlen | Öffnet `/admin`. Leer heißt: Admin ist aus. |
-| `ACCESS_MODE` | nein | `auto` (Standard) oder `manual`. |
-| `BLOB_READ_WRITE_TOKEN` | auf Vercel | Kommt von selbst, wenn ein Blob Store verbunden ist. |
-| `SITE_URL` | nein | Feste Adresse für Links und QR-Code. |
+| `GATE_SECRET` | yes | Signs links and the admin session. 32 characters or more. |
+| `ADMIN_PIN` | recommended | Opens `/admin`. Empty means: admin is off. |
+| `ACCESS_MODE` | no | `auto` (default) or `manual`. |
+| `BLOB_READ_WRITE_TOKEN` | on Vercel | Comes by itself when a Blob store is connected. |
+| `SITE_URL` | no | Fixed address for links and the QR code. |
 
-## Lokal starten
+## Run locally
 
 ```bash
 cd site
-cp .env.local.example .env.local   # Werte eintragen
+cp .env.local.example .env.local   # fill in the values
 npm install
 npm run dev                        # http://localhost:9200
 ```
 
-`npm run dev` und `npm run build` packen vorher das Paket aus dem Repo in `src/generated/`. Anfragen landen lokal in `.data/requests/`.
+`npm run dev` and `npm run build` first pack the package from the repo into `src/generated/`. Requests land locally in `.data/requests/`.
 
-Prüfen: `npm test` (Regeln, Links, Zip) und `npm run build`.
+Check: `npm test` (rules, links, zip) and `npm run build`.
 
-## Live auf Vercel
+## Live on Vercel
 
-- **Adresse:** https://jacobilicious.vercel.app
-- **Projekt:** `jacobilicious` im Team `scalableso`, Root Directory `site`.
-- **Daten:** privater Blob Store `jacobilicious-requests` (Region `fra1`), mit dem Projekt verbunden.
-- **Werte:** `JACOBILICIOUS_GATE_SECRET` und `JACOBILICIOUS_ADMIN_PIN` liegen in Doppler (`scalable/prd_personal`). In Vercel heißen sie `GATE_SECRET` und `ADMIN_PIN`.
+- **Address:** https://jacobilicious.vercel.app
+- **Project:** `jacobilicious` in the team `scalableso`, Root Directory `site`.
+- **Data:** private Blob store `jacobilicious-requests` (region `fra1`), connected to the project.
+- **Values:** `JACOBILICIOUS_GATE_SECRET` and `JACOBILICIOUS_ADMIN_PIN` live in Doppler (`scalable/prd_personal`). In Vercel they are called `GATE_SECRET` and `ADMIN_PIN`.
 
-Fehlt `GATE_SECRET` in Vercel, bleibt die Schranke zu: Anfragen und Downloads schlagen fehl.
+If `GATE_SECRET` is missing in Vercel, the gate stays closed: requests and downloads fail.
 
-### Neu deployen
+### Deploy again
 
 ```bash
-cd ~/Code/jacobilicious     # Repo-Wurzel, nicht site/
+cd ~/Code/jacobilicious     # repo root, not site/
 vercel deploy --prod
 ```
 
-Der Build braucht `skills/`, `README.md` und `install.sh` aus der Repo-Wurzel. Ein Deploy aus `site/` findet sie nicht.
+The build needs `skills/`, `README.md` and `install.sh` from the repo root. A deploy from `site/` does not find them.
 
-### Werte von Doppler nach Vercel bringen
+### Bring values from Doppler to Vercel
 
-Das macht ein Mensch, kein Agent. `vercel` muss im Terminal gefunden werden (`command -v vercel`), sonst nimm den vollen Pfad zur CLI. Der Befehl zeigt keinen Wert an. Er liest den Wert zuerst und reicht ihn dann weiter, weil `vercel env add` nur 0,5 Sekunden auf die Eingabe wartet:
+A human does this, not an agent. The terminal must find `vercel` (`command -v vercel`); otherwise use the full path to the CLI. The command shows no value. It reads the value first and then passes it on, because `vercel env add` waits only 0.5 seconds for input:
 
 ```bash
 cd ~/Code/jacobilicious
@@ -93,14 +95,14 @@ unset v
 vercel deploy --prod
 ```
 
-## Paket ändern
+## Change the package
 
-Ändere Skills, `README.md` oder `install.sh` im Repo und baue neu. `scripts/pack.mjs` legt fest, was ins Paket kommt. `site/`, Tests und Git-Daten kommen nie hinein.
+Change skills, `README.md` or `install.sh` in the repo and build again. `scripts/pack.mjs` decides what goes into the package. `site/`, tests and Git data never go in.
 
-## Banner neu bauen
+## Rebuild the banner
 
 ```bash
-PYTHON=/pfad/zu/python assets/src/render.sh
+PYTHON=/path/to/python CHROME_PATH=/path/to/chrome assets/src/render.sh
 ```
 
-Das Skript braucht Python mit `numpy` und `pillow` und Google Chrome. Es schreibt `assets/banner.png` und das Porträt der Landing Page.
+The script needs Python with `numpy` and `pillow`, and Google Chrome. It writes `assets/banner.png` and the portrait of the landing page.

@@ -14,13 +14,13 @@ export const metadata: Metadata = { title: "Admin | Jacobilicious" };
 export const dynamic = "force-dynamic";
 
 const statusLabel: Record<Status, string> = {
-  waitlist: "Wartet",
-  approved: "Freigegeben",
-  rejected: "Gesperrt",
+  waitlist: "Waiting",
+  approved: "Approved",
+  rejected: "Blocked",
 };
 
 const day = (iso: string) =>
-  new Date(iso).toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" });
+  new Date(iso).toLocaleString("en-GB", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" });
 
 export default async function Admin({ searchParams }: PageProps<"/admin">) {
   const params = await searchParams;
@@ -28,8 +28,8 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
   if (!adminPin()) {
     return (
       <Shell>
-        <h1 className="h-section">Admin ist aus.</h1>
-        <p className="lede mt-4">Setze die Umgebungsvariable ADMIN_PIN, dann geht diese Seite an.</p>
+        <h1 className="h-section">Admin is off.</h1>
+        <p className="lede mt-4">Set the environment variable ADMIN_PIN to turn this page on.</p>
       </Shell>
     );
   }
@@ -45,11 +45,11 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
           <input id="pin" name="pin" type="password" inputMode="numeric" autoComplete="current-password" required className="field mt-2 font-mono" />
           {params.e === "pin" && (
             <p role="alert" className="mt-3 font-medium">
-              Die PIN stimmt nicht.
+              The PIN is wrong.
             </p>
           )}
           <button type="submit" className="mt-5 rounded-full bg-ink px-6 py-3 font-semibold tracking-[-0.02em] text-white hover:bg-neutral-800">
-            Öffnen
+            Open
           </button>
         </form>
       </Shell>
@@ -61,26 +61,26 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
   const waiting = recs.filter((r) => r.status === "waitlist").length;
   const avg = recs.length ? (recs.reduce((s, r) => s + r.rating, 0) / recs.length).toFixed(1) : "0";
   const stats = [
-    { label: "Anfragen", value: String(recs.length) },
-    { label: "Warten auf dich", value: String(waiting) },
-    { label: "Bewertung im Schnitt", value: avg },
+    { label: "Requests", value: String(recs.length) },
+    { label: "Waiting for you", value: String(waiting) },
+    { label: "Average rating", value: avg },
     { label: "Downloads", value: String(recs.reduce((s, r) => s + r.downloads, 0)) },
   ];
 
   return (
     <Shell wide>
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="h-section">Anfragen</h1>
+        <h1 className="h-section">Requests</h1>
         <div className="flex flex-wrap gap-2 text-[0.9rem] font-medium">
           <Link href="/admin/qr" className="rounded-full border border-line px-4 py-2 hover:border-ink">
-            QR-Folie
+            QR slide
           </Link>
           <a href="/api/admin/export" className="rounded-full border border-line px-4 py-2 hover:border-ink">
-            CSV laden
+            Download CSV
           </a>
           <form action={logout}>
             <button type="submit" className="rounded-full border border-line px-4 py-2 hover:border-ink">
-              Abmelden
+              Log out
             </button>
           </form>
         </div>
@@ -96,12 +96,12 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
       </dl>
 
       <p className="mt-5 text-[0.9rem] text-mute">
-        Modus: {accessMode() === "auto" ? "Ab 8 Punkten ist der Zugang sofort offen. Darunter entscheidest du." : "Du gibst jeden Zugang selbst frei."}{" "}
-        Freigegebene öffnen das Paket auf der Seite mit ihrer E-Mail-Adresse. Den Link kannst du zusätzlich selbst schicken.
+        Mode: {accessMode() === "auto" ? "From 8 points, access opens at once. Below that, you decide." : "You approve every access yourself."}{" "}
+        Approved people open the package on the site with their email address. You can also send them the link yourself.
       </p>
 
       {recs.length === 0 ? (
-        <p className="lede mt-12">Noch keine Anfragen.</p>
+        <p className="lede mt-12">No requests yet.</p>
       ) : (
         <ul className="mt-8 grid gap-5">
           {recs.map((r) => {
@@ -115,9 +115,9 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
                   </p>
                   {r.feedback && <p className="mt-1.5 whitespace-pre-wrap text-[0.95rem]">{r.feedback}</p>}
                   <p className="label mt-3">
-                    {day(r.createdAt)} Uhr, {statusLabel[r.status]}
-                    {r.decidedBy === "owner" ? " von dir" : ""}, {r.downloads}/{MAX_DOWNLOADS} Downloads
-                    {r.updates ? ", Updates erlaubt" : ""}
+                    {day(r.createdAt)}, {statusLabel[r.status]}
+                    {r.decidedBy === "owner" ? " by you" : ""}, {r.downloads}/{MAX_DOWNLOADS} Downloads
+                    {r.updates ? ", updates allowed" : ""}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -126,7 +126,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
                     <form action={approve}>
                       <input type="hidden" name="id" value={r.id} />
                       <button type="submit" className="rounded-full bg-ink px-4 py-1.5 text-[0.85rem] font-semibold text-white hover:bg-neutral-800">
-                        Freigeben
+                        Approve
                       </button>
                     </form>
                   )}
@@ -134,7 +134,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
                     <form action={reject}>
                       <input type="hidden" name="id" value={r.id} />
                       <button type="submit" className="rounded-full border border-line px-4 py-1.5 text-[0.85rem] font-medium hover:border-ink">
-                        {r.status === "approved" ? "Sperren" : "Ablehnen"}
+                        {r.status === "approved" ? "Block" : "Reject"}
                       </button>
                     </form>
                   )}
