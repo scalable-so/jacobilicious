@@ -123,7 +123,7 @@ Yes. The setup installs the official PDF skill from Anthropic for this.
 No. The setup shows you before and after and waits for your yes.
 
 **How do I remove it?**
-Delete the 4 folders `jacobilicious-*` in `~/.claude/skills/`. Your repos and files stay.
+Delete every `jacobilicious-*` folder in `~/.claude/skills/`. Your repos and files stay.
 
 ## Please do not share
 
