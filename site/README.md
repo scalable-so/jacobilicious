@@ -1,6 +1,6 @@
 # Jacobilicious Site
 
-The landing page. It shows the benefits, and every button opens the public repo on GitHub (`REPO_URL` in `src/lib/config.ts`). There you download the package with Code, then Download ZIP.
+The landing page. It shows the benefits, and every button opens the public repo on GitHub (`REPO_URL` in `src/lib/config.ts`). The 3 steps tell visitors to copy that link (copy button on step 01), paste it into their coding agent (Claude Code, Codex or another) and talk the setup through with it.
 
 ## The old access gate
 
