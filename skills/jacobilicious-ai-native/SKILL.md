@@ -124,6 +124,6 @@ yourself.
 Every item has a level and evidence, or is `unknown`. The report file is
 written. You read the file back and recomputed the total from each item's
 weight and level; it matches. The shown points can add up to a slightly
-different number because of rounding; that is fine. This search finds nothing in the file:
-`grep -nE "(sk-|ghp_|github_pat_|xox[bp]-|AKIA)[A-Za-z0-9_-]{10,}|(api[_-]?key|token|secret|password)[\"']?[[:space:]]*[:=][[:space:]]*[^[:space:]<]{8,}"`.
+different number because of rounding; that is fine. This search, run on the report file, finds nothing:
+`grep -nE "(sk-|ghp_|github_pat_|xox[bp]-|AKIA)[A-Za-z0-9_-]{10,}|(api[_-]?key|token|secret|password)[\"']?[[:space:]]*[:=][[:space:]]*[^[:space:]<]{8,}" ~/.claude/jacobilicious/ai-native/YYYY-MM-DD.md`.
 Say in 1 line that you did both checks.
