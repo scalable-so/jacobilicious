@@ -65,8 +65,9 @@ Use the `jacobilicious-context` skill for every keep.
   `_INDEX.md`, the `updated` date in frontmatter, and the Structure table
   when a top-level folder is added, renamed, or moved.
 - Change any other part of this file only after a yes.
-- At session start, `bin/context-check` lists files without an index row and
-  folders missing from the Structure table. Repair what it lists first.
+- At session start, `bin/context-check` reports a failed autosave, files
+  without an index row, and folders missing from the Structure table.
+  Repair what it lists first.
 
 ## Rules
 

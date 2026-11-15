@@ -96,7 +96,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
       </dl>
 
       <p className="mt-5 text-[0.9rem] text-mute">
-        Modus: {accessMode() === "auto" ? "From 8 points, access opens at once. Below that, you decide." : "You approve every access yourself."}{" "}
+        Mode: {accessMode() === "auto" ? "From 8 points, access opens at once. Below that, you decide." : "You approve every access yourself."}{" "}
         Approved people open the package on the site with their email address. You can also send them the link yourself.
       </p>
 
