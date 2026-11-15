@@ -31,9 +31,10 @@ that tool only. Skip the other checks and the report file.
 
 - The branch is `main` and no merge or rebase is in progress.
 - No unsaved change is older than 2 hours: `git status`, `git log origin/main..HEAD`.
-- The system's scheduler lists `jacobilicious-<repo>-autosave`. If the log
-  `~/.claude/jacobilicious/logs/<repo>-autosave.log` exists, its last line
-  does not contain `failed`. A missing log passes.
+- The system's scheduler lists `jacobilicious-<repo>-autosave`, and
+  `~/.claude/jacobilicious/logs/<repo>-autosave.failed` does not exist.
+  If it exists, report its line and the end of
+  `~/.claude/jacobilicious/logs/<repo>-autosave.log`.
 - `gh repo view --json visibility -q .visibility` returns `PRIVATE`.
 - `git config core.hooksPath` returns `.githooks`, and `gitleaks` is installed.
 - `CLAUDE.md` imports `AGENTS.md`.
