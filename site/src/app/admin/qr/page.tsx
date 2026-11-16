@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import QRCode from "qrcode";
 import { isAdmin } from "@/lib/admin";
-import { originOf } from "@/lib/origin";
+import { siteUrl } from "@/lib/origin";
 
 export const metadata: Metadata = { title: "QR slide | Jacobilicious" };
 export const dynamic = "force-dynamic";
@@ -11,9 +11,9 @@ export const dynamic = "force-dynamic";
 // One 16:9 frame for the talk. Open it full screen or take a screenshot for the deck.
 export default async function QrSlide() {
   if (!(await isAdmin())) redirect("/admin");
-  const origin = originOf(await headers());
-  const svg = await QRCode.toString(origin, { type: "svg", margin: 0, errorCorrectionLevel: "M" });
-  const host = origin.replace(/^https?:\/\//, "");
+  const site = siteUrl(await headers());
+  const svg = await QRCode.toString(site, { type: "svg", margin: 0, errorCorrectionLevel: "M" });
+  const host = site.replace(/^https?:\/\//, "");
 
   return (
     <main className="grid min-h-[100dvh] place-items-center bg-canvas p-4">

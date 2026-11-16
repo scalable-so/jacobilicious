@@ -56,7 +56,7 @@ All values are explained in `.env.local.example`.
 cd site
 cp .env.local.example .env.local   # fill in the values
 npm install
-npm run dev                        # http://localhost:9200
+npm run dev                        # http://localhost:9200/jacobilicious
 ```
 
 `npm run dev` and `npm run build` first pack the package from the repo into `src/generated/`. Requests land locally in `.data/requests/`.
@@ -65,7 +65,7 @@ Check: `npm test` (rules, links, zip) and `npm run build`.
 
 ## Live on Vercel
 
-- **Address:** https://jacobilicious.vercel.app
+- **Address:** https://110x.ai/jacobilicious. The 110x.ai site (repo `scalable-so/110x`, `apps/110x-links/vercel.json`) forwards `/jacobilicious` to this project, which runs under the base path `/jacobilicious` (`next.config.ts`). Every old address on `jacobilicious.vercel.app` redirects there. Run locally at http://localhost:9200/jacobilicious.
 - **Project:** `jacobilicious` in the team `scalableso`, Root Directory `site`.
 - **Data:** private Blob store `jacobilicious-requests` (region `fra1`), connected to the project.
 - **Values:** `JACOBILICIOUS_GATE_SECRET` and `JACOBILICIOUS_ADMIN_PIN` live in Doppler (`scalable/prd_personal`). In Vercel they are called `GATE_SECRET` and `ADMIN_PIN`.

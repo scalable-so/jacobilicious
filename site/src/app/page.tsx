@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CopyLink } from "@/components/CopyLink";
 import { Cta } from "@/components/Cta";
 import { Reveal } from "@/components/Reveal";
-import { legal, REPO_URL } from "@/lib/config";
+import { BASE_PATH, legal, REPO_URL } from "@/lib/config";
 
 const gains = [
   {
@@ -75,7 +75,7 @@ export default function Home() {
             </div>
             <div className="relative mx-auto w-full max-w-[420px] md:max-w-none">
               <Image
-                src="/jacob-fluted.webp"
+                src={`${BASE_PATH}/jacob-fluted.webp`}
                 alt="Jacob, Founder at scalable.so, behind fluted glass"
                 width={1080}
                 height={1285}
@@ -196,7 +196,7 @@ export default function Home() {
         <section className="border-y border-line">
           <div className="mx-auto flex max-w-6xl flex-col gap-7 px-5 py-14 sm:px-8 md:flex-row md:items-center md:gap-12 md:py-16">
             <Image
-              src="/jacob-avatar.jpg"
+              src={`${BASE_PATH}/jacob-avatar.jpg`}
               alt="Jacob"
               width={480}
               height={480}
