@@ -1,4 +1,4 @@
-import { BASE_PATH } from "./config";
+import { BASE_PATH, PUBLIC_URL } from "./config";
 
 /** The public address of this deployment, taken from the request. SITE_URL wins when set. */
 export function originOf(req: Request | Headers): string {
@@ -9,5 +9,9 @@ export function originOf(req: Request | Headers): string {
   return `${proto}://${host}`;
 }
 
-/** The address of the site itself: the origin plus the base path. */
-export const siteUrl = (req: Request | Headers): string => `${originOf(req)}${BASE_PATH}`;
+/**
+ * The address of the site itself. Production always answers with 110x.ai/jacobilicious:
+ * behind the 110x.ai rewrite the request host is jacobilicious.vercel.app.
+ */
+export const siteUrl = (req: Request | Headers): string =>
+  process.env.VERCEL_ENV === "production" && !process.env.SITE_URL ? PUBLIC_URL : `${originOf(req)}${BASE_PATH}`;
