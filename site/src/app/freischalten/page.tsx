@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CopyPrompt } from "@/components/CopyPrompt";
 import { Cta } from "@/components/Cta";
-import { MAX_DOWNLOADS } from "@/lib/config";
+import { BASE_PATH, MAX_DOWNLOADS } from "@/lib/config";
 import { INSTALL_PROMPT } from "@/lib/install-prompt";
 import { getRequest } from "@/lib/store";
 import { readToken } from "@/lib/token";
@@ -67,7 +67,7 @@ export default async function Unlock({ searchParams }: PageProps<"/freischalten"
                     The limit is reached.
                   </p>
                 )}
-                <form method="post" action="/api/download" className="mt-8">
+                <form method="post" action={`${BASE_PATH}/api/download`} className="mt-8">
                   <input type="hidden" name="t" value={token} />
                   <button type="submit" className="spark inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold tracking-[-0.02em]">
                     <DownloadSimple size={18} weight="bold" aria-hidden />

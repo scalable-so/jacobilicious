@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { LINK_DAYS, accessMode } from "@/lib/config";
+import { BASE_PATH, LINK_DAYS, accessMode } from "@/lib/config";
 import { firstStatus, outcomeFor } from "@/lib/decision";
 import { type AccessRequest, getRequest, saveRequest } from "@/lib/store";
 import { idForEmail, signToken } from "@/lib/token";
@@ -45,6 +45,6 @@ export async function POST(req: Request) {
   }
 
   const outcome = outcomeFor(rec.status, rec.rating);
-  const link = outcome === "open" ? `/freischalten?t=${signToken("dl", rec.id, LINK_DAYS * 86400)}` : undefined;
+  const link = outcome === "open" ? `${BASE_PATH}/freischalten?t=${signToken("dl", rec.id, LINK_DAYS * 86400)}` : undefined;
   return Response.json({ outcome, link });
 }

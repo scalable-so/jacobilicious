@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { LINK_DAYS } from "@/lib/config";
+import { BASE_PATH, LINK_DAYS } from "@/lib/config";
 import { getRequest } from "@/lib/store";
 import { idForEmail, signToken } from "@/lib/token";
 
@@ -14,5 +14,5 @@ export async function POST(req: Request) {
   await new Promise((r) => setTimeout(r, 500));
   const rec = await getRequest(idForEmail(parsed.data.email));
   if (!rec || rec.status !== "approved") return Response.json({ outcome: "none" });
-  return Response.json({ outcome: "open", link: `/freischalten?t=${signToken("dl", rec.id, LINK_DAYS * 86400)}` });
+  return Response.json({ outcome: "open", link: `${BASE_PATH}/freischalten?t=${signToken("dl", rec.id, LINK_DAYS * 86400)}` });
 }

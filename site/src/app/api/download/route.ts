@@ -1,5 +1,5 @@
 import { MAX_DOWNLOADS } from "@/lib/config";
-import { originOf } from "@/lib/origin";
+import { siteUrl } from "@/lib/origin";
 import { getRequest, saveRequest } from "@/lib/store";
 import { readToken } from "@/lib/token";
 import { buildZip } from "@/lib/zip";
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const token = String(form?.get("t") ?? "");
   const id = readToken(token, "dl");
   const rec = id ? await getRequest(id) : null;
-  const back = `${originOf(req)}/freischalten?t=${encodeURIComponent(token)}`;
+  const back = `${siteUrl(req)}/freischalten?t=${encodeURIComponent(token)}`;
 
   if (!rec || rec.status !== "approved") return Response.redirect(back, 303);
   if (rec.downloads >= MAX_DOWNLOADS) return Response.redirect(`${back}&e=limit`, 303);

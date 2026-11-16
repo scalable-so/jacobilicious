@@ -3,9 +3,9 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { CopyLink } from "@/components/CopyLink";
 import { isAdmin } from "@/lib/admin";
-import { LINK_DAYS, MAX_DOWNLOADS, accessMode, adminPin } from "@/lib/config";
+import { BASE_PATH, LINK_DAYS, MAX_DOWNLOADS, accessMode, adminPin } from "@/lib/config";
 import type { Status } from "@/lib/decision";
-import { originOf } from "@/lib/origin";
+import { siteUrl } from "@/lib/origin";
 import { listRequests } from "@/lib/store";
 import { signToken } from "@/lib/token";
 import { approve, login, logout, reject } from "./actions";
@@ -57,7 +57,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
   }
 
   const recs = await listRequests();
-  const origin = originOf(await headers());
+  const site = siteUrl(await headers());
   const waiting = recs.filter((r) => r.status === "waitlist").length;
   const avg = recs.length ? (recs.reduce((s, r) => s + r.rating, 0) / recs.length).toFixed(1) : "0";
   const stats = [
@@ -75,7 +75,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
           <Link href="/admin/qr" className="rounded-full border border-line px-4 py-2 hover:border-ink">
             QR slide
           </Link>
-          <a href="/api/admin/export" className="rounded-full border border-line px-4 py-2 hover:border-ink">
+          <a href={`${BASE_PATH}/api/admin/export`} className="rounded-full border border-line px-4 py-2 hover:border-ink">
             Download CSV
           </a>
           <form action={logout}>
@@ -105,7 +105,7 @@ export default async function Admin({ searchParams }: PageProps<"/admin">) {
       ) : (
         <ul className="mt-8 grid gap-5">
           {recs.map((r) => {
-            const link = `${origin}/freischalten?t=${signToken("dl", r.id, LINK_DAYS * 86400)}`;
+            const link = `${site}/freischalten?t=${signToken("dl", r.id, LINK_DAYS * 86400)}`;
             return (
               <li key={r.id} className="frame grid gap-4 p-5 md:grid-cols-[auto_1fr_auto] md:items-start md:gap-6">
                 <span className={`disc h-12 w-12 text-[0.95rem] ${r.status === "waitlist" ? "disc-ink" : ""}`}>{r.rating}</span>

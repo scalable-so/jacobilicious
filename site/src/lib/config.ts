@@ -16,6 +16,11 @@ export const adminPin = () => (process.env.ADMIN_PIN ?? "").trim();
 export const accessMode = (): "auto" | "manual" =>
   process.env.ACCESS_MODE === "manual" ? "manual" : "auto";
 
+/** The site lives under 110x.ai/jacobilicious; next.config.ts sets the same base path. */
+export const BASE_PATH = "/jacobilicious";
+export const PUBLIC_HOST = "110x.ai";
+export const PUBLIC_URL = `https://${PUBLIC_HOST}${BASE_PATH}`;
+
 /** The public repo. Every call to action on the landing page opens it. */
 export const REPO_URL = "https://github.com/scalable-so/jacobilicious";
 
